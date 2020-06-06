@@ -1,15 +1,24 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable global-require */
 import React, { Component } from 'react';
 import * as Font from 'expo-font';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { setFontsLoaded } from '../actions';
 import SignUp from './sign-up';
+import SignUpStep from './sign-up-step';
 
 const Stack = createStackNavigator();
+
+
+const LogoHeader = () => {
+  return (
+    <Image source={require('../assets/recroom_header.png')} style={{ height: 80 }} />
+  );
+};
 
 class AppContainer extends Component {
   constructor(props) {
@@ -65,6 +74,11 @@ class AppContainer extends Component {
                     title: 'SignUp',
                     headerShown: false,
                   }}
+                />
+                <Stack.Screen
+                  name="SignUpStep"
+                  component={SignUpStep}
+                  options={{ headerTitle: (props) => <LogoHeader {...props} /> }}
                 />
               </Stack.Navigator>
             </NavigationContainer>

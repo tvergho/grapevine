@@ -1,6 +1,5 @@
 /* eslint-disable global-require */
 /* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-useless-constructor */
 import React, { Component } from 'react';
 import {
   View, StyleSheet, Text, Image, TouchableOpacity, TextInput,
@@ -45,7 +44,7 @@ class SignUp extends Component {
         <TextInput value={this.state.lastName} placeholder="Last name" placeholderTextColor="#FFFFFF" onChange={(text) => this.onChange(text, 'lastName')} style={inputStyle} />
         <TextInput value={this.state.email} keyboardType="email-address" placeholder="Email" placeholderTextColor="#FFFFFF" onChange={(text) => this.onChange(text, 'email')} style={inputStyle} />
         <TextInput value={this.state.phone} keyboardType="phone-pad" placeholder="Phone" placeholderTextColor="#FFFFFF" onChange={(text) => this.onChange(text, 'phone')} style={inputStyle} />
-        <TextInput value={this.state.password} placeholder="Password" placeholderTextColor="#FFFFFF" onChange={(text) => this.onChange(text, 'password')} style={inputStyle} />
+        <TextInput value={this.state.password} placeholder="Password" placeholderTextColor="#FFFFFF" onChange={(text) => this.onChange(text, 'password')} style={inputStyle} secureTextEntry />
       </View>
     );
   }
@@ -57,6 +56,10 @@ class SignUp extends Component {
         <Button type="clear" title="Log in" titleStyle={this.props.isFontLoaded ? [styles.signedUpButton, styles.styled] : [styles.signedUpButton, styles.unstyled]} />
       </View>
     );
+  }
+
+  signUp = () => {
+    this.props.navigation.navigate('SignUpStep');
   }
 
   render() {
@@ -72,7 +75,7 @@ class SignUp extends Component {
 
         {this.signUpForm()}
 
-        <TouchableOpacity style={[styles.button, styles.signUpButton]}>
+        <TouchableOpacity style={[styles.button, styles.signUpButton]} onPress={this.signUp}>
           <Text style={this.props.isFontLoaded ? [styles.buttonText, styles.styled] : [styles.buttonText, styles.unstyled]}>{'Let\'s go!'}</Text>
         </TouchableOpacity>
 
