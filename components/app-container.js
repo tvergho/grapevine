@@ -55,16 +55,16 @@ class AppContainer extends Component {
 
   componentDidMount() {
     Font.loadAsync({
-      'Hiragino W0': require('../assets/fonts/Hiragino-W0.otf'),
-      'Hiragino W1': require('../assets/fonts/Hiragino-W1.otf'),
-      'Hiragino W2': require('../assets/fonts/Hiragino-W2.otf'),
+      // 'Hiragino W0': require('../assets/fonts/Hiragino-W0.otf'),
+      // 'Hiragino W1': require('../assets/fonts/Hiragino-W1.otf'),
+      // 'Hiragino W2': require('../assets/fonts/Hiragino-W2.otf'),
       'Hiragino W3': require('../assets/fonts/Hiragino-W3.otf'),
-      'Hiragino W4': require('../assets/fonts/Hiragino-W4.otf'),
+      // 'Hiragino W4': require('../assets/fonts/Hiragino-W4.otf'),
       'Hiragino W5': require('../assets/fonts/Hiragino-W5.otf'),
-      'Hiragino W6': require('../assets/fonts/Hiragino-W6.otf'),
+      // 'Hiragino W6': require('../assets/fonts/Hiragino-W6.otf'),
       'Hiragino W7': require('../assets/fonts/Hiragino-W7.otf'),
-      'Hiragino W8': require('../assets/fonts/Hiragino-W8.otf'),
-      'Hiragino W9': require('../assets/fonts/Hiragino-W9.otf'),
+      // 'Hiragino W8': require('../assets/fonts/Hiragino-W8.otf'),
+      // 'Hiragino W9': require('../assets/fonts/Hiragino-W9.otf'),
     })
       .then((result) => {
         this.setState({ fontsLoaded: true });

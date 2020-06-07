@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  View, StyleSheet, Text, Image, TouchableOpacity, TextInput,
+  View, StyleSheet, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -13,16 +13,30 @@ class SignUp extends Component {
     super(props);
 
     this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      password: '',
+      user: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        password: '',
+      },
+      errors: {
+        firstName: false,
+        lastName: false,
+        email: false,
+        phone: false,
+        password: false,
+      },
     };
   }
 
   onChange = (text, id) => {
-    this.setState({ [id]: text });
+    const newUser = { ...this.state.user };
+    const newErrors = { ...this.state.errors };
+
+    newUser[id] = text;
+    newErrors[id] = false;
+    this.setState(() => { return ({ user: newUser, errors: newErrors }); });
   }
 
   logoHeader = () => {
@@ -30,8 +44,8 @@ class SignUp extends Component {
       <View style={styles.logoHeader}>
         <Image source={require('../assets/recroom_logo.png')} style={styles.imageLogo} />
         <View style={styles.appTextContainer}>
-          <Text style={this.props.isFontLoaded ? [styles.appText, styles.styled] : [styles.appText, styles.unstyled]}>rec</Text>
-          <Text style={this.props.isFontLoaded ? [styles.appText, styles.styled] : [styles.appText, styles.unstyled]}>room</Text>
+          <Text key="rec" style={this.props.isFontLoaded ? [styles.appText, styles.styled] : [styles.appText, styles.unstyled]}>rec</Text>
+          <Text key="room" style={this.props.isFontLoaded ? [styles.appText, styles.styled] : [styles.appText, styles.unstyled]}>room</Text>
         </View>
       </View>
     );
@@ -41,11 +55,11 @@ class SignUp extends Component {
     const inputStyle = this.props.isFontLoaded ? [styles.signUpInput, { fontFamily: 'Hiragino W3' }] : [styles.signUpInput, { fontFamily: 'System' }];
     return (
       <View style={{ marginTop: 20 }}>
-        <TextInput value={this.state.firstName} placeholder="First name" placeholderTextColor="#FFFFFF" onChange={(text) => this.onChange(text, 'firstName')} style={inputStyle} />
-        <TextInput value={this.state.lastName} placeholder="Last name" placeholderTextColor="#FFFFFF" onChange={(text) => this.onChange(text, 'lastName')} style={inputStyle} />
-        <TextInput value={this.state.email} keyboardType="email-address" placeholder="Email" placeholderTextColor="#FFFFFF" onChange={(text) => this.onChange(text, 'email')} style={inputStyle} />
-        <TextInput value={this.state.phone} keyboardType="phone-pad" placeholder="Phone" placeholderTextColor="#FFFFFF" onChange={(text) => this.onChange(text, 'phone')} style={inputStyle} />
-        <TextInput value={this.state.password} placeholder="Password" placeholderTextColor="#FFFFFF" onChange={(text) => this.onChange(text, 'password')} style={inputStyle} secureTextEntry />
+        <TextInput key="firstName" value={this.state.user.firstName} placeholder="First name" placeholderTextColor="#FFFFFF" onChangeText={(text) => this.onChange(text, 'firstName')} style={[inputStyle, this.state.errors.firstName ? { borderBottomColor: 'red' } : {}]} />
+        <TextInput key="lastName" value={this.state.user.lastName} placeholder="Last name" placeholderTextColor="#FFFFFF" onChangeText={(text) => this.onChange(text, 'lastName')} style={[inputStyle, this.state.errors.lastName ? { borderBottomColor: 'red' } : {}]} />
+        <TextInput key="email" value={this.state.user.email} keyboardType="email-address" placeholder="Email" placeholderTextColor="#FFFFFF" onChangeText={(text) => this.onChange(text, 'email')} style={[inputStyle, this.state.errors.email ? { borderBottomColor: 'red' } : {}]} />
+        <TextInput key="phone" value={this.state.user.phone} keyboardType="phone-pad" placeholder="Phone" placeholderTextColor="#FFFFFF" onChangeText={(text) => this.onChange(text, 'phone')} style={[inputStyle, this.state.errors.phone ? { borderBottomColor: 'red' } : {}]} />
+        <TextInput key="password" value={this.state.user.password} placeholder="Password" placeholderTextColor="#FFFFFF" onChangeText={(text) => this.onChange(text, 'password')} style={[inputStyle, this.state.errors.password ? { borderBottomColor: 'red' } : {}]} secureTextEntry />
       </View>
     );
   }
@@ -59,14 +73,43 @@ class SignUp extends Component {
     );
   }
 
+  validateInput = () => {
+    const newErrors = { ...this.state.errors };
+    let isError = false;
+    if (this.state.user.firstName.trim().length <= 0) {
+      newErrors.firstName = true;
+      isError = true;
+    }
+    if (this.state.user.lastName.trim().length <= 0) {
+      newErrors.lastName = true;
+      isError = true;
+    }
+    if (this.state.user.email.trim().length <= 0) {
+      newErrors.email = true;
+      isError = true;
+    }
+    if (this.state.user.password.trim().length <= 0) {
+      newErrors.password = true;
+      isError = true;
+    }
+    if (this.state.user.phone.trim().length <= 0) {
+      newErrors.phone = true;
+      isError = true;
+    }
+    this.setState(() => { return ({ errors: newErrors }); });
+    return isError;
+  }
+
   signUp = () => {
-    this.props.navigation.navigate('SignUpStep');
-    this.props.signUpUser(this.state);
+    if (!this.validateInput()) {
+      this.props.navigation.navigate('SignUpStep');
+      this.props.signUpUser(this.state.user);
+    }
   }
 
   render() {
     return (
-      <View style={styles.background}>
+      <KeyboardAvoidingView style={styles.background} behavior="position">
         {this.logoHeader()}
 
         <TouchableOpacity style={[styles.button, styles.facebookButton]}>
@@ -82,7 +125,7 @@ class SignUp extends Component {
         </TouchableOpacity>
 
         {this.alreadySignedUp()}
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -98,7 +141,7 @@ const styles = StyleSheet.create({
   logoHeader: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     marginTop: 80,
     maxHeight: 100,
   },
@@ -161,6 +204,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 18,
     color: '#FFFFFF',
+    textAlign: 'center',
   },
   signUpInput: {
     color: '#FFFFFF',

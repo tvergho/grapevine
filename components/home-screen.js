@@ -161,7 +161,7 @@ class HomeScreen extends Component {
 
   recSection() {
     return (
-      <View style={styles.section}>
+      <View style={styles.section} key="rec-section">
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Recommended to you</Text>
           <Button type="clear" titleStyle={styles.sectionButton} title="See all" onPress={this.openFeed} />
@@ -169,10 +169,11 @@ class HomeScreen extends Component {
         <ScrollView
           horizontal
           decelerationRate="fast"
+          scrollEventThrottle={200}
         >
           {Data.RECOMMENDATIONS.map((rec) => {
             return (
-              <RecCard rec={rec} />
+              <RecCard rec={rec} key={rec.id} />
             );
           })}
         </ScrollView>
@@ -182,7 +183,7 @@ class HomeScreen extends Component {
 
   bizSection() {
     return (
-      <View style={styles.section}>
+      <View style={styles.section} key="biz-section">
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Business Discounts</Text>
           <Button type="clear" titleStyle={styles.sectionButton} title="See all" />
@@ -192,7 +193,6 @@ class HomeScreen extends Component {
   }
 
   render() {
-    console.log(this.props.balance);
     return (
       <View style={styles.background}>
         <MapView region={this.state.location} onRegionChangeComplete={this.onRegionChange} style={styles.mapStyle} />

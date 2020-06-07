@@ -12,6 +12,7 @@ const initialState = {
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
   case ActionTypes.SIGN_UP_USER:
+    console.log({ ...state, ...action.payload });
     return { ...state, ...action.payload };
   default:
     return state;
