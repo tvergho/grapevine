@@ -4,19 +4,43 @@
 import React, { Component } from 'react';
 import * as Font from 'expo-font';
 import { View, StyleSheet, Image } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { setFontsLoaded } from '../actions';
 import SignUp from './sign-up';
 import SignUpStep from './sign-up-step';
+import FeedScreen from './feed-screen';
+import HomeScreen from './home-screen';
+import ProfileScreen from './profile-screen';
 
 const Stack = createStackNavigator();
-
+const Tab = createBottomTabNavigator();
 
 const LogoHeader = () => {
   return (
-    <Image source={require('../assets/recroom_header.png')} style={{ height: 80 }} />
+    <Image source={require('../assets/recroom_header.png')} style={{ height: 80, resizeMode: 'contain' }} />
+  );
+};
+
+const MainApp = () => {
+  return (
+    <Tab.Navigator initialRouteName="Home" tabBarOptions={{ activeTintColor: '#FFB7B2' }}>
+      <Tab.Screen name="Feed"
+        component={FeedScreen}
+        options={{ tabBarIcon: ({ color, size }) => (<Icon name="bullhorn" type="font-awesome" color={color} size={size} />) }}
+      />
+      <Tab.Screen name="Home"
+        component={HomeScreen}
+        options={{ tabBarIcon: ({ color, size }) => (<Icon name="home" type="font-awesome" color={color} size={size} />) }}
+      />
+      <Tab.Screen name="Profile"
+        component={ProfileScreen}
+        options={{ tabBarIcon: ({ color, size }) => (<Icon name="user" type="font-awesome" color={color} size={size} />) }}
+      />
+    </Tab.Navigator>
   );
 };
 
@@ -45,7 +69,6 @@ class AppContainer extends Component {
       .then((result) => {
         this.setState({ fontsLoaded: true });
         this.props.setFontsLoaded();
-        console.log('successful');
       })
       .catch((error) => {
         this.setState({ fontsLoaded: true });
@@ -53,39 +76,49 @@ class AppContainer extends Component {
       });
   }
 
-    loading = () => {
-      return (
-        <View style={styles.splash} />
-      );
-    }
+  loading = () => {
+    return (
+      <View style={styles.splash} />
+    );
+  }
 
-    render() {
-      return (
-        this.state.fontsLoaded
-          ? (
-            <NavigationContainer>
-              <Stack.Navigator
-                initialRouteName="SignUp"
-              >
+  render() {
+    return (
+      this.state.fontsLoaded
+        ? (
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName="SignUp"
+            >
+              {!this.props.isAuthenticated ? (
+                <>
+                  <Stack.Screen
+                    name="SignUp"
+                    component={SignUp}
+                    options={{
+                      title: 'SignUp',
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="SignUpStep"
+                    component={SignUpStep}
+                    options={{ headerTitle: (props) => <LogoHeader {...props} /> }}
+                  />
+                </>
+              ) : (
                 <Stack.Screen
-                  name="SignUp"
-                  component={SignUp}
-                  options={{
-                    title: 'SignUp',
-                    headerShown: false,
-                  }}
+                  name="MainApp"
+                  component={MainApp}
+                  options={{ headerShown: false }}
                 />
-                <Stack.Screen
-                  name="SignUpStep"
-                  component={SignUpStep}
-                  options={{ headerTitle: (props) => <LogoHeader {...props} /> }}
-                />
-              </Stack.Navigator>
-            </NavigationContainer>
-          )
-          : this.loading()
-      );
-    }
+              ) }
+            </Stack.Navigator>
+          </NavigationContainer>
+        )
+        : this.loading()
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -97,4 +130,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, { setFontsLoaded })(AppContainer);
+const mapStateToProps = (reduxState) => (
+  {
+    isAuthenticated: reduxState.auth.authenticated,
+  }
+);
+
+export default connect(mapStateToProps, { setFontsLoaded })(AppContainer);

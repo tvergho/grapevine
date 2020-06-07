@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { signUpUser } from '../actions';
 
 class SignUp extends Component {
   constructor(props) {
@@ -60,6 +61,7 @@ class SignUp extends Component {
 
   signUp = () => {
     this.props.navigation.navigate('SignUpStep');
+    this.props.signUpUser(this.state);
   }
 
   render() {
@@ -186,4 +188,4 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, null)(SignUp);
+export default connect(mapStateToProps, { signUpUser })(SignUp);

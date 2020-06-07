@@ -8,10 +8,15 @@ import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { authUser } from '../actions';
 
 class SignUpStep extends Component {
   constructor(props) {
     super(props);
+  }
+
+  buyButtonPress = () => {
+    this.props.authUser();
   }
 
   buttons = () => {
@@ -21,7 +26,7 @@ class SignUpStep extends Component {
       }}
       >
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.imageButton}>
+          <TouchableOpacity style={styles.imageButton} onPress={this.buyButtonPress}>
             <Icon name="shopping-cart" type="font-awesome" size={60} color="rgba(0,0,0,0.8)" style={{ paddingRight: 4 }} />
           </TouchableOpacity>
           <Text style={this.props.isFontLoaded ? [styles.header2, styles.buttonText, styles.styled] : [styles.header2, styles.buttonText, styles.unstyled]}>Buyer</Text>
@@ -114,4 +119,4 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, null)(SignUpStep);
+export default connect(mapStateToProps, { authUser })(SignUpStep);
