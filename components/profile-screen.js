@@ -3,7 +3,7 @@
 /* eslint-disable no-useless-constructor */
 import React, { Component } from 'react';
 import {
-  View, StyleSheet, Text, Image,
+  View, StyleSheet, Text, Image, Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -12,6 +12,9 @@ import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import NumberFormat from 'react-number-format';
+
+const window = Dimensions.get('window');
+const small = window.width <= 350;
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -142,14 +145,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 10,
     marginRight: 10,
+    marginLeft: 5,
   },
   profilePic: {
-    width: 120,
-    maxWidth: 120,
-    height: 120,
-    maxHeight: 120,
+    width: small ? 80 : 120,
+    maxWidth: small ? 80 : 120,
+    height: small ? 80 : 120,
+    maxHeight: small ? 80 : 120,
     borderRadius: 100,
-    margin: 20,
+    margin: small ? 10 : 20,
   },
   summaryBubble: {
     marginTop: 20,
