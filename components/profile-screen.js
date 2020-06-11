@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import NumberFormat from 'react-number-format';
-import Info from '../assets/info.svg';
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -25,11 +24,16 @@ class ProfileScreen extends Component {
         <Text style={styles.headerText}>{this.props.user.firstName}</Text>
 
         <View style={{ flex: -1, flexDirection: 'row', alignItems: 'center' }}>
-          <TouchableOpacity>
-            <Info style={styles.infoButton} />
+          <TouchableOpacity style={styles.headerButton}>
+            <Text style={{
+              color: 'white', fontFamily: 'Hiragino W7', fontSize: 20, alignSelf: 'center', paddingTop: 8,
+            }}
+            >
+              i
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity style={{ paddingTop: 5 }}>
             <Icon name="gear" type="font-awesome" size={45} color="rgba(0,0,0,0.7)" />
             <View style={{ minHeight: 15 }} />
           </TouchableOpacity>
@@ -122,6 +126,22 @@ const styles = StyleSheet.create({
     color: 'black',
     fontFamily: 'Hiragino W7',
     fontSize: 24,
+  },
+  headerButton: {
+    shadowColor: 'rgba(0,0,0, .4)',
+    shadowOffset: { height: 2, width: 0 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, // IOS
+    elevation: 2,
+    backgroundColor: '#FFB7B2',
+    borderRadius: 100,
+    width: 40,
+    height: 40,
+    flex: -1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+    marginRight: 10,
   },
   profilePic: {
     width: 120,
