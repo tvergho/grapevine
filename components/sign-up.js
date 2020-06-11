@@ -44,7 +44,6 @@ class SignUp extends Component {
     })
       .then((response) => {
         const { type, token } = response;
-        console.log(response.expires);
 
         if (type === 'success') {
           this.props.signInFacebook(token);

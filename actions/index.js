@@ -46,7 +46,7 @@ export function signInFacebook(token) {
       result.json().then((fieldResult) => {
         if (fieldResult.error) dispatch({ type: ActionTypes.ERROR, payload: fieldResult.error.message });
         else {
-          const imageURL = `${ROOT_URL}/${fieldResult.id}/picture?width=150&height=150`;
+          const imageURL = `${ROOT_URL}/${fieldResult.id}/picture?width=300&height=300`;
           dispatch({ type: ActionTypes.FB_SIGN_IN, payload: { ...fieldResult, imageURL, token } });
         }
       });
@@ -65,7 +65,7 @@ export function tryFacebookSignInOnStart(token) {
       fetch(`${ROOT_URL}/me?fields=${fields}&access_token=${token}`).then((result) => {
         result.json().then((fieldResult) => {
           if (!fieldResult.error) {
-            const imageURL = `${ROOT_URL}/${fieldResult.id}/picture?width=150&height=150`;
+            const imageURL = `${ROOT_URL}/${fieldResult.id}/picture?width=300&height=300`;
             dispatch({ type: ActionTypes.FB_SIGN_IN, payload: { ...fieldResult, imageURL, token } });
             dispatch({ type: ActionTypes.AUTH_USER });
           }

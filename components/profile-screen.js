@@ -6,6 +6,8 @@ import {
   View, StyleSheet, Text, Image,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faHandshake, faMoneyCheck, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -18,20 +20,21 @@ class ProfileScreen extends Component {
   }
 
   topSection = () => {
-    console.log(this.props.user);
     return (
-      <>
+      <View style={styles.topSection}>
         <Text style={styles.headerText}>{this.props.user.firstName}</Text>
-        <View style={styles.topSection}>
-          <TouchableOpacity>
-            <Icon name="gear" type="font-awesome" size={40} color="rgba(0,0,0,0.7)" />
-            <View style={{ minHeight: 15 }} />
-          </TouchableOpacity>
+
+        <View style={{ flex: -1, flexDirection: 'row', alignItems: 'center' }}>
           <TouchableOpacity>
             <Info style={styles.infoButton} />
           </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Icon name="gear" type="font-awesome" size={45} color="rgba(0,0,0,0.7)" />
+            <View style={{ minHeight: 15 }} />
+          </TouchableOpacity>
         </View>
-      </>
+      </View>
     );
   }
 
@@ -51,6 +54,32 @@ class ProfileScreen extends Component {
     );
   }
 
+  listSection = () => {
+    return (
+      <View style={{ backgroundColor: '#000000' }}>
+        <TouchableOpacity style={styles.listButton} activeOpacity={0.9}>
+          <Icon name="shopping-bag" type="font-awesome" size={25} color="rgba(0,0,0,0.7)" style={{ marginRight: 20 }} />
+          <Text styles={styles.listText}>Your recommendations</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.listButton} activeOpacity={0.9}>
+          <FontAwesomeIcon icon={faHandshake} size={25} color="rgba(0,0,0,0.7)" style={{ marginRight: 20 }} />
+          <Text styles={styles.listText}>Invite friends</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.listButton} activeOpacity={0.9}>
+          <FontAwesomeIcon icon={faMoneyCheck} size={25} color="rgba(0,0,0,0.7)" style={{ marginRight: 20 }} />
+          <Text styles={styles.listText}>Payment</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.listButton} activeOpacity={0.9}>
+          <FontAwesomeIcon icon={faQuestionCircle} size={25} color="rgba(0,0,0,0.7)" style={{ marginRight: 20 }} />
+          <Text styles={styles.listText}>Help</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   render() {
     return (
       <View style={styles.background}>
@@ -62,6 +91,8 @@ class ProfileScreen extends Component {
           <Text style={styles.venmoButtonText}>Transfer to</Text>
           <Image source={require('../assets/venmo_logo.png')} style={{ maxWidth: 80, maxHeight: 15 }} />
         </TouchableOpacity>
+
+        {this.listSection()}
       </View>
     );
   }
@@ -76,21 +107,21 @@ const styles = StyleSheet.create({
   topSection: {
     borderBottomColor: 'rgba(235, 102, 96, 0.3)',
     borderBottomWidth: 1,
-    marginTop: hp('7%'),
+    marginTop: hp('5%'),
+    minHeight: 60,
+    height: 60,
     paddingLeft: 15,
-    flex: 1,
-    maxHeight: 40,
-    flexDirection: 'row-reverse',
+    paddingRight: 15,
+    flex: -1,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     width: '100%',
   },
   headerText: {
     color: 'black',
     fontFamily: 'Hiragino W7',
     fontSize: 24,
-    position: 'absolute',
-    top: hp('7%'),
-    left: 15,
   },
   profilePic: {
     width: 120,
@@ -131,7 +162,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: hp('3%'),
   },
   balanceHalf: {
     marginRight: 15,
@@ -159,7 +190,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: hp('5%'),
+    marginBottom: hp('3%'),
   },
   venmoButtonText: {
     color: 'white',
@@ -167,6 +199,23 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingTop: 6,
     marginRight: 5,
+  },
+  listButton: {
+    backgroundColor: 'white',
+    width: wp('100%'),
+    height: hp('8%'),
+    flex: -1,
+    flexDirection: 'row',
+    paddingLeft: 20,
+    borderBottomColor: 'rgba(151,151,151,0.25)',
+    borderBottomWidth: 1,
+    alignItems: 'center',
+  },
+  listText: {
+    color: 'black',
+    fontFamily: 'Hiragino W5',
+    fontSize: 12,
+    paddingTop: 5,
   },
 });
 

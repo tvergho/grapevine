@@ -53,6 +53,7 @@ class AppContainer extends Component {
   }
 
   componentDidMount() {
+    // SecureStore.deleteItemAsync('fbtoken');
     Font.loadAsync({
       'Hiragino W4': require('../assets/fonts/HiraginoSans-W4.otf'),
       'Hiragino W5': require('../assets/fonts/HiraginoSans-W5.otf'),
