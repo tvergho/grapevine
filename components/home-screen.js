@@ -13,6 +13,9 @@ import { connect } from 'react-redux';
 import NumberFormat from 'react-number-format';
 import * as Data from '../data';
 
+const window = Dimensions.get('window');
+const small = window.width <= 350;
+
 const RecCard = (props) => {
   const { commission, business, id } = props.rec;
   const user = props.rec.fromUser;
@@ -71,7 +74,7 @@ const recCardStyles = StyleSheet.create({
     textShadowRadius: 4,
   },
   from: {
-    fontFamily: 'Hiragino W3',
+    fontFamily: 'Hiragino W4',
     fontSize: 12,
     color: '#FFF',
     paddingTop: 2,
@@ -223,7 +226,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mapStyle: {
-    width: Dimensions.get('window').width,
+    width: window.width,
     height: 300,
   },
   section: {
@@ -251,7 +254,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     position: 'absolute',
     left: 10,
-    top: 30,
+    top: small ? 30 : 40,
     width: 150,
     height: 35,
     borderRadius: 25,
@@ -281,7 +284,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     position: 'absolute',
     right: 10,
-    top: 30,
+    top: small ? 30 : 40,
     width: 90,
     height: 35,
     borderRadius: 25,

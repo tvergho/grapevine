@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-constructor */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable global-require */
@@ -9,7 +10,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { setFontsLoaded } from '../actions';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import * as SecureStore from 'expo-secure-store';
+import { setFontsLoaded, setAppLoaded, tryFacebookSignInOnStart } from '../actions';
 import SignUp from './sign-up';
 import SignUpStep from './sign-up-step';
 import FeedScreen from './feed-screen';
@@ -21,7 +24,7 @@ const Tab = createBottomTabNavigator();
 
 const LogoHeader = () => {
   return (
-    <Image source={require('../assets/recroom_header.png')} style={{ height: 80, resizeMode: 'contain' }} />
+    <Image source={require('../assets/recroom_header.png')} style={{ minHeight: 80, width: wp('100%'), resizeMode: 'contain' }} />
   );
 };
 
@@ -47,44 +50,43 @@ const MainApp = () => {
 class AppContainer extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      fontsLoaded: false,
-    };
   }
 
   componentDidMount() {
     Font.loadAsync({
-      // 'Hiragino W0': require('../assets/fonts/Hiragino-W0.otf'),
-      // 'Hiragino W1': require('../assets/fonts/Hiragino-W1.otf'),
-      // 'Hiragino W2': require('../assets/fonts/Hiragino-W2.otf'),
-      'Hiragino W3': require('../assets/fonts/Hiragino-W3.otf'),
-      // 'Hiragino W4': require('../assets/fonts/Hiragino-W4.otf'),
-      'Hiragino W5': require('../assets/fonts/Hiragino-W5.otf'),
-      // 'Hiragino W6': require('../assets/fonts/Hiragino-W6.otf'),
-      'Hiragino W7': require('../assets/fonts/Hiragino-W7.otf'),
-      // 'Hiragino W8': require('../assets/fonts/Hiragino-W8.otf'),
-      // 'Hiragino W9': require('../assets/fonts/Hiragino-W9.otf'),
+      'Hiragino W4': require('../assets/fonts/HiraginoSans-W4.otf'),
+      'Hiragino W5': require('../assets/fonts/HiraginoSans-W5.otf'),
+      'Hiragino W7': require('../assets/fonts/HiraginoSans-W7.otf'),
     })
       .then((result) => {
-        this.setState({ fontsLoaded: true });
         this.props.setFontsLoaded();
       })
       .catch((error) => {
-        this.setState({ fontsLoaded: true });
         console.log(error.message);
+      })
+      .finally(() => {
+        SecureStore.getItemAsync('fbtoken')
+          .then((token) => {
+            if (token) this.props.tryFacebookSignInOnStart(token);
+            else this.props.setAppLoaded();
+          })
+          .catch(() => {
+            this.props.setAppLoaded();
+          });
       });
   }
 
   loading = () => {
     return (
-      <View style={styles.splash} />
+      <View style={styles.splash}>
+        <Image source={require('../assets/splash.png')} style={{ width: wp('100%'), height: hp('100%'), resizeMode: 'contain' }} />
+      </View>
     );
   }
 
   render() {
     return (
-      this.state.fontsLoaded
+      this.props.appLoaded
         ? (
           <NavigationContainer>
             <Stack.Navigator
@@ -133,7 +135,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (reduxState) => (
   {
     isAuthenticated: reduxState.auth.authenticated,
+    appLoaded: reduxState.lifecycle.appLoaded,
   }
 );
 
-export default connect(mapStateToProps, { setFontsLoaded })(AppContainer);
+export default connect(mapStateToProps, { setFontsLoaded, setAppLoaded, tryFacebookSignInOnStart })(AppContainer);

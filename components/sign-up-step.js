@@ -8,7 +8,9 @@ import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
+import * as SecureStore from 'expo-secure-store';
 import { authUser } from '../actions';
+import AlertDialog from './alert';
 
 class SignUpStep extends Component {
   constructor(props) {
@@ -16,6 +18,12 @@ class SignUpStep extends Component {
   }
 
   buyButtonPress = () => {
+    const { user } = this.props;
+
+    if (user.fbToken.length > 0) {
+      SecureStore.setItemAsync('fbtoken', user.fbToken);
+    }
+
     this.props.authUser();
   }
 
@@ -47,6 +55,7 @@ class SignUpStep extends Component {
       <View style={styles.background}>
         <Text style={this.props.isFontLoaded ? [styles.header1, styles.styled] : [styles.header1, styles.unstyled]}>Great! Are you a</Text>
         {this.buttons()}
+        <AlertDialog />
       </View>
     );
   }
@@ -116,6 +125,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (reduxState) => (
   {
     isFontLoaded: reduxState.lifecycle.fontsLoaded,
+    user: reduxState.user,
   }
 );
 

@@ -8,6 +8,7 @@ import {
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import NumberFormat from 'react-number-format';
 import Info from '../assets/info.svg';
 
@@ -17,6 +18,7 @@ class ProfileScreen extends Component {
   }
 
   topSection = () => {
+    console.log(this.props.user);
     return (
       <>
         <Text style={styles.headerText}>{this.props.user.firstName}</Text>
@@ -26,7 +28,7 @@ class ProfileScreen extends Component {
             <View style={{ minHeight: 15 }} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Info style={{ marginBottom: 10, marginRight: 10 }} />
+            <Info style={styles.infoButton} />
           </TouchableOpacity>
         </View>
       </>
@@ -53,7 +55,7 @@ class ProfileScreen extends Component {
     return (
       <View style={styles.background}>
         {this.topSection()}
-        <View style={styles.summaryBubble}><Text style={styles.summaryText}>Summary</Text></View>
+        <Image source={this.props.user.profilePic ? { uri: this.props.user.profilePic } : require('../assets/blank.png')} style={styles.profilePic} />
         {this.balanceSection()}
 
         <TouchableOpacity style={styles.venmoButton}>
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
   topSection: {
     borderBottomColor: 'rgba(235, 102, 96, 0.3)',
     borderBottomWidth: 1,
-    marginTop: 40,
+    marginTop: hp('7%'),
     paddingLeft: 15,
     flex: 1,
     maxHeight: 40,
@@ -87,8 +89,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Hiragino W7',
     fontSize: 24,
     position: 'absolute',
-    top: 40,
+    top: hp('7%'),
     left: 15,
+  },
+  profilePic: {
+    width: 120,
+    maxWidth: 120,
+    height: 120,
+    maxHeight: 120,
+    borderRadius: 100,
+    margin: 20,
   },
   summaryBubble: {
     marginTop: 20,
@@ -106,6 +116,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingTop: 7,
   },
+  infoButton: {
+    shadowColor: 'rgba(0,0,0, .4)',
+    shadowOffset: { height: 2, width: 0 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, // IOS
+    elevation: 2,
+    marginBottom: 10,
+    marginRight: 10,
+  },
   balanceSection: {
     flex: -1,
     flexDirection: 'row',
@@ -122,7 +141,7 @@ const styles = StyleSheet.create({
   },
   balanceHeader: {
     color: 'black',
-    fontFamily: 'Hiragino W3',
+    fontFamily: 'Hiragino W4',
     fontSize: 14,
   },
   balanceTotal: {
@@ -132,7 +151,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   venmoButton: {
-    width: 200,
+    width: wp('80%'),
     height: 40,
     backgroundColor: '#FFB7B2',
     borderRadius: 20,

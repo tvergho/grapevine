@@ -2,11 +2,17 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  View, StyleSheet, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView,
+  View, StyleSheet, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Dimensions,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { signUpUser } from '../actions';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import * as Facebook from 'expo-facebook';
+import { signUpUser, displayError, signInFacebook } from '../actions';
+import AlertDialog from './alert';
+
+const window = Dimensions.get('window');
+const small = window.width <= 350;
 
 class SignUp extends Component {
   constructor(props) {
@@ -30,6 +36,28 @@ class SignUp extends Component {
     };
   }
 
+  signInWithFacebook = async () => {
+    await Facebook.initializeAsync();
+
+    Facebook.logInWithReadPermissionsAsync({
+      permissions: ['public_profile', 'email'],
+    })
+      .then((response) => {
+        const { type, token } = response;
+        console.log(response.expires);
+
+        if (type === 'success') {
+          this.props.signInFacebook(token);
+          this.props.navigation.navigate('SignUpStep');
+        } else {
+          this.props.displayError('There was an error while logging in.');
+        }
+      })
+      .catch((error) => {
+        this.props.displayError(error.message);
+      });
+  }
+
   onChange = (text, id) => {
     const newUser = { ...this.state.user };
     const newErrors = { ...this.state.errors };
@@ -40,21 +68,33 @@ class SignUp extends Component {
   }
 
   logoHeader = () => {
-    return (
-      <View style={styles.logoHeader}>
-        <Image source={require('../assets/recroom_logo.png')} style={styles.imageLogo} />
-        <View style={styles.appTextContainer}>
-          <Text key="rec" style={this.props.isFontLoaded ? [styles.appText, styles.styled] : [styles.appText, styles.unstyled]}>rec</Text>
-          <Text key="room" style={this.props.isFontLoaded ? [styles.appText, styles.styled] : [styles.appText, styles.unstyled]}>room</Text>
+    if (!small) {
+      return (
+        <View style={styles.logoHeader}>
+          <Image source={require('../assets/recroom_logo.png')} style={styles.imageLogo} />
+          <View style={styles.appTextContainer}>
+            <Text key="rec" style={this.props.isFontLoaded ? [styles.appText, styles.styled] : [styles.appText, styles.unstyled]}>rec</Text>
+            <Text key="room" style={this.props.isFontLoaded ? [styles.appText, styles.styled] : [styles.appText, styles.unstyled]}>room</Text>
+          </View>
         </View>
-      </View>
-    );
+      );
+    } else {
+      return (
+        <View style={styles.logoHeader}>
+          <Image source={require('../assets/recroom_logo.png')} style={styles.imageLogoSmall} />
+          <View style={styles.appTextContainer}>
+            <Text key="rec" style={this.props.isFontLoaded ? [styles.appText, styles.styled, { fontSize: 40 }] : [styles.appText, styles.unstyled, { fontSize: 40 }]}>rec</Text>
+            <Text key="room" style={this.props.isFontLoaded ? [styles.appText, styles.styled, { fontSize: 40 }] : [styles.appText, styles.unstyled, { fontSize: 40 }]}>room</Text>
+          </View>
+        </View>
+      );
+    }
   }
 
   signUpForm = () => {
-    const inputStyle = this.props.isFontLoaded ? [styles.signUpInput, { fontFamily: 'Hiragino W3' }] : [styles.signUpInput, { fontFamily: 'System' }];
+    const inputStyle = this.props.isFontLoaded ? [styles.signUpInput, { fontFamily: 'Hiragino W4' }] : [styles.signUpInput, { fontFamily: 'System' }];
     return (
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: small ? 10 : hp('3%') }}>
         <TextInput key="firstName" value={this.state.user.firstName} placeholder="First name" placeholderTextColor="#FFFFFF" onChangeText={(text) => this.onChange(text, 'firstName')} style={[inputStyle, this.state.errors.firstName ? { borderBottomColor: 'red' } : {}]} />
         <TextInput key="lastName" value={this.state.user.lastName} placeholder="Last name" placeholderTextColor="#FFFFFF" onChangeText={(text) => this.onChange(text, 'lastName')} style={[inputStyle, this.state.errors.lastName ? { borderBottomColor: 'red' } : {}]} />
         <TextInput key="email" value={this.state.user.email} keyboardType="email-address" placeholder="Email" placeholderTextColor="#FFFFFF" onChangeText={(text) => this.onChange(text, 'email')} style={[inputStyle, this.state.errors.email ? { borderBottomColor: 'red' } : {}]} />
@@ -67,7 +107,7 @@ class SignUp extends Component {
   alreadySignedUp = () => {
     return (
       <View style={styles.signedUpContainer}>
-        <Text style={this.props.isFontLoaded ? { color: '#FFFFFF', fontFamily: 'Hiragino W3' } : { color: '#FFFFFF', fontFamily: 'System' }}>Already signed up?</Text>
+        <Text style={this.props.isFontLoaded ? { color: '#FFFFFF', fontFamily: 'Hiragino W4' } : { color: '#FFFFFF', fontFamily: 'System' }}>Already signed up?</Text>
         <Button type="clear" title="Log in" titleStyle={this.props.isFontLoaded ? [styles.signedUpButton, styles.styled] : [styles.signedUpButton, styles.unstyled]} />
       </View>
     );
@@ -112,7 +152,7 @@ class SignUp extends Component {
       <KeyboardAvoidingView style={styles.background} behavior="position">
         {this.logoHeader()}
 
-        <TouchableOpacity style={[styles.button, styles.facebookButton]}>
+        <TouchableOpacity style={[styles.button, styles.facebookButton]} onPress={this.signInWithFacebook}>
           <Image source={require('../assets/fb_logo.png')} style={styles.facebookLogo} />
           <Text style={this.props.isFontLoaded ? [styles.buttonText, styles.styled] : [styles.buttonText, styles.unstyled]}>Sign up with Facebook</Text>
         </TouchableOpacity>
@@ -125,6 +165,8 @@ class SignUp extends Component {
         </TouchableOpacity>
 
         {this.alreadySignedUp()}
+
+        <AlertDialog />
       </KeyboardAvoidingView>
     );
   }
@@ -136,18 +178,23 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   logoHeader: {
-    flex: 1,
+    flex: -1,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 80,
     maxHeight: 100,
+    marginTop: 10,
   },
   imageLogo: {
     width: 85,
     height: 85,
+    marginRight: 20,
+  },
+  imageLogoSmall: {
+    width: 65,
+    height: 65,
     marginRight: 20,
   },
   appTextContainer: {
@@ -176,19 +223,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
   },
   facebookButton: {
-    minWidth: 310,
+    width: small ? 300 : 310,
     minHeight: 50,
     maxHeight: 50,
-    marginTop: 20,
+    marginTop: small ? 0 : hp('5%'),
   },
   signUpButton: {
-    minWidth: 250,
+    width: wp('80%'),
     minHeight: 40,
     maxHeight: 40,
     marginTop: 30,
-
   },
   buttonText: {
     paddingTop: 10,
@@ -208,17 +255,20 @@ const styles = StyleSheet.create({
   },
   signUpInput: {
     color: '#FFFFFF',
-    minWidth: 250,
+    width: wp('80%'),
     borderBottomColor: '#F19F9B',
     borderBottomWidth: 1,
     paddingBottom: 3,
     marginTop: 12,
+    alignSelf: 'center',
   },
   signedUpContainer: {
-    flex: 1,
+    flex: -1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: small ? 10 : hp('5%'),
+    width: wp('100%'),
   },
   signedUpButton: {
     color: '#FFFFFF',
@@ -232,4 +282,4 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, { signUpUser })(SignUp);
+export default connect(mapStateToProps, { signUpUser, displayError, signInFacebook })(SignUp);
