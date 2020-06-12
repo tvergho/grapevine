@@ -4,7 +4,7 @@
 /* eslint-disable import/no-cycle */
 import React, { Component } from 'react';
 import {
-  View, StyleSheet, Dimensions, Text, TouchableOpacity, Image, ScrollView,
+  View, StyleSheet, Dimensions, Text, TouchableOpacity, ScrollView,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import * as Location from 'expo-location';
@@ -12,100 +12,10 @@ import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 import NumberFormat from 'react-number-format';
 import * as Data from '../data';
+import RecCard from './rec-card';
 
 const window = Dimensions.get('window');
 const small = window.width <= 350;
-
-const RecCard = (props) => {
-  const { commission, business, id } = props.rec;
-  const user = props.rec.fromUser;
-  const width = 250;
-  const height = 130;
-
-  return (
-    <View style={[recCardStyles.container, { width, height }]} key={id}>
-      <TouchableOpacity activeOpacity={0.5}>
-        <Image source={{ uri: business.imageURL }}
-          style={{
-            width, height, borderRadius: 15, opacity: 0.8,
-          }}
-        />
-        <View style={[recCardStyles.commissionBubble, { backgroundColor: user.color }]}>
-          <Text style={recCardStyles.commissionText}>{commission}</Text>
-        </View>
-        <Text style={recCardStyles.bizName}>
-          {business.name}
-        </Text>
-
-        <View style={{
-          flex: -1,
-          flexDirection: 'row',
-          alignItems: 'center',
-          position: 'absolute',
-          bottom: 10,
-          left: 10,
-        }}
-        >
-          <Text style={recCardStyles.from}>from</Text>
-          <View style={recCardStyles.fromBubble}>
-            <Text style={[recCardStyles.fromName, { color: user.color }]}>{user.name}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const recCardStyles = StyleSheet.create({
-  container: {
-    backgroundColor: 'rgba(0,0,0,0.8)',
-    borderRadius: 15,
-    marginRight: 20,
-  },
-  bizName: {
-    fontFamily: 'Hiragino W7',
-    fontSize: 14,
-    color: '#FFF',
-    position: 'absolute',
-    bottom: 30,
-    left: 10,
-    textShadowColor: 'rgba(0,0,0,0.5)',
-    textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 4,
-  },
-  from: {
-    fontFamily: 'Hiragino W4',
-    fontSize: 12,
-    color: '#FFF',
-    paddingTop: 2,
-  },
-  commissionBubble: {
-    position: 'absolute',
-    right: 10,
-    top: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 5,
-    borderRadius: 10,
-  },
-  commissionText: {
-    fontFamily: 'Hiragino W7',
-    fontSize: 12,
-    color: '#FFF',
-  },
-  fromBubble: {
-    backgroundColor: '#FFF',
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 5,
-    borderRadius: 10,
-    marginLeft: 5,
-  },
-  fromName: {
-    fontFamily: 'Hiragino W7',
-    fontSize: 12,
-  },
-});
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -174,7 +84,7 @@ class HomeScreen extends Component {
           decelerationRate="fast"
           scrollEventThrottle={200}
         >
-          {Data.RECOMMENDATIONS.map((rec) => {
+          {Data.RECOMMENDATIONS.slice(0, 3).map((rec) => {
             return (
               <RecCard rec={rec} key={rec.id} />
             );

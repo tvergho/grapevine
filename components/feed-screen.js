@@ -1,13 +1,15 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  View, StyleSheet, Text,
+  View, StyleSheet, Text, ScrollView,
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Button } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import * as Data from '../data';
+import RecCard from './rec-card';
 
 class FeedScreen extends Component {
   constructor(props) {
@@ -43,10 +45,31 @@ class FeedScreen extends Component {
     );
   }
 
+  friendsFeed = () => {
+    return (
+      <ScrollView
+        decelerationRate="fast"
+        scrollEventThrottle={200}
+      >
+        {Data.RECOMMENDATIONS.sort((a, b) => (b.timestamp - a.timestamp)).map((rec) => {
+          return (
+            <RecCard rec={rec} key={rec.id} feed />
+          );
+        })}
+      </ScrollView>
+    );
+  }
+
+  youFeed = () => {
+
+  }
+
   render() {
     return (
       <View style={styles.background}>
         {this.topSection()}
+        {this.state.active === 'Friends' ? this.friendsFeed() : <></>}
+        {this.state.active === 'You' ? this.youFeed() : <></>}
       </View>
     );
   }
