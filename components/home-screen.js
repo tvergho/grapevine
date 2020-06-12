@@ -84,7 +84,7 @@ class HomeScreen extends Component {
           decelerationRate="fast"
           scrollEventThrottle={200}
         >
-          {Data.RECOMMENDATIONS.slice(0, 3).map((rec) => {
+          {Data.RECOMMENDATIONS.sort((a, b) => (b.timestamp - a.timestamp)).slice(0, 3).map((rec) => {
             return (
               <RecCard rec={rec} key={rec.id} />
             );

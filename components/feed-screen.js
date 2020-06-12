@@ -50,6 +50,8 @@ class FeedScreen extends Component {
       <ScrollView
         decelerationRate="fast"
         scrollEventThrottle={200}
+        showsVerticalScrollIndicator={false}
+        style={this.state.active === 'Friends' ? '' : { display: 'none' }}
       >
         {Data.RECOMMENDATIONS.sort((a, b) => (b.timestamp - a.timestamp)).map((rec) => {
           return (
@@ -61,15 +63,17 @@ class FeedScreen extends Component {
   }
 
   youFeed = () => {
-
+    return (
+      <View style={this.state.active === 'You' ? '' : { display: 'none' }} />
+    );
   }
 
   render() {
     return (
       <View style={styles.background}>
         {this.topSection()}
-        {this.state.active === 'Friends' ? this.friendsFeed() : <></>}
-        {this.state.active === 'You' ? this.youFeed() : <></>}
+        {this.friendsFeed()}
+        {this.youFeed()}
       </View>
     );
   }

@@ -19,7 +19,7 @@ export const RECOMMENDATIONS = [
     commission: '5% back',
     message: 'Bikes were cool - great customer service. Would definitely come here again!',
     likes: 2,
-    timestamp: 1591815600000,
+    timestamp: 1591912800000,
   },
   {
     id: 1,
@@ -34,7 +34,7 @@ export const RECOMMENDATIONS = [
     commission: '10% back',
     message: 'Great ice cream.',
     likes: 6,
-    timestamp: 1591912800000,
+    timestamp: 1591815600000,
   },
   {
     id: 2,
