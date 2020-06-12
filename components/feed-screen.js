@@ -51,11 +51,11 @@ class FeedScreen extends Component {
         decelerationRate="fast"
         scrollEventThrottle={200}
         showsVerticalScrollIndicator={false}
-        style={this.state.active === 'Friends' ? '' : { display: 'none' }}
+        style={this.state.active === 'Friends' ? '' : { display: 'none' }} // Uses 'display' so that the component stays mounted and doesn't reload images.
       >
-        {Data.RECOMMENDATIONS.sort((a, b) => (b.timestamp - a.timestamp)).map((rec) => {
+        {Data.RECOMMENDATIONS.sort((a, b) => (b.timestamp - a.timestamp)).map((rec) => { // Sorts by timestamp in descending order.
           return (
-            <RecCard rec={rec} key={rec.id} feed />
+            <RecCard rec={rec} key={rec.id} feed navigation={this.props.navigation} />
           );
         })}
       </ScrollView>

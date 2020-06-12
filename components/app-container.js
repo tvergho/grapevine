@@ -18,13 +18,33 @@ import SignUpStep from './sign-up-step';
 import FeedScreen from './feed-screen';
 import HomeScreen from './home-screen';
 import ProfileScreen from './profile-screen';
+import Business from './business';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+// Header for the sign up step screen.
 const LogoHeader = () => {
   return (
     <Image source={require('../assets/recroom_header.png')} style={{ minHeight: 80, width: wp('100%'), resizeMode: 'contain' }} />
+  );
+};
+
+const FeedNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName="Feed">
+      <Stack.Screen name="Feed" component={FeedScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Business" component={Business} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+
+const HomeNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Business" component={Business} options={{ headerShown: false }} />
+    </Stack.Navigator>
   );
 };
 
@@ -32,11 +52,11 @@ const MainApp = () => {
   return (
     <Tab.Navigator initialRouteName="Home" tabBarOptions={{ activeTintColor: '#FFB7B2' }}>
       <Tab.Screen name="Feed"
-        component={FeedScreen}
+        component={FeedNavigator}
         options={{ tabBarIcon: ({ color, size }) => (<Icon name="bullhorn" type="font-awesome" color={color} size={size} />) }}
       />
       <Tab.Screen name="Home"
-        component={HomeScreen}
+        component={HomeNavigator}
         options={{ tabBarIcon: ({ color, size }) => (<Icon name="home" type="font-awesome" color={color} size={size} />) }}
       />
       <Tab.Screen name="Profile"
@@ -54,6 +74,9 @@ class AppContainer extends Component {
 
   componentDidMount() {
     // SecureStore.deleteItemAsync('fbtoken');
+
+    // Loads all the custom fonts needed for the app upon startup.
+    // Notifies the other views via the Redux state if the fonts were not loaded.
     Font.loadAsync({
       'Hiragino W4': require('../assets/fonts/HiraginoSans-W4.otf'),
       'Hiragino W5': require('../assets/fonts/HiraginoSans-W5.otf'),
@@ -66,10 +89,10 @@ class AppContainer extends Component {
         console.log(error.message);
       })
       .finally(() => {
-        SecureStore.getItemAsync('fbtoken')
+        SecureStore.getItemAsync('fbtoken') // Checks whether the user has previously logged in via Facebook.
           .then((token) => {
-            if (token) this.props.tryFacebookSignInOnStart(token);
-            else this.props.setAppLoaded();
+            if (token) this.props.tryFacebookSignInOnStart(token); // Attempt to authenticate the user via Facebook.
+            else this.props.setAppLoaded(); // Close the splash screen if a token isn't found.
           })
           .catch(() => {
             this.props.setAppLoaded();

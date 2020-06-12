@@ -8,32 +8,38 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const RecCard = (props) => {
   const {
-    commission, business, id, message, likes, timestamp,
+    commission, business, id, message, likes, timestamp, personal,
   } = props.rec;
   const user = props.rec.fromUser;
+
+  // Gets bigger if it's a feed card.
   const width = props.feed ? wp('90%') : 250;
   const height = props.feed ? 180 : 130;
 
   const convertMillesecondsToTime = (ms) => {
     const curTime = new Date().getTime();
-    const millis = curTime - ms;
+    const millis = curTime - ms; // Get the difference in milliseconds.
 
+    // First, attempt to convert to minutes.
     const min = millis / 60000;
     if (min < 60) return `${Math.round(min)} min`;
 
+    // Convert that to hours.
     const hours = min / 60;
     if (Math.round(hours) === 1) return '1 hr';
     else if (hours < 24) return `${Math.round(hours)} hrs`;
 
+    // Finally, display it in days.
     const days = hours / 24;
     if (Math.round(days) === 1) return '1 day';
     return `${Math.round(days)} days`;
   };
 
+  // Describes the card that's displayed on the home screen.
   if (!props.feed) {
     return (
       <View style={[recCardStyles.container, { width, height, marginRight: 20 }]} key={id}>
-        <TouchableOpacity activeOpacity={0.5}>
+        <TouchableOpacity activeOpacity={0.5} onPress={() => { props.navigation.navigate('Business', { ...props.rec, back: 'Home' }); }}>
           <Image source={{ uri: business.imageURL }}
             style={{
               width, height, borderRadius: 15, opacity: 0.8,
@@ -42,6 +48,7 @@ const RecCard = (props) => {
           <View style={[recCardStyles.commissionBubble, { backgroundColor: user.color }]}>
             <Text style={recCardStyles.commissionText}>{commission}</Text>
           </View>
+
           <Text style={[recCardStyles.bizName, { bottom: 30, left: 10 }]}>
             {business.name}
           </Text>
@@ -63,17 +70,17 @@ const RecCard = (props) => {
         </TouchableOpacity>
       </View>
     );
-  } else {
+  } else { // More detailed card for the feed screen.
     return (
       <View style={[recCardStyles.container, { width, height, marginBottom: 20 }]} key={id}>
-        <TouchableOpacity activeOpacity={0.5}>
+        <TouchableOpacity activeOpacity={0.5} onPress={() => { props.navigation.navigate('Business', { ...props.rec, back: 'Feed' }); }}>
           <Image source={{ uri: business.imageURL }}
             style={{
               width, height, borderRadius: 15, opacity: 0.8,
             }}
           />
 
-          <Text style={[recCardStyles.bizName, { top: 15, left: 10 }]} numberOfLines={1}>
+          <Text style={[recCardStyles.bizName, { top: 13, left: 10 }]} numberOfLines={1}>
             {business.name}
           </Text>
 
@@ -86,7 +93,7 @@ const RecCard = (props) => {
             flexDirection: 'row',
             alignItems: 'center',
             position: 'absolute',
-            top: 35,
+            top: 32,
             left: 10,
           }}
           >
@@ -94,6 +101,7 @@ const RecCard = (props) => {
             <View style={recCardStyles.fromBubble}>
               <Text style={[recCardStyles.fromName, { color: user.color }]}>{user.name}</Text>
             </View>
+            {personal ? <Image source={require('../assets/personal.png')} style={{ width: 25, height: 25, marginLeft: 3 }} /> : <></>}
           </View>
 
           <View style={[recCardStyles.messageBubble, { width: width - 20 }]}>

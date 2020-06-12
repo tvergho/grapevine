@@ -22,7 +22,7 @@ class HomeScreen extends Component {
     super(props);
 
     this.state = {
-      location: {
+      location: { // Default location set to Bell.
         latitude: 37.343566,
         longitude: -121.918752,
         latitudeDelta: 0.0922,
@@ -32,6 +32,7 @@ class HomeScreen extends Component {
   }
 
   componentDidMount() {
+    // Checks to see whether permission's been granted and requests permission if necessary.
     Location.getPermissionsAsync()
       .then((response) => {
         if (!response.granted) {
@@ -60,6 +61,7 @@ class HomeScreen extends Component {
   }
 
   detectLocation = () => {
+    // Updates the latitude and longitude of the current map region in state.
     Location.getCurrentPositionAsync()
       .then((location) => {
         const newLoc = { ...this.state.location };
@@ -84,9 +86,9 @@ class HomeScreen extends Component {
           decelerationRate="fast"
           scrollEventThrottle={200}
         >
-          {Data.RECOMMENDATIONS.sort((a, b) => (b.timestamp - a.timestamp)).slice(0, 3).map((rec) => {
+          {Data.RECOMMENDATIONS.sort((a, b) => (b.timestamp - a.timestamp)).slice(0, 3).map((rec) => { // Limits to the three most recent recs.
             return (
-              <RecCard rec={rec} key={rec.id} />
+              <RecCard rec={rec} key={rec.id} navigation={this.props.navigation} />
             );
           })}
         </ScrollView>
