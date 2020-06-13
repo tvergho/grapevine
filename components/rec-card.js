@@ -185,6 +185,10 @@ const recCardStyles = StyleSheet.create({
     shadowRadius: 1,
     elevation: 2,
   },
+  messageText: {
+    fontFamily: 'Hiragino W5',
+    fontSize: 12,
+  },
   likeText: {
     fontFamily: 'Hiragino W7',
     fontSize: 12,
