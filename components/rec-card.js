@@ -195,7 +195,7 @@ const recCardStyles = StyleSheet.create({
   },
   timeBubble: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 7,
     right: 10,
     backgroundColor: 'white',
     minWidth: 70,
