@@ -1,5 +1,7 @@
 import Amplify, { Auth } from 'aws-amplify';
+import awsConfig from '../aws-exports';
 
+Amplify.configure(awsConfig);
 Amplify.configure({
   Auth: {
     region: 'us-east-2',
@@ -109,18 +111,12 @@ export function authUser(email, password) {
 
 export function signInOnStart() {
   return (dispatch) => {
-    Auth.currentSession()
-      .then((data) => {
-        Auth.currentAuthenticatedUser({ bypassCache: true })
-          .then((user) => {
-            dispatch({ type: ActionTypes.USER_SIGN_IN, payload: user.attributes });
-            dispatch({ type: ActionTypes.AUTH_USER });
-          })
-          .finally(() => {
-            dispatch({ type: ActionTypes.APP_LOADED });
-          });
+    Auth.currentAuthenticatedUser({ bypassCache: true })
+      .then((user) => {
+        dispatch({ type: ActionTypes.USER_SIGN_IN, payload: user.attributes });
+        dispatch({ type: ActionTypes.AUTH_USER });
       })
-      .catch(() => {
+      .finally(() => {
         dispatch({ type: ActionTypes.APP_LOADED });
       });
   };

@@ -13,7 +13,9 @@
         },
         "categories": {
             "auth": {
-                "recrooma87e710d": {}
+                "recrooma87e710d": {
+                    "hostedUIProviderCreds": "[]"
+                }
             }
         }
     }
