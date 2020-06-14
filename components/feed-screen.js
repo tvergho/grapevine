@@ -73,7 +73,7 @@ class FeedScreen extends Component {
       <>
         <View style={{ flex: -1, flexDirection: 'row' }}>
           <FontAwesomeIcon icon={faSearch} size={20} color="rgba(0,0,0,0.7)" />
-          <TextInput style={styles.searchBar} placeholder="Search businesses..." placeholderTextColor="#D8D8D8" value={this.state.search} onChangeText={this.onSearchChange} />
+          <TextInput style={styles.searchBar} placeholder="Search businesses..." placeholderTextColor="#D8D8D8" value={this.state.search} onChangeText={this.onSearchChange} clearButtonMode="always" />
         </View>
 
         <ScrollView
