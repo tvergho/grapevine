@@ -142,7 +142,7 @@ class SignUp extends Component {
   signUp = () => {
     if (!this.validateInput()) {
       this.props.navigation.navigate('SignUpStep');
-      this.props.signUpUser(this.state.user);
+      this.props.signUpUser(this.state.user, this.props.navigation);
     }
   }
 

@@ -12,7 +12,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as SecureStore from 'expo-secure-store';
-import { setFontsLoaded, setAppLoaded, tryFacebookSignInOnStart } from '../actions';
+import {
+  setFontsLoaded, setAppLoaded, tryFacebookSignInOnStart, signInOnStart,
+} from '../actions';
 import SignUp from './sign-up';
 import SignUpStep from './sign-up-step';
 import FeedScreen from './feed-screen';
@@ -73,7 +75,7 @@ class AppContainer extends Component {
   }
 
   componentDidMount() {
-    // SecureStore.deleteItemAsync('fbtoken');
+    SecureStore.deleteItemAsync('fbtoken');
 
     // Loads all the custom fonts needed for the app upon startup.
     // Notifies the other views via the Redux state if the fonts were not loaded.
@@ -89,6 +91,8 @@ class AppContainer extends Component {
         console.log(error.message);
       })
       .finally(() => {
+        this.props.signInOnStart();
+        /*
         SecureStore.getItemAsync('fbtoken') // Checks whether the user has previously logged in via Facebook.
           .then((token) => {
             if (token) this.props.tryFacebookSignInOnStart(token); // Attempt to authenticate the user via Facebook.
@@ -97,6 +101,7 @@ class AppContainer extends Component {
           .catch(() => {
             this.props.setAppLoaded();
           });
+          */
       });
   }
 
@@ -163,4 +168,6 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, { setFontsLoaded, setAppLoaded, tryFacebookSignInOnStart })(AppContainer);
+export default connect(mapStateToProps, {
+  setFontsLoaded, setAppLoaded, tryFacebookSignInOnStart, signInOnStart,
+})(AppContainer);

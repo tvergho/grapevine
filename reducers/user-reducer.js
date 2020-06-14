@@ -3,9 +3,10 @@ import { ActionTypes } from '../actions';
 const initialState = {
   firstName: '',
   lastName: '',
+  username: '',
   email: '',
-  phone: '',
   password: '',
+  phone: '',
   profilePic: '',
   fbID: '',
   fbToken: '',
@@ -26,6 +27,14 @@ const UserReducer = (state = initialState, action) => {
     newUser.profilePic = json.imageURL;
     newUser.fbID = json.id;
     newUser.fbToken = json.token;
+
+    return newUser;
+  }
+  case ActionTypes.USER_SIGN_IN: {
+    const newUser = { ...state };
+    const attributes = action.payload;
+
+    newUser.firstName = attributes['custom:first_name'];
 
     return newUser;
   }

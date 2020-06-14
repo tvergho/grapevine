@@ -1,0 +1,20 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-recroom-dev-183756-authRole",
+            "UnauthRoleArn": "arn:aws:iam::512038042092:role/amplify-recroom-dev-183756-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::512038042092:role/amplify-recroom-dev-183756-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "amplify-recroom-dev-183756-deployment",
+            "UnauthRoleName": "amplify-recroom-dev-183756-unauthRole",
+            "StackName": "amplify-recroom-dev-183756",
+            "StackId": "arn:aws:cloudformation:us-east-2:512038042092:stack/amplify-recroom-dev-183756/ad788350-addf-11ea-baee-0a6c486e9f90",
+            "AmplifyAppId": "d1yafushw0xos3"
+        },
+        "categories": {
+            "auth": {
+                "recrooma87e710d": {}
+            }
+        }
+    }
+}

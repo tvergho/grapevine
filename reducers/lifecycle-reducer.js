@@ -3,7 +3,9 @@ import { ActionTypes } from '../actions';
 const initialState = {
   fontsLoaded: false,
   appLoaded: false,
+  loading: false,
   errorMessage: '',
+  codeError: false,
 };
 
 const LifecycleReducer = (state = initialState, action) => {
@@ -16,6 +18,12 @@ const LifecycleReducer = (state = initialState, action) => {
     return { ...state, errorMessage: action.payload };
   case ActionTypes.RESET_ERROR:
     return { ...state, errorMessage: '' };
+  case ActionTypes.LOADING:
+    return { ...state, loading: true };
+  case ActionTypes.RESET_LOADING:
+    return { ...state, loading: false };
+  case ActionTypes.CODE_ERROR:
+    return { ...state, codeError: action.payload };
   default:
     return state;
   }

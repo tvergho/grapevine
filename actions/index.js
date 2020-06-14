@@ -1,3 +1,13 @@
+import Amplify, { Auth } from 'aws-amplify';
+
+Amplify.configure({
+  Auth: {
+    region: 'us-east-2',
+    userPoolId: 'us-east-2_BwpAKgec2',
+    userPoolWebClientId: '6ofq62qbmej4d0l1lj5envoasu',
+  },
+});
+
 const ROOT_URL = 'https://graph.facebook.com';
 
 export const ActionTypes = {
@@ -8,6 +18,10 @@ export const ActionTypes = {
   ERROR: 'ERROR',
   RESET_ERROR: 'RESET_ERROR',
   APP_LOADED: 'APP_LOADED',
+  LOADING: 'LOADING',
+  RESET_LOADING: 'RESET_LOADING',
+  CODE_ERROR: 'CODE_ERROR',
+  USER_SIGN_IN: 'USER_SIGN_IN',
 };
 
 export function setFontsLoaded() {
@@ -24,17 +38,91 @@ export function setAppLoaded() {
   };
 }
 
-export function signUpUser(user) {
-  return {
-    type: ActionTypes.SIGN_UP_USER,
-    payload: user,
+export function signUpUser(user, navigation) {
+  const {
+    firstName, lastName, email, phone, password,
+  } = user;
+  const name = `${firstName} ${lastName}`;
+  const preferredUsername = `${firstName}-${lastName}`;
+  const username = `${preferredUsername}-${Math.floor(Math.random() * 999999)}`;
+
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.LOADING });
+    Auth.signUp({
+      username,
+      password,
+      attributes: {
+        email,
+        phone_number: `+${phone}`,
+        name,
+        preferred_username: preferredUsername,
+        'custom:first_name': firstName,
+        'custom:last_name': lastName,
+      },
+    })
+      .then((result) => {
+        dispatch({
+          type: ActionTypes.SIGN_UP_USER,
+          payload: {
+            firstName, lastName, email, phone, password, username: result.user.getUsername(),
+          },
+        });
+        dispatch({ type: ActionTypes.RESET_LOADING });
+      })
+      .catch((error) => {
+        navigation.goBack();
+        dispatch({ type: ActionTypes.ERROR, payload: error.message });
+        dispatch({ type: ActionTypes.RESET_LOADING });
+      });
   };
 }
 
-export function authUser() {
-  return {
-    type: ActionTypes.AUTH_USER,
-    payload: null,
+export function confirmUser(username, code, callback) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.LOADING });
+    Auth.confirmSignUp(username, code)
+      .then((result) => {
+        callback();
+        dispatch({ type: ActionTypes.RESET_LOADING });
+      })
+      .catch((error) => {
+        dispatch({ type: ActionTypes.CODE_ERROR, payload: true });
+        dispatch({ type: ActionTypes.RESET_LOADING });
+      });
+  };
+}
+
+export function authUser(email, password) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.LOADING });
+    Auth.signIn(email, password)
+      .then((result) => {
+        dispatch({ type: ActionTypes.AUTH_USER });
+        dispatch({ type: ActionTypes.RESET_LOADING });
+      })
+      .catch((error) => {
+        dispatch({ type: ActionTypes.ERROR, payload: error.message });
+        dispatch({ type: ActionTypes.RESET_LOADING });
+      });
+  };
+}
+
+export function signInOnStart() {
+  return (dispatch) => {
+    Auth.currentSession()
+      .then((data) => {
+        Auth.currentAuthenticatedUser({ bypassCache: true })
+          .then((user) => {
+            dispatch({ type: ActionTypes.USER_SIGN_IN, payload: user.attributes });
+            dispatch({ type: ActionTypes.AUTH_USER });
+          })
+          .finally(() => {
+            dispatch({ type: ActionTypes.APP_LOADED });
+          });
+      })
+      .catch(() => {
+        dispatch({ type: ActionTypes.APP_LOADED });
+      });
   };
 }
 
@@ -88,5 +176,12 @@ export function displayError(message) {
 export function resetError() {
   return {
     type: ActionTypes.RESET_ERROR,
+  };
+}
+
+export function resetCodeError() {
+  return {
+    type: ActionTypes.CODE_ERROR,
+    payload: false,
   };
 }
