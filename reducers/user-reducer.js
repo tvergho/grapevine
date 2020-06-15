@@ -35,6 +35,7 @@ const UserReducer = (state = initialState, action) => {
     const attributes = action.payload;
 
     newUser.firstName = attributes['custom:first_name'];
+    newUser.profilePic = attributes['custom:profile_pic'];
 
     return newUser;
   }

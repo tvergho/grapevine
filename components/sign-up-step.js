@@ -3,20 +3,26 @@
 /* eslint-disable no-useless-constructor */
 import React, { Component, useState, useEffect } from 'react';
 import {
-  View, StyleSheet, Text, TouchableOpacity,
+  View, StyleSheet, Text, TouchableOpacity, Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
-import * as SecureStore from 'expo-secure-store';
 import { MaterialIndicator } from 'react-native-indicators';
 import {
   CodeField, Cursor, useClearByFocusCell, useBlurOnFulfill,
 } from 'react-native-confirmation-code-field';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { authUser, resetCodeError, confirmUser } from '../actions';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { TextInput } from 'react-native-gesture-handler';
+import { Hub } from 'aws-amplify';
+import {
+  authUser, resetCodeError, confirmUser, signUpUser,
+} from '../actions';
 import AlertDialog from './alert';
+
+const window = Dimensions.get('window');
+const small = window.width <= 350;
 
 const ConfirmationCode = (props) => {
   const [value, setValue] = useState('');
@@ -71,7 +77,22 @@ class SignUpStep extends Component {
 
     this.state = {
       step: 0,
+      password: '',
     };
+  }
+
+  componentDidMount() {
+    Hub.listen('auth', async ({ payload: { event, data } }) => {
+      switch (event) {
+      case 'signIn': {
+        console.log('sign in', data);
+        break;
+      }
+      default:
+        console.log(data);
+        break;
+      }
+    });
   }
 
   navigate = () => {
@@ -85,9 +106,11 @@ class SignUpStep extends Component {
   buyButtonPress = () => {
     const { user } = this.props;
 
+    /*
     if (user.fbToken.length > 0) {
       SecureStore.setItemAsync('fbtoken', user.fbToken);
     }
+    */
 
     this.props.authUser(user.email, user.password);
   }
@@ -125,20 +148,52 @@ class SignUpStep extends Component {
     );
   }
 
-  confirmationStep = () => {
-    return (
-      <View style={styles.background}>
-        <Text style={styles.confirmationText}>{`Enter the confirmation code sent to: ${this.props.user.email}`}</Text>
-        <Text style={{
-          color: 'red', fontSize: 14, position: 'absolute', top: 130, fontFamily: 'Hiragino W4', opacity: this.props.codeError ? 1 : 0,
-        }}
-        >
-          Invalid code
-        </Text>
-        <ConfirmationCode username={this.props.user.username} onFulfill={this.navigate} resetError={this.props.resetCodeError} confirm={this.props.confirmUser} />
-      </View>
+  updatePassword = (password) => {
+    this.setState({ password });
+  }
 
-    );
+  fbNext = () => {
+    this.props.signUpUser({ ...this.props.user, password: this.state.password }, this.props.navigation);
+    this.navigate();
+  }
+
+  confirmationStep = () => {
+    const { email } = this.props.user;
+
+    if (!this.props.route.params || !this.props.route.params.fb) {
+      return (
+        <View style={styles.background}>
+          <Text style={styles.confirmationText}>{`Enter the confirmation code sent to: ${this.props.user.email}`}</Text>
+          <Text style={{
+            color: 'red', fontSize: 14, position: 'absolute', top: small ? 170 : 130, fontFamily: 'Hiragino W4', opacity: this.props.codeError ? 1 : 0,
+          }}
+          >
+            Invalid code
+          </Text>
+          <ConfirmationCode username={this.props.user.username} onFulfill={this.navigate} resetError={this.props.resetCodeError} confirm={this.props.confirmUser} />
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.background}>
+          <Text style={styles.confirmationText}>Finish setting up your account</Text>
+
+          <View style={{ flex: -1, flexDirection: 'column', height: hp('40%') }}>
+            <Text style={{
+              color: 'white', fontSize: 16, fontFamily: 'Hiragino W5', alignSelf: 'flex-start',
+            }}
+            >
+              {`Email: ${email}`}
+            </Text>
+            <TextInput style={styles.passwordInput} value={this.state.password} secureTextEntry onChangeText={this.updatePassword} placeholder="Enter a password" placeholderTextColor="#ffffff" />
+
+            <TouchableOpacity style={[styles.button, styles.signUpButton]} onPress={this.fbNext}>
+              <Text style={styles.signUpButtonText}>Next</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
   }
 
   renderStep = () => {
@@ -244,6 +299,43 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  passwordInput: {
+    color: '#FFFFFF',
+    width: wp('80%'),
+    borderBottomColor: '#F19F9B',
+    borderBottomWidth: 1,
+    paddingBottom: 3,
+    marginTop: 30,
+    alignSelf: 'center',
+    fontSize: 16,
+  },
+  button: {
+    shadowColor: 'rgba(0,0,0, .4)',
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, // IOS
+    backgroundColor: '#fff',
+    elevation: 2, // Android
+    borderRadius: 30,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  signUpButton: {
+    width: wp('80%'),
+    minHeight: 40,
+    maxHeight: 40,
+    marginTop: hp('10%'),
+  },
+  signUpButtonText: {
+    paddingTop: 10,
+    fontSize: 18,
+    color: '#FFB7B2',
+    marginLeft: 10,
+    fontFamily: 'Hiragino W7',
+  },
 });
 
 const mapStateToProps = (reduxState) => (
@@ -255,4 +347,6 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, { authUser, resetCodeError, confirmUser })(SignUpStep);
+export default connect(mapStateToProps, {
+  authUser, resetCodeError, confirmUser, signUpUser,
+})(SignUpStep);

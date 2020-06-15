@@ -13,8 +13,8 @@
         },
         "categories": {
             "auth": {
-                "recrooma87e710d": {
-                    "hostedUIProviderCreds": "[]"
+                "recroom3b6eacb3": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"291040482030117\",\"client_secret\":\"bb045c40029b423fe1bbb1977ccf7e1f\"}]"
                 }
             }
         }

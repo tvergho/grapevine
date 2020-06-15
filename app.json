@@ -2,6 +2,7 @@
   "expo": {
     "name": "rec-room",
     "slug": "rec-room",
+    "scheme": "recroom",
     "platforms": [
       "ios",
       "android",
