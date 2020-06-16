@@ -40,6 +40,9 @@
         "wasm",
         "svg"
       ]
-    }
+    },
+    "facebookScheme": "fb291040482030117",
+    "facebookAppId": "291040482030117",
+    "facebookDisplayName": "Rec Room"
   }
 }

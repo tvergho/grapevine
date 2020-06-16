@@ -17,7 +17,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { TextInput } from 'react-native-gesture-handler';
 import { Hub } from 'aws-amplify';
 import {
-  authUser, resetCodeError, confirmUser, signUpUser,
+  signInUser, resetCodeError, confirmUser, signUpUser, displayError, getUser, getFBUser, setPassword, testIfUserExists,
 } from '../actions';
 import AlertDialog from './alert';
 
@@ -78,6 +78,7 @@ class SignUpStep extends Component {
     this.state = {
       step: 0,
       password: '',
+      getFBUser: false,
     };
   }
 
@@ -86,10 +87,18 @@ class SignUpStep extends Component {
       switch (event) {
       case 'signIn': {
         console.log('sign in', data);
+        if (!this.state.getFBUser) {
+          this.props.testIfUserExists();
+          this.setState({ getFBUser: true });
+        }
+        break;
+      }
+      case 'signIn_failure': {
+        if (data.message === 'An account with the given email already exists.') this.props.getUser();
         break;
       }
       default:
-        console.log(data);
+        console.log(event, data);
         break;
       }
     });
@@ -105,14 +114,7 @@ class SignUpStep extends Component {
 
   buyButtonPress = () => {
     const { user } = this.props;
-
-    /*
-    if (user.fbToken.length > 0) {
-      SecureStore.setItemAsync('fbtoken', user.fbToken);
-    }
-    */
-
-    this.props.authUser(user.email, user.password);
+    this.props.signInUser(user.email, user.password);
   }
 
   buttons = () => {
@@ -153,7 +155,7 @@ class SignUpStep extends Component {
   }
 
   fbNext = () => {
-    this.props.signUpUser({ ...this.props.user, password: this.state.password }, this.props.navigation);
+    this.props.setPassword(this.state.password);
     this.navigate();
   }
 
@@ -348,5 +350,5 @@ const mapStateToProps = (reduxState) => (
 );
 
 export default connect(mapStateToProps, {
-  authUser, resetCodeError, confirmUser, signUpUser,
+  signInUser, resetCodeError, confirmUser, signUpUser, displayError, getUser, getFBUser, setPassword, testIfUserExists,
 })(SignUpStep);

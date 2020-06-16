@@ -62,5 +62,5 @@
     },
     "permissions": [],
     "dependsOn": [],
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"exp://127.0.0.1:19000/--/\",\"exp://192.168.7.86:19000/\",\"exp://exp.host/@tvergho/rec-room/\",\"recroom://\"],\"LogoutURLs\":[\"exp://127.0.0.1:19000/--/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"exp://127.0.0.1:19000/--/\",\"exp://192.168.7.86:19000/--/\",\"exp://exp.host/@tvergho/rec-room/\",\"recroom://\",\"https://auth.expo.io/tvergho/rec-room/\"],\"LogoutURLs\":[\"exp://127.0.0.1:19000/--/\",\"exp://192.168.7.86:19000/--/\",\"https://auth.expo.io/tvergho/rec-room/\"]}"
 }

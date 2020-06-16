@@ -8,7 +8,9 @@ import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import * as Facebook from 'expo-facebook';
-import { signUpUser, displayError, signUpWithFacebook } from '../actions';
+import {
+  signUpUser, displayError, signUpWithFacebook, signUpWithFacebookOld,
+} from '../actions';
 import AlertDialog from './alert';
 
 const window = Dimensions.get('window');
@@ -37,17 +39,19 @@ class SignUp extends Component {
   }
 
   signInWithFacebook = async () => {
-    await Facebook.initializeAsync();
+    // this.props.signUpWithFacebook(this.props.navigation);
+
+    await Facebook.initializeAsync('291040482030117', 'Rec Room');
 
     Facebook.logInWithReadPermissionsAsync({
-      permissions: ['public_profile', 'email'],
+      permissions: ['public_profile', 'email', 'user_friends'],
     })
       .then((response) => {
+        console.log(response);
         const { type, token, expires } = response;
 
         if (type === 'success') {
-          this.props.signUpWithFacebook(token, this.props.navigation, expires);
-          this.props.navigation.navigate('SignUpStep', { fb: true });
+          this.props.signUpWithFacebookOld(token, this.props.navigation, expires);
         } else {
           this.props.displayError('There was an error while logging in.');
         }
@@ -281,4 +285,6 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, { signUpUser, displayError, signUpWithFacebook })(SignUp);
+export default connect(mapStateToProps, {
+  signUpUser, displayError, signUpWithFacebook, signUpWithFacebookOld,
+})(SignUp);

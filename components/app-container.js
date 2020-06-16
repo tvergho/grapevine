@@ -11,9 +11,9 @@ import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import * as SecureStore from 'expo-secure-store';
+// import * as SecureStore from 'expo-secure-store';
 import {
-  setFontsLoaded, setAppLoaded, tryFacebookSignInOnStart, signInOnStart,
+  setFontsLoaded, setAppLoaded, signInOnStart, signOut,
 } from '../actions';
 import SignUp from './sign-up';
 import SignUpStep from './sign-up-step';
@@ -75,7 +75,7 @@ class AppContainer extends Component {
   }
 
   componentDidMount() {
-    SecureStore.deleteItemAsync('fbtoken');
+    signOut();
 
     // Loads all the custom fonts needed for the app upon startup.
     // Notifies the other views via the Redux state if the fonts were not loaded.
@@ -169,5 +169,5 @@ const mapStateToProps = (reduxState) => (
 );
 
 export default connect(mapStateToProps, {
-  setFontsLoaded, setAppLoaded, tryFacebookSignInOnStart, signInOnStart,
+  setFontsLoaded, setAppLoaded, signInOnStart,
 })(AppContainer);
