@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "rec-room",
+    "name": "Rec Room",
     "slug": "rec-room",
     "scheme": "recroom",
     "platforms": [
@@ -23,6 +23,8 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.recroom",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "packagerOpts": {
