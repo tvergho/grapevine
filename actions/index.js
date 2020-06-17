@@ -115,11 +115,13 @@ export function signUpUserAuth0(user, navigation) {
             username: email,
             password,
             realm: 'Username-Password-Authentication',
+            scope: 'openid profile email offline_access',
           })
           .then((credentials) => {
             console.log('cred', credentials);
             SecureStore.setItemAsync('idToken', credentials.idToken);
             SecureStore.setItemAsync('accessToken', credentials.accessToken);
+            SecureStore.setItemAsync('refreshToken', credentials.refreshToken);
           })
           .catch((error) => {
             console.log(error.json);
@@ -150,10 +152,13 @@ export function logInUserAuth0(user, navigation) {
         username: email,
         password,
         realm: 'Username-Password-Authentication',
+        scope: 'openid profile email offline_access',
       })
       .then((credentials) => {
+        console.log('cred', credentials);
         SecureStore.setItemAsync('idToken', credentials.idToken);
         SecureStore.setItemAsync('accessToken', credentials.accessToken);
+        SecureStore.setItemAsync('refreshToken', credentials.refreshToken);
 
         auth0.auth.userInfo({ token: credentials.accessToken }).then((data) => {
           SecureStore.setItemAsync('id', data.sub);
@@ -249,26 +254,50 @@ export function completeSignUpAuth0() {
 
 export function tryAuth0OnStart() {
   return (dispatch) => {
-    SecureStore.getItemAsync('managementToken').then((token) => {
-      SecureStore.getItemAsync('id').then((id) => {
-        if (token && token.length > 0 && id && id.length > 0) {
+    SecureStore.getItemAsync('accessToken').then((accessToken) => {
+      auth0.auth.userInfo({ token: accessToken }).then((userInfo) => {
+        SecureStore.getItemAsync('managementToken').then((token) => {
+          SecureStore.getItemAsync('id').then((id) => {
+            if (token && token.length > 0 && id && id.length > 0) {
+              const options = {
+                method: 'GET',
+                headers: { authorization: `Bearer ${token}` },
+              };
+              fetch(`https://dev-recroom.us.auth0.com/api/v2/users/${id}`, options)
+                .then((response) => response.json())
+                .then((json) => {
+                  console.log(json);
+                  dispatch({ type: ActionTypes.USER_SIGN_IN, payload: json });
+                  dispatch({ type: ActionTypes.AUTH_USER });
+                })
+                .catch((error) => { console.log(error); })
+                .finally(() => {
+                  setTimeout(() => { dispatch({ type: ActionTypes.APP_LOADED }); }, 500);
+                });
+            }
+            dispatch({ type: ActionTypes.APP_LOADED });
+          }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
+        }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
+
+        SecureStore.getItemAsync('refreshToken').then((refreshToken) => {
           const options = {
-            method: 'GET',
-            headers: { authorization: `Bearer ${token}` },
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              grant_type: 'refresh_token',
+              client_id: 'UMh55ELLqvogWbyKGrcivBO6TpFm0PEI',
+              refresh_token: refreshToken,
+            }),
           };
-          fetch(`https://dev-recroom.us.auth0.com/api/v2/users/${id}`, options)
+
+          fetch('https://dev-recroom.us.auth0.com/oauth/token', options)
             .then((response) => response.json())
             .then((json) => {
               console.log(json);
-              dispatch({ type: ActionTypes.USER_SIGN_IN, payload: json });
-              dispatch({ type: ActionTypes.AUTH_USER });
+              SecureStore.setItemAsync('accessToken', json.access_token);
             })
-            .catch((error) => { console.log(error); })
-            .finally(() => {
-              setTimeout(() => { dispatch({ type: ActionTypes.APP_LOADED }); }, 500);
-            });
-        }
-        dispatch({ type: ActionTypes.APP_LOADED });
+            .finally(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
+        });
       }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
     }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
   };
@@ -279,11 +308,12 @@ export function signUpWithFacebookAuth0(navigation) {
     dispatch({ type: ActionTypes.LOADING });
     auth0
       .webAuth
-      .authorize({ scope: 'openid profile email', connection: 'facebook' })
+      .authorize({ scope: 'openid profile email offline_access', connection: 'facebook' })
       .then((credentials) => {
         console.log('cred', credentials);
         SecureStore.setItemAsync('idToken', credentials.idToken);
         SecureStore.setItemAsync('accessToken', credentials.accessToken);
+        SecureStore.setItemAsync('refreshToken', credentials.refreshToken);
 
         auth0.auth.userInfo({ token: credentials.accessToken }).then((data) => {
           SecureStore.setItemAsync('id', data.sub);
@@ -324,6 +354,7 @@ export function signOut() {
     SecureStore.deleteItemAsync('id');
     SecureStore.deleteItemAsync('accessToken');
     SecureStore.deleteItemAsync('idToken');
+    SecureStore.deleteItemAsync('refreshToken');
     dispatch({ type: ActionTypes.DEAUTH_USER });
     dispatch({ type: ActionTypes.APP_LOADED });
   };

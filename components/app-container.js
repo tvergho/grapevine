@@ -12,6 +12,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 // import * as SecureStore from 'expo-secure-store';
+import * as SplashScreen from 'expo-splash-screen';
 import {
   setFontsLoaded, setAppLoaded, signOut, getManagementToken, tryAuth0OnStart,
 } from '../actions';
@@ -104,6 +105,16 @@ class AppContainer extends Component {
           });
           */
       });
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log(this.props);
+
+    if (this.props !== prevProps) {
+      if (this.props.appLoaded) {
+        SplashScreen.hideAsync();
+      }
+    }
   }
 
   loading = () => {
