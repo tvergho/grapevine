@@ -13,7 +13,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 // import * as SecureStore from 'expo-secure-store';
 import {
-  setFontsLoaded, setAppLoaded, signInOnStart, signOut,
+  setFontsLoaded, setAppLoaded, signOut, getManagementToken, tryAuth0OnStart,
 } from '../actions';
 import SignUp from './sign-up';
 import SignUpStep from './sign-up-step';
@@ -21,6 +21,7 @@ import FeedScreen from './feed-screen';
 import HomeScreen from './home-screen';
 import ProfileScreen from './profile-screen';
 import Business from './business';
+import SignIn from './sign-in';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -75,7 +76,7 @@ class AppContainer extends Component {
   }
 
   componentDidMount() {
-    signOut();
+    getManagementToken();
 
     // Loads all the custom fonts needed for the app upon startup.
     // Notifies the other views via the Redux state if the fonts were not loaded.
@@ -91,7 +92,7 @@ class AppContainer extends Component {
         console.log(error.message);
       })
       .finally(() => {
-        this.props.signInOnStart();
+        this.props.tryAuth0OnStart();
         /*
         SecureStore.getItemAsync('fbtoken') // Checks whether the user has previously logged in via Facebook.
           .then((token) => {
@@ -128,6 +129,14 @@ class AppContainer extends Component {
                     component={SignUp}
                     options={{
                       title: 'SignUp',
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="SignIn"
+                    component={SignIn}
+                    options={{
+                      title: 'SignIn',
                       headerShown: false,
                     }}
                   />
@@ -169,5 +178,5 @@ const mapStateToProps = (reduxState) => (
 );
 
 export default connect(mapStateToProps, {
-  setFontsLoaded, setAppLoaded, signInOnStart,
+  setFontsLoaded, setAppLoaded, tryAuth0OnStart, signOut,
 })(AppContainer);

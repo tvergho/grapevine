@@ -17,26 +17,16 @@ const UserReducer = (state = initialState, action) => {
   switch (action.type) {
   case ActionTypes.SIGN_UP_USER:
     return { ...state, ...action.payload };
-  case ActionTypes.FB_SIGN_IN: {
-    const newUser = { ...state };
-    const json = action.payload;
-
-    newUser.firstName = json.first_name;
-    newUser.lastName = json.last_name;
-    newUser.email = json.email;
-    newUser.profilePic = json.imageURL;
-    newUser.fbID = json.id;
-    newUser.fbToken = json.token;
-
-    return newUser;
-  }
   case ActionTypes.USER_SIGN_IN: {
+    console.log('action', action.payload);
     const newUser = { ...state };
     const attributes = action.payload;
 
-    newUser.firstName = attributes['custom:first_name'];
-    newUser.profilePic = attributes['custom:profile_pic'];
-    newUser.email = attributes.email;
+    newUser.profilePic = attributes.picture_large ? attributes.picture_large : attributes.picture;
+    newUser.firstName = attributes.user_metadata ? attributes.user_metadata.firstName : '';
+    if (attributes.given_name) {
+      newUser.firstName = attributes.given_name;
+    }
 
     return newUser;
   }

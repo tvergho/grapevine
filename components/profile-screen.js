@@ -7,11 +7,12 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHandshake, faMoneyCheck, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faHandshake, faMoneyCheck, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import NumberFormat from 'react-number-format';
+import { signOut } from '../actions';
 
 const window = Dimensions.get('window');
 const small = window.width <= 350;
@@ -61,6 +62,10 @@ class ProfileScreen extends Component {
     );
   }
 
+  signOut = () => {
+    this.props.signOut();
+  }
+
   listSection = () => {
     return (
       <View style={{ backgroundColor: '#000000' }}>
@@ -79,9 +84,9 @@ class ProfileScreen extends Component {
           <Text styles={styles.listText}>Payment</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.listButton} activeOpacity={0.9}>
-          <FontAwesomeIcon icon={faQuestionCircle} size={25} color="rgba(0,0,0,0.7)" style={{ marginRight: 20 }} />
-          <Text styles={styles.listText}>Help</Text>
+        <TouchableOpacity style={styles.listButton} activeOpacity={0.9} onPress={this.signOut}>
+          <FontAwesomeIcon icon={faSignOutAlt} size={25} color="rgba(0,0,0,0.7)" style={{ marginRight: 20 }} />
+          <Text styles={styles.listText}>Sign Out</Text>
         </TouchableOpacity>
       </View>
     );
@@ -249,4 +254,4 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, null)(ProfileScreen);
+export default connect(mapStateToProps, { signOut })(ProfileScreen);

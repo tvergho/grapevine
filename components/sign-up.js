@@ -7,9 +7,8 @@ import {
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import * as Facebook from 'expo-facebook';
 import {
-  signUpUser, displayError, signUpWithFacebook, signUpWithFacebookOld,
+  displayError, signUpUserAuth0, signUpWithFacebookAuth0,
 } from '../actions';
 import AlertDialog from './alert';
 
@@ -39,26 +38,8 @@ class SignUp extends Component {
   }
 
   signInWithFacebook = async () => {
-    // this.props.signUpWithFacebook(this.props.navigation);
-
-    await Facebook.initializeAsync('291040482030117', 'Rec Room');
-
-    Facebook.logInWithReadPermissionsAsync({
-      permissions: ['public_profile', 'email', 'user_friends'],
-    })
-      .then((response) => {
-        console.log(response);
-        const { type, token, expires } = response;
-
-        if (type === 'success') {
-          this.props.signUpWithFacebookOld(token, this.props.navigation, expires);
-        } else {
-          this.props.displayError('There was an error while logging in.');
-        }
-      })
-      .catch((error) => {
-        this.props.displayError(error.message);
-      });
+    this.props.signUpWithFacebookAuth0(this.props.navigation);
+    this.props.navigation.navigate('SignUpStep', { step: 1 });
   }
 
   onChange = (text, id) => {
@@ -111,7 +92,7 @@ class SignUp extends Component {
     return (
       <View style={styles.signedUpContainer}>
         <Text style={this.props.isFontLoaded ? { color: '#FFFFFF', fontFamily: 'Hiragino W4' } : { color: '#FFFFFF', fontFamily: 'System' }}>Already signed up?</Text>
-        <Button type="clear" title="Log in" titleStyle={this.props.isFontLoaded ? [styles.signedUpButton, styles.styled] : [styles.signedUpButton, styles.unstyled]} />
+        <Button type="clear" title="Log in" titleStyle={this.props.isFontLoaded ? [styles.signedUpButton, styles.styled] : [styles.signedUpButton, styles.unstyled]} onPress={() => { this.props.navigation.navigate('SignIn'); }} />
       </View>
     );
   }
@@ -146,7 +127,7 @@ class SignUp extends Component {
   signUp = () => {
     if (!this.validateInput()) {
       this.props.navigation.navigate('SignUpStep');
-      this.props.signUpUser(this.state.user, this.props.navigation);
+      this.props.signUpUserAuth0(this.state.user, this.props.navigation);
     }
   }
 
@@ -286,5 +267,5 @@ const mapStateToProps = (reduxState) => (
 );
 
 export default connect(mapStateToProps, {
-  signUpUser, displayError, signUpWithFacebook, signUpWithFacebookOld,
+  displayError, signUpUserAuth0, signUpWithFacebookAuth0,
 })(SignUp);

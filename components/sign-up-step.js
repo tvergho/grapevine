@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-useless-constructor */
@@ -15,9 +16,8 @@ import {
 } from 'react-native-confirmation-code-field';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { TextInput } from 'react-native-gesture-handler';
-import { Hub } from 'aws-amplify';
 import {
-  signInUser, resetCodeError, confirmUser, signUpUser, displayError, getUser, getFBUser, setPassword, testIfUserExists,
+  resetCodeError, displayError, checkIfEmailVerified, completeSignUpAuth0,
 } from '../actions';
 import AlertDialog from './alert';
 
@@ -78,33 +78,28 @@ class SignUpStep extends Component {
     this.state = {
       step: 0,
       password: '',
-      getFBUser: false,
     };
   }
 
   componentDidMount() {
-    Hub.listen('auth', async ({ payload: { event, data } }) => {
-      switch (event) {
-      case 'signIn': {
-        console.log('sign in', data);
-        if (!this.state.getFBUser) {
-          this.props.testIfUserExists();
-          this.setState({ getFBUser: true });
-        }
-        break;
-      }
-      case 'signIn_failure': {
-        if (data.message === 'An account with the given email already exists.') this.props.getUser();
-        break;
-      }
-      default:
-        console.log(event, data);
-        break;
-      }
-    });
+    if (this.props.route.params && this.props.route.params.step) {
+      this.setState({ step: this.props.route.params.step });
+    }
+
+    if (this.state.step === 0 && (!this.props.route.params || !this.props.route.params.step || this.props.route.params.step === 0)) {
+      this.interval = setInterval(() => {
+        checkIfEmailVerified(this.navigate);
+      }, 500);
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   navigate = () => {
+    clearInterval(this.interval);
+
     this.setState((prevState) => {
       return {
         step: prevState.step + 1,
@@ -113,8 +108,7 @@ class SignUpStep extends Component {
   }
 
   buyButtonPress = () => {
-    const { user } = this.props;
-    this.props.signInUser(user.email, user.password);
+    this.props.completeSignUpAuth0();
   }
 
   buttons = () => {
@@ -145,7 +139,6 @@ class SignUpStep extends Component {
       <View style={styles.background}>
         <Text style={this.props.isFontLoaded ? [styles.header1, styles.styled] : [styles.header1, styles.unstyled]}>Great! Are you a</Text>
         {this.buttons()}
-        <AlertDialog />
       </View>
     );
   }
@@ -162,40 +155,11 @@ class SignUpStep extends Component {
   confirmationStep = () => {
     const { email } = this.props.user;
 
-    if (!this.props.route.params || !this.props.route.params.fb) {
-      return (
-        <View style={styles.background}>
-          <Text style={styles.confirmationText}>{`Enter the confirmation code sent to: ${this.props.user.email}`}</Text>
-          <Text style={{
-            color: 'red', fontSize: 14, position: 'absolute', top: small ? 170 : 130, fontFamily: 'Hiragino W4', opacity: this.props.codeError ? 1 : 0,
-          }}
-          >
-            Invalid code
-          </Text>
-          <ConfirmationCode username={this.props.user.username} onFulfill={this.navigate} resetError={this.props.resetCodeError} confirm={this.props.confirmUser} />
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.background}>
-          <Text style={styles.confirmationText}>Finish setting up your account</Text>
-
-          <View style={{ flex: -1, flexDirection: 'column', height: hp('40%') }}>
-            <Text style={{
-              color: 'white', fontSize: 16, fontFamily: 'Hiragino W5', alignSelf: 'flex-start',
-            }}
-            >
-              {`Email: ${email}`}
-            </Text>
-            <TextInput style={styles.passwordInput} value={this.state.password} secureTextEntry onChangeText={this.updatePassword} placeholder="Enter a password" placeholderTextColor="#ffffff" />
-
-            <TouchableOpacity style={[styles.button, styles.signUpButton]} onPress={this.fbNext}>
-              <Text style={styles.signUpButtonText}>Next</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    }
+    return (
+      <View style={styles.background}>
+        <Text style={styles.confirmationText}>{`Click on the link sent to ${email} to confirm your email.`}</Text>
+      </View>
+    );
   }
 
   renderStep = () => {
@@ -211,13 +175,18 @@ class SignUpStep extends Component {
 
   render() {
     return (
-      this.props.loading ? (
-        <View style={styles.background}>
-          <MaterialIndicator color="white" size={100} />
-        </View>
-      ) : (
-        this.renderStep()
-      )
+      <>
+        {
+          this.props.loading ? (
+            <View style={styles.background}>
+              <MaterialIndicator color="white" size={100} />
+            </View>
+          ) : (
+            this.renderStep()
+          )
+        }
+        <AlertDialog />
+      </>
     );
   }
 }
@@ -350,5 +319,5 @@ const mapStateToProps = (reduxState) => (
 );
 
 export default connect(mapStateToProps, {
-  signInUser, resetCodeError, confirmUser, signUpUser, displayError, getUser, getFBUser, setPassword, testIfUserExists,
+  resetCodeError, displayError, completeSignUpAuth0,
 })(SignUpStep);

@@ -45,6 +45,10 @@
     },
     "facebookScheme": "fb291040482030117",
     "facebookAppId": "291040482030117",
-    "facebookDisplayName": "Rec Room"
+    "facebookDisplayName": "Rec Room",
+    "android": {
+      "package": "com.recroom"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }

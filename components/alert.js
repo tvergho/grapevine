@@ -16,7 +16,7 @@ class AlertDialog extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.message !== prevProps.message) {
-      if (this.props.message && this.props.message.length > 0 && this.state.message !== this.props.message) {
+      if (this.props.message && this.props.message !== undefined && this.props.message.length > 0 && this.state.message !== this.props.message) {
         this.setState({ message: this.props.message }, () => { this.createDialog(); });
       } else if (this.props.message.length === 0) {
         this.setState({ message: '' });
