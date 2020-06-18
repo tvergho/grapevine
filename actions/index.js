@@ -342,7 +342,7 @@ export function signUpWithFacebookAuth0(navigation) {
         console.log(error.json);
         navigation.goBack();
         dispatch({ type: ActionTypes.RESET_LOADING });
-        dispatch({ type: ActionTypes.ERROR, payload: error.json.error_description });
+        dispatch({ type: ActionTypes.ERROR, payload: error });
       });
   };
 }

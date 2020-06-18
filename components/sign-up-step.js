@@ -89,7 +89,7 @@ class SignUpStep extends Component {
     if (this.state.step === 0 && (!this.props.route.params || !this.props.route.params.step || this.props.route.params.step === 0)) {
       this.interval = setInterval(() => {
         checkIfEmailVerified(this.navigate);
-      }, 500);
+      }, 200);
     }
   }
 

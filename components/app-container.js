@@ -94,16 +94,6 @@ class AppContainer extends Component {
       })
       .finally(() => {
         this.props.tryAuth0OnStart();
-        /*
-        SecureStore.getItemAsync('fbtoken') // Checks whether the user has previously logged in via Facebook.
-          .then((token) => {
-            if (token) this.props.tryFacebookSignInOnStart(token); // Attempt to authenticate the user via Facebook.
-            else this.props.setAppLoaded(); // Close the splash screen if a token isn't found.
-          })
-          .catch(() => {
-            this.props.setAppLoaded();
-          });
-          */
       });
   }
 
@@ -112,7 +102,7 @@ class AppContainer extends Component {
 
     if (this.props !== prevProps) {
       if (this.props.appLoaded) {
-        SplashScreen.hideAsync();
+        setTimeout(() => { SplashScreen.hideAsync(); }, 200);
       }
     }
   }

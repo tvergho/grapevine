@@ -7,7 +7,7 @@ import {
 import { Button } from 'react-native-elements';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
-import { logInUserAuth0 } from '../actions';
+import { logInUserAuth0, signUpWithFacebookAuth0 } from '../actions';
 import AlertDialog from './alert';
 
 const window = Dimensions.get('window');
@@ -95,6 +95,11 @@ class SignIn extends Component {
     }
   }
 
+  signInWithFacebook = async () => {
+    this.props.signUpWithFacebookAuth0(this.props.navigation);
+    this.props.navigation.navigate('SignUpStep', { step: 1 });
+  }
+
   render() {
     return (
       <KeyboardAvoidingView style={styles.background} behavior="position">
@@ -120,7 +125,7 @@ class SignIn extends Component {
   }
 }
 
-export default connect(null, { logInUserAuth0 })(SignIn);
+export default connect(null, { logInUserAuth0, signUpWithFacebookAuth0 })(SignIn);
 
 const styles = StyleSheet.create({
   background: {
