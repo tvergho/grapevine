@@ -54,7 +54,7 @@ export const BUSINESSES = {
           name: 'Luke',
           color: '#E2F0CB',
         },
-        message: 'Dope sandwiches - hella good shit.',
+        message: 'Dope sandwiches - hella good.',
       },
     ],
   },
@@ -122,7 +122,7 @@ export const RECOMMENDATIONS = [
       color: '#E2F0CB',
     },
     commission: '3% back',
-    message: 'Dope sandwiches - hella good shit.',
+    message: 'Dope sandwiches - hella good.',
     likes: 2,
     timestamp: 1591653600000,
     personal: false,
@@ -143,5 +143,82 @@ export const RECOMMENDATIONS = [
     likes: 7,
     timestamp: 1591394400000,
     personal: false,
+  },
+];
+
+export const TRANSACTIONS = [
+  {
+    id: 0,
+    type: 'earning',
+    user: {
+      name: 'Tyler',
+      color: '#C7CEEA',
+    },
+    business: 'Chaat Cafe',
+    amount: 2.34,
+  },
+  {
+    id: 1,
+    type: 'earning',
+    user: {
+      name: 'Luke',
+      color: '#E2F0CB',
+    },
+    business: 'Ike\'s',
+    amount: 3.50,
+  },
+  {
+    id: 2,
+    type: 'saving',
+    business: 'Kumon',
+    amount: 1.20,
+  },
+  {
+    id: 3,
+    type: 'earning',
+    user: {
+      name: 'Abhi',
+      color: '#FFDAC1',
+    },
+    business: 'Starbucks',
+    amount: 4.01,
+  },
+  {
+    id: 4,
+    type: 'saving',
+    business: 'Pekoe',
+    amount: 5.20,
+  },
+  {
+    id: 5,
+    type: 'earning',
+    user: {
+      name: 'Rishi',
+      color: '#B5EAD7',
+    },
+    business: 'Old Navy',
+    amount: 0.45,
+  },
+  {
+    id: 6,
+    type: 'saving',
+    business: 'Barnes & Noble',
+    amount: 3.00,
+  },
+  {
+    id: 7,
+    type: 'saving',
+    business: 'Sharetea',
+    amount: 2.30,
+  },
+  {
+    id: 8,
+    type: 'earning',
+    user: {
+      name: 'Tyler',
+      color: '#C7CEEA',
+    },
+    business: 'Panda Express',
+    amount: 1.03,
   },
 ];

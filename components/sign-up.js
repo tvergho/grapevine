@@ -112,13 +112,16 @@ class SignUp extends Component {
       newErrors.email = true;
       isError = true;
     }
-    if (this.state.user.password.trim().length <= 0) {
+    if (this.state.user.password.trim().length <= 0 || this.state.user.password.length < 8) {
       newErrors.password = true;
       isError = true;
     }
     if (this.state.user.phone.trim().length <= 0) {
       newErrors.phone = true;
       isError = true;
+    }
+    if (this.state.user.password.length < 8) {
+      this.props.displayError('Password must be at least 8 characters.');
     }
     this.setState(() => { return ({ errors: newErrors }); });
     return isError;
@@ -149,7 +152,6 @@ class SignUp extends Component {
         </TouchableOpacity>
 
         {this.alreadySignedUp()}
-
         <AlertDialog />
       </KeyboardAvoidingView>
     );

@@ -27,7 +27,7 @@ const UserReducer = (state = initialState, action) => {
     if (attributes.given_name) {
       newUser.firstName = attributes.given_name;
     }
-    if (attributes.identities && attributes.identities[1].profileData && attributes.identities[1].profileData.picture_large) {
+    if (attributes.identities && attributes.identities[1] && attributes.identities[1].profileData && attributes.identities[1].profileData.picture_large) {
       console.log(attributes.identities[1].profileData.picture_large);
       newUser.profilePic = attributes.identities[1].profileData.picture_large;
     }

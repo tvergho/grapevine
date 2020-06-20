@@ -8,8 +8,11 @@ import { Button } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPencilAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
+import NumberFormat from 'react-number-format';
+import { connect } from 'react-redux';
 import * as Data from '../data';
 import RecCard from './rec-card';
+import EarningsItem from './earnings-item';
 
 class FeedScreen extends Component {
   constructor(props) {
@@ -70,7 +73,7 @@ class FeedScreen extends Component {
 
   friendsFeed = () => {
     return (
-      <>
+      <View style={this.state.active === 'Friends' ? '' : { display: 'none' }}>
         <View style={{ flex: -1, flexDirection: 'row' }}>
           <FontAwesomeIcon icon={faSearch} size={20} color="rgba(0,0,0,0.7)" />
           <TextInput style={styles.searchBar} placeholder="Search businesses..." placeholderTextColor="#D8D8D8" value={this.state.search} onChangeText={this.onSearchChange} clearButtonMode="always" />
@@ -88,13 +91,63 @@ class FeedScreen extends Component {
             );
           })}
         </ScrollView>
-      </>
+      </View>
     );
   }
 
   youFeed = () => {
     return (
-      <View style={this.state.active === 'You' ? '' : { display: 'none' }} />
+      <View style={this.state.active === 'You' ? '' : { display: 'none' }}>
+        <View style={styles.savingsEarningsBar}>
+          <View style={styles.earningsBarHalf}>
+            <Text style={styles.earningsBarHeader}>Savings</Text>
+            <View style={[styles.earningsBarBubble, { backgroundColor: '#E2F0CB' }]}>
+              <NumberFormat
+                value={this.props.user.balance}
+                displayType="text"
+                thousandSeparator
+                prefix="$"
+                decimalScale={2}
+                fixedDecimalScale
+                renderText={(value) => <Text style={styles.earningsBarBalance}>{value}</Text>}
+              />
+            </View>
+          </View>
+
+          <View style={{
+            width: 1, minHeight: 50, maxHeight: 50, backgroundColor: 'rgba(0,0,0,0.2)', alignSelf: 'center',
+          }}
+          />
+
+          <View style={styles.earningsBarHalf}>
+            <Text style={styles.earningsBarHeader}>Earnings</Text>
+            <View style={[styles.earningsBarBubble, { backgroundColor: '#B5EAD7' }]}>
+              <NumberFormat
+                value={this.props.user.balance}
+                displayType="text"
+                thousandSeparator
+                prefix="$"
+                decimalScale={2}
+                fixedDecimalScale
+                renderText={(value) => <Text style={styles.earningsBarBalance}>{value}</Text>}
+              />
+            </View>
+          </View>
+        </View>
+
+        <ScrollView
+          decelerationRate="fast"
+          scrollEventThrottle={200}
+          showsVerticalScrollIndicator={false}
+          style={{ marginTop: 5 }}
+        >
+          {Data.TRANSACTIONS.map((transaction) => {
+            return (
+              <EarningsItem transaction={transaction} key={transaction.id} />
+            );
+          })}
+        </ScrollView>
+      </View>
     );
   }
 
@@ -166,6 +219,58 @@ const styles = StyleSheet.create({
     marginTop: -10,
     paddingLeft: 10,
   },
+  savingsEarningsBar: {
+    flex: -1,
+    flexDirection: 'row',
+    height: 80,
+    width: wp('100%'),
+    backgroundColor: 'white',
+    shadowColor: 'rgba(0,0,0, .4)',
+    shadowOffset: { height: 3, width: 0 },
+    shadowOpacity: 0.6,
+    shadowRadius: 1.5,
+    elevation: 2,
+    marginTop: -10,
+  },
+  earningsBarHalf: {
+    flex: -1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: wp('50%'),
+  },
+  earningsBarHeader: {
+    color: '#6D7278',
+    fontFamily: 'Hiragino W7',
+    fontSize: 14,
+  },
+  earningsBarBubble: {
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 7,
+    paddingBottom: 2,
+    shadowColor: 'rgba(0,0,0, .4)',
+    shadowOffset: { height: 2, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    elevation: 2,
+    borderRadius: 12,
+    minWidth: 70,
+    flex: -1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  earningsBarBalance: {
+    color: 'white',
+    fontFamily: 'Hiragino W7',
+    fontSize: 12,
+  },
 });
 
-export default FeedScreen;
+const mapStateToProps = (reduxState) => (
+  {
+    user: reduxState.user,
+  }
+);
+
+export default connect(mapStateToProps, null)(FeedScreen);

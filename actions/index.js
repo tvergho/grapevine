@@ -21,6 +21,13 @@ export const ActionTypes = {
 };
 
 // Lifecycle
+function getError(error) {
+  if (!error || error === undefined) return 'There was an error.';
+  else if (error.message) return error.message;
+  else if (error.json && error.json.error_description) return error.json.error_description;
+  else return error;
+}
+
 export function setFontsLoaded() {
   return {
     type: ActionTypes.FONTS_LOADED,
@@ -96,6 +103,7 @@ export function signUpUserAuth0(user, navigation) {
         metadata: {
           firstName,
           lastName,
+          name: `${firstName} ${lastName}`,
           phone,
         },
       })
@@ -126,7 +134,7 @@ export function signUpUserAuth0(user, navigation) {
           .catch((error) => {
             console.log(error.json);
             navigation.goBack();
-            dispatch({ type: ActionTypes.ERROR, payload: error.json.error_description });
+            dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
           })
           .finally(() => {
             dispatch({ type: ActionTypes.RESET_LOADING });
@@ -135,7 +143,7 @@ export function signUpUserAuth0(user, navigation) {
       .catch((error) => {
         console.log(error.json);
         navigation.goBack();
-        dispatch({ type: ActionTypes.ERROR, payload: error.json.error_description });
+        dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
         dispatch({ type: ActionTypes.RESET_LOADING });
       });
   };
@@ -177,7 +185,7 @@ export function logInUserAuth0(user, navigation) {
               }).catch((error) => {
                 console.log(error.json);
                 navigation.goBack();
-                dispatch({ type: ActionTypes.ERROR, payload: error.json.error_description });
+                dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
               });
           });
         });
@@ -185,7 +193,7 @@ export function logInUserAuth0(user, navigation) {
       .catch((error) => {
         console.log(error.json);
         navigation.goBack();
-        dispatch({ type: ActionTypes.ERROR, payload: error.json.error_description });
+        dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
       });
   };
 }
@@ -216,16 +224,6 @@ export function completeSignUpAuth0() {
           fetch(`https://dev-recroom.us.auth0.com/api/v2/users/${id}`, options)
             .then((response) => response.json())
             .then((json) => {
-              const userMetadata = json.given_name ? {
-                buyer: true,
-                firstName: json.given_name,
-                lastName: json.family_name,
-              } : {
-                buyer: true,
-              };
-
-              console.log(userMetadata);
-
               const patchOptions = {
                 method: 'PATCH',
                 headers: {
@@ -233,7 +231,9 @@ export function completeSignUpAuth0() {
                   authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                  user_metadata: userMetadata,
+                  user_metadata: {
+                    buyer: true,
+                  },
                 }),
               };
               fetch(`https://dev-recroom.us.auth0.com/api/v2/users/${id}`, patchOptions)
@@ -342,7 +342,7 @@ export function signUpWithFacebookAuth0(navigation) {
         console.log(error.json);
         navigation.goBack();
         dispatch({ type: ActionTypes.RESET_LOADING });
-        dispatch({ type: ActionTypes.ERROR, payload: error });
+        dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
       });
   };
 }

@@ -8,7 +8,7 @@ import { Button } from 'react-native-elements';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
 import { logInUserAuth0, signUpWithFacebookAuth0 } from '../actions';
-import AlertDialog from './alert';
+// import AlertDialog from './alert';
 
 const window = Dimensions.get('window');
 const small = window.width <= 350;
@@ -119,7 +119,6 @@ class SignIn extends Component {
 
         <Button type="clear" title="Sign up instead" titleStyle={styles.signedUpButton} onPress={() => { this.props.navigation.goBack(); }} />
 
-        <AlertDialog />
       </KeyboardAvoidingView>
     );
   }
