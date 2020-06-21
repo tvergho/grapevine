@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import NumberFormat from 'react-number-format';
-import { signOut } from '../actions';
+import { signOut, refreshUserInfo } from '../actions';
 
 const window = Dimensions.get('window');
 const small = window.width <= 350;
@@ -20,6 +20,10 @@ const small = window.width <= 350;
 class ProfileScreen extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.props.refreshUserInfo();
   }
 
   topSection = () => {
@@ -66,6 +70,10 @@ class ProfileScreen extends Component {
     this.props.signOut();
   }
 
+  openFriends = () => {
+    this.props.navigation.navigate('Friends');
+  }
+
   listSection = () => {
     return (
       <View style={{ backgroundColor: '#000000' }}>
@@ -74,9 +82,9 @@ class ProfileScreen extends Component {
           <Text styles={styles.listText}>Your recommendations</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.listButton} activeOpacity={0.9}>
+        <TouchableOpacity style={styles.listButton} activeOpacity={0.9} onPress={this.openFriends}>
           <FontAwesomeIcon icon={faHandshake} size={25} color="rgba(0,0,0,0.7)" style={{ marginRight: 20 }} />
-          <Text styles={styles.listText}>Invite friends</Text>
+          <Text styles={styles.listText}>Friends</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.listButton} activeOpacity={0.9}>
@@ -254,4 +262,4 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, { signOut })(ProfileScreen);
+export default connect(mapStateToProps, { signOut, refreshUserInfo })(ProfileScreen);

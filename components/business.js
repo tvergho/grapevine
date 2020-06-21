@@ -202,7 +202,7 @@ class Business extends Component {
           <Button type="clear"
             title="Map it"
             titleStyle={{
-              color: '#93DAC0', fontSize: 12, fontFamily: 'Hiragino W5', paddingRight: 20,
+              color: '#93DAC0', fontSize: 12, fontFamily: 'Hiragino W5', paddingRight: 20, marginLeft: 10, paddingTop: 4,
             }}
             onPress={openAddress}
           />

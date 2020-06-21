@@ -14,7 +14,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 // import * as SecureStore from 'expo-secure-store';
 import * as SplashScreen from 'expo-splash-screen';
 import {
-  setFontsLoaded, setAppLoaded, signOut, getManagementToken, tryAuth0OnStart,
+  setFontsLoaded, setAppLoaded, signOut, tryAuth0OnStart,
 } from '../actions';
 import SignUp from './sign-up';
 import SignUpStep from './sign-up-step';
@@ -24,6 +24,7 @@ import ProfileScreen from './profile-screen';
 import Business from './business';
 import SignIn from './sign-in';
 import CreateRec from './create-recommendation';
+import FriendsScreen from './friends-screen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -37,7 +38,7 @@ const LogoHeader = () => {
 
 const FeedButtonNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Feed" mode="modal">
+    <Stack.Navigator initialRouteName="FeedScreen" mode="modal">
       <Stack.Screen name="FeedScreen" component={FeedScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CreateRec" component={CreateRec} options={{ headerShown: false }} />
     </Stack.Navigator>
@@ -62,6 +63,15 @@ const HomeNavigator = () => {
   );
 };
 
+const ProfileNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName="Profile" mode="modal">
+      <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Friends" component={FriendsScreen} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+
 const MainApp = () => {
   return (
     <Tab.Navigator initialRouteName="Home" tabBarOptions={{ activeTintColor: '#FFB7B2' }}>
@@ -74,7 +84,7 @@ const MainApp = () => {
         options={{ tabBarIcon: ({ color, size }) => (<Icon name="home" type="font-awesome" color={color} size={size} />) }}
       />
       <Tab.Screen name="Profile"
-        component={ProfileScreen}
+        component={ProfileNavigator}
         options={{ tabBarIcon: ({ color, size }) => (<Icon name="user" type="font-awesome" color={color} size={size} />) }}
       />
     </Tab.Navigator>
@@ -87,8 +97,6 @@ class AppContainer extends Component {
   }
 
   componentDidMount() {
-    getManagementToken();
-
     // Loads all the custom fonts needed for the app upon startup.
     // Notifies the other views via the Redux state if the fonts were not loaded.
     Font.loadAsync({

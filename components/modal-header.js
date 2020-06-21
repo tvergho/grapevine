@@ -12,7 +12,13 @@ const ModalHeader = ({ navigation, title }) => {
 
   return (
     <View style={styles.background}>
-      <TouchableOpacity onPress={goBack} activeOpacity={0.5} style={styles.backIcon}>
+      <TouchableOpacity onPress={goBack}
+        activeOpacity={0.5}
+        style={styles.backIcon}
+        hitSlop={{
+          top: 5, bottom: 5, left: 5, right: 5,
+        }}
+      >
         <Icon name="chevron-left" type="font-awesome" size={16} color="#FFB7B2" />
       </TouchableOpacity>
 

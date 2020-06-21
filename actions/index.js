@@ -69,7 +69,7 @@ export function resetLoading() {
 }
 
 // Auth0 flow
-export function getManagementToken() {
+/* export function getManagementToken() {
   const options = {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
@@ -85,6 +85,21 @@ export function getManagementToken() {
     .then((response) => response.json())
     .then((json) => { SecureStore.setItemAsync('managementToken', json.access_token); })
     .catch((error) => { console.log(error); });
+} */
+
+export function completeSignUpAuth0(token) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.LOADING });
+    console.log('complete');
+    console.log(token);
+
+    auth0.auth.userInfo({ token }).then((data) => {
+      console.log(data);
+      dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
+      dispatch({ type: ActionTypes.AUTH_USER });
+      dispatch({ type: ActionTypes.RESET_LOADING });
+    }).catch((error) => { console.log('complete', error); });
+  };
 }
 
 export function signUpUserAuth0(user, navigation) {
@@ -109,7 +124,6 @@ export function signUpUserAuth0(user, navigation) {
       })
       .then((result) => {
         SecureStore.setItemAsync('id', `auth0|${result.Id}`);
-        console.log('result', result);
 
         dispatch({
           type: ActionTypes.SIGN_UP_USER,
@@ -130,9 +144,9 @@ export function signUpUserAuth0(user, navigation) {
             SecureStore.setItemAsync('idToken', credentials.idToken);
             SecureStore.setItemAsync('accessToken', credentials.accessToken);
             SecureStore.setItemAsync('refreshToken', credentials.refreshToken);
+            dispatch(completeSignUpAuth0(credentials.accessToken));
           })
           .catch((error) => {
-            console.log(error.json);
             navigation.goBack();
             dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
           })
@@ -141,7 +155,6 @@ export function signUpUserAuth0(user, navigation) {
           });
       })
       .catch((error) => {
-        console.log(error.json);
         navigation.goBack();
         dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
         dispatch({ type: ActionTypes.RESET_LOADING });
@@ -170,25 +183,15 @@ export function logInUserAuth0(user, navigation) {
 
         auth0.auth.userInfo({ token: credentials.accessToken }).then((data) => {
           SecureStore.setItemAsync('id', data.sub);
-
-          SecureStore.getItemAsync('managementToken').then((token) => {
-            const options = {
-              method: 'GET',
-              headers: { authorization: `Bearer ${token}` },
-            };
-            fetch(`https://dev-recroom.us.auth0.com/api/v2/users/${data.sub}`, options)
-              .then((response) => response.json())
-              .then((json) => {
-                dispatch({ type: ActionTypes.USER_SIGN_IN, payload: json });
-                dispatch({ type: ActionTypes.AUTH_USER });
-                setTimeout(() => { dispatch({ type: ActionTypes.RESET_LOADING }); }, 500);
-              }).catch((error) => {
-                console.log(error.json);
-                navigation.goBack();
-                dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
-              });
+          dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
+          dispatch({ type: ActionTypes.AUTH_USER });
+          setTimeout(() => { dispatch({ type: ActionTypes.RESET_LOADING }); }, 500);
+        })
+          .catch((error) => {
+            console.log(error.json);
+            navigation.goBack();
+            dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
           });
-        });
       })
       .catch((error) => {
         console.log(error.json);
@@ -198,108 +201,62 @@ export function logInUserAuth0(user, navigation) {
   };
 }
 
+/*
 export function checkIfEmailVerified(callback) {
   SecureStore.getItemAsync('accessToken').then((token) => {
     if (token && token.length > 0) {
+      console.log(token);
       auth0.auth.userInfo({ token }).then((data) => {
-        console.log(data);
         if (data.emailVerified) {
           callback();
         }
-      }).catch((error) => { console.log(error.json); });
+      }).catch((error) => { console.log(error); });
     }
   });
-}
+} */
 
-export function completeSignUpAuth0() {
+export function tryAuth0OnStart() {
   return (dispatch) => {
-    dispatch({ type: ActionTypes.LOADING });
-    SecureStore.getItemAsync('managementToken').then((token) => {
-      SecureStore.getItemAsync('id').then((id) => {
-        if (token && token.length > 0) {
-          const options = {
-            method: 'GET',
-            headers: { authorization: `Bearer ${token}` },
-          };
-          fetch(`https://dev-recroom.us.auth0.com/api/v2/users/${id}`, options)
-            .then((response) => response.json())
-            .then((json) => {
-              const patchOptions = {
-                method: 'PATCH',
-                headers: {
-                  'content-type': 'application/json',
-                  authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                  user_metadata: {
-                    buyer: true,
-                  },
-                }),
-              };
-              fetch(`https://dev-recroom.us.auth0.com/api/v2/users/${id}`, patchOptions)
-                .then((response) => {
-                  console.log(response);
-                  dispatch({ type: ActionTypes.USER_SIGN_IN, payload: json });
-                  dispatch({ type: ActionTypes.AUTH_USER });
-                  dispatch({ type: ActionTypes.RESET_LOADING });
-                })
-                .catch((error) => { console.log(error); });
-            })
-            .catch((error) => { console.log(error); });
-        }
-      });
+    SecureStore.getItemAsync('accessToken').then((token) => {
+      auth0.auth.userInfo({ token }).then((data) => {
+        dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
+        dispatch({ type: ActionTypes.AUTH_USER });
+      })
+        .catch((error) => { console.log(error); })
+        .finally(() => {
+          setTimeout(() => { dispatch({ type: ActionTypes.APP_LOADED }); }, 500);
+        });
+    }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
+
+    SecureStore.getItemAsync('refreshToken').then((refreshToken) => {
+      const options = {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          grant_type: 'refresh_token',
+          client_id: 'UMh55ELLqvogWbyKGrcivBO6TpFm0PEI',
+          refresh_token: refreshToken,
+        }),
+      };
+
+      fetch('https://dev-recroom.us.auth0.com/oauth/token', options)
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json);
+          SecureStore.setItemAsync('accessToken', json.access_token);
+        });
     });
   };
 }
 
-export function tryAuth0OnStart() {
+export function refreshUserInfo() {
   return (dispatch) => {
-    SecureStore.getItemAsync('accessToken').then((accessToken) => {
-      auth0.auth.userInfo({ token: accessToken }).then((userInfo) => {
-        SecureStore.getItemAsync('managementToken').then((token) => {
-          SecureStore.getItemAsync('id').then((id) => {
-            if (token && token.length > 0 && id && id.length > 0) {
-              const options = {
-                method: 'GET',
-                headers: { authorization: `Bearer ${token}` },
-              };
-              fetch(`https://dev-recroom.us.auth0.com/api/v2/users/${id}`, options)
-                .then((response) => response.json())
-                .then((json) => {
-                  console.log(json);
-                  dispatch({ type: ActionTypes.USER_SIGN_IN, payload: json });
-                  dispatch({ type: ActionTypes.AUTH_USER });
-                })
-                .catch((error) => { console.log(error); })
-                .finally(() => {
-                  setTimeout(() => { dispatch({ type: ActionTypes.APP_LOADED }); }, 500);
-                });
-            } else {
-              dispatch({ type: ActionTypes.APP_LOADED });
-            }
-          }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
-        }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
-
-        SecureStore.getItemAsync('refreshToken').then((refreshToken) => {
-          const options = {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({
-              grant_type: 'refresh_token',
-              client_id: 'UMh55ELLqvogWbyKGrcivBO6TpFm0PEI',
-              refresh_token: refreshToken,
-            }),
-          };
-
-          fetch('https://dev-recroom.us.auth0.com/oauth/token', options)
-            .then((response) => response.json())
-            .then((json) => {
-              console.log(json);
-              SecureStore.setItemAsync('accessToken', json.access_token);
-            });
-        });
-      }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
-    }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
+    SecureStore.getItemAsync('accessToken').then((token) => {
+      auth0.auth.userInfo({ token }).then((data) => {
+        dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
+      })
+        .catch((error) => { console.log(error); });
+    });
   };
 }
 
@@ -317,25 +274,14 @@ export function signUpWithFacebookAuth0(navigation) {
 
         auth0.auth.userInfo({ token: credentials.accessToken }).then((data) => {
           SecureStore.setItemAsync('id', data.sub);
-          SecureStore.getItemAsync('managementToken').then((token) => {
-            const options = {
-              method: 'GET',
-              headers: { authorization: `Bearer ${token}` },
-            };
-
-            fetch(`https://dev-recroom.us.auth0.com/api/v2/users/${data.sub}`, options)
-              .then((response) => response.json())
-              .then((json) => {
-                console.log(json);
-                if (json.user_metadata && json.user_metadata.buyer) {
-                  console.log('json', json);
-                  dispatch({ type: ActionTypes.USER_SIGN_IN, payload: json });
-                  dispatch({ type: ActionTypes.AUTH_USER });
-                }
-                setTimeout(() => { dispatch({ type: ActionTypes.RESET_LOADING }); }, 500);
-              })
-              .catch((error) => { console.log(error); });
-          }).catch((error) => { console.log(error.json); });
+          dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
+          dispatch({ type: ActionTypes.AUTH_USER });
+          setTimeout(() => { dispatch({ type: ActionTypes.RESET_LOADING }); }, 500);
+        }).catch((error) => {
+          console.log(error.json);
+          navigation.goBack();
+          dispatch({ type: ActionTypes.RESET_LOADING });
+          dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
         });
       })
       .catch((error) => {

@@ -97,7 +97,7 @@ class SignIn extends Component {
 
   signInWithFacebook = async () => {
     this.props.signUpWithFacebookAuth0(this.props.navigation);
-    this.props.navigation.navigate('SignUpStep', { step: 1 });
+    this.props.navigation.navigate('SignUpStep');
   }
 
   render() {

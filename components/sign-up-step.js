@@ -2,22 +2,18 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-useless-constructor */
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  View, StyleSheet, Text, TouchableOpacity, Dimensions,
+  View, StyleSheet, Text, Dimensions,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { MaterialIndicator } from 'react-native-indicators';
 import {
   CodeField, Cursor, useClearByFocusCell, useBlurOnFulfill,
 } from 'react-native-confirmation-code-field';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { TextInput } from 'react-native-gesture-handler';
 import {
-  resetCodeError, displayError, checkIfEmailVerified, completeSignUpAuth0,
+  resetCodeError, displayError, completeSignUpAuth0,
 } from '../actions';
 import AlertDialog from './alert';
 
@@ -71,125 +67,17 @@ const ConfirmationCode = (props) => {
   );
 };
 
-class SignUpStep extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      step: 0,
-      password: '',
-    };
-  }
-
-  componentDidMount() {
-    if (this.props.route.params && this.props.route.params.step) {
-      this.setState({ step: this.props.route.params.step });
-    }
-
-    if (this.state.step === 0 && (!this.props.route.params || !this.props.route.params.step || this.props.route.params.step === 0)) {
-      this.interval = setInterval(() => {
-        checkIfEmailVerified(this.navigate);
-      }, 200);
-    }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
-  navigate = () => {
-    clearInterval(this.interval);
-
-    this.setState((prevState) => {
-      return {
-        step: prevState.step + 1,
-      };
-    });
-  }
-
-  buyButtonPress = () => {
-    this.props.completeSignUpAuth0();
-  }
-
-  buttons = () => {
-    return (
-      <View style={{
-        flex: -1, flexDirection: 'row',
-      }}
-      >
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.imageButton} onPress={this.buyButtonPress}>
-            <Icon name="shopping-cart" type="font-awesome" size={60} color="rgba(0,0,0,0.8)" style={{ paddingRight: 4 }} />
-          </TouchableOpacity>
-          <Text style={this.props.isFontLoaded ? [styles.header2, styles.buttonText, styles.styled] : [styles.header2, styles.buttonText, styles.unstyled]}>Buyer</Text>
-        </View>
-        <Text style={this.props.isFontLoaded ? [styles.header2, styles.orText, styles.styled] : [styles.header2, styles.orText, styles.unstyled]}>or</Text>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.imageButton}>
-            <FontAwesomeIcon icon={faUserTie} size={60} color="rgba(0,0,0,0.8)" />
-          </TouchableOpacity>
-          <Text style={this.props.isFontLoaded ? [styles.header2, styles.buttonText, styles.styled] : [styles.header2, styles.buttonText, styles.unstyled]}>Business</Text>
-        </View>
-      </View>
-    );
-  }
-
-  buyOrBiz = () => {
-    return (
+const SignUpStep = () => {
+  return (
+    <>
       <View style={styles.background}>
-        <Text style={this.props.isFontLoaded ? [styles.header1, styles.styled] : [styles.header1, styles.unstyled]}>Great! Are you a</Text>
-        {this.buttons()}
+        <MaterialIndicator color="white" size={100} />
       </View>
-    );
-  }
 
-  updatePassword = (password) => {
-    this.setState({ password });
-  }
-
-  fbNext = () => {
-    this.props.setPassword(this.state.password);
-    this.navigate();
-  }
-
-  confirmationStep = () => {
-    const { email } = this.props.user;
-
-    return (
-      <View style={styles.background}>
-        <Text style={styles.confirmationText}>{`Click on the link sent to ${email} to confirm your email.`}</Text>
-      </View>
-    );
-  }
-
-  renderStep = () => {
-    switch (this.state.step) {
-    case 0:
-      return this.confirmationStep();
-    case 1:
-      return this.buyOrBiz();
-    default:
-      return null;
-    }
-  }
-
-  render() {
-    return (
-      <>
-        {
-          this.props.loading ? (
-            <View style={styles.background}>
-              <MaterialIndicator color="white" size={100} />
-            </View>
-          ) : (
-            this.renderStep()
-          )
-        }
-        <AlertDialog />
-      </>
-    );
-  }
-}
+      <AlertDialog />
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   background: {

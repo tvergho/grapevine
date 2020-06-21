@@ -22,16 +22,15 @@ const UserReducer = (state = initialState, action) => {
     const newUser = { ...state };
     const attributes = action.payload;
 
-    newUser.profilePic = attributes.picture_large ? attributes.picture_large : attributes.picture;
-    newUser.firstName = attributes.user_metadata ? attributes.user_metadata.firstName : '';
-    if (attributes.given_name) {
-      newUser.firstName = attributes.given_name;
-    }
-    if (attributes.identities && attributes.identities[1] && attributes.identities[1].profileData && attributes.identities[1].profileData.picture_large) {
-      console.log(attributes.identities[1].profileData.picture_large);
-      newUser.profilePic = attributes.identities[1].profileData.picture_large;
+    newUser.profilePic = attributes.picture;
+    newUser.firstName = attributes.givenName;
+
+    if (attributes.picture.includes('gravatar.com')) { // Fixes bug where image isn't refreshed right away.
+      const imageURL = `https://ui-avatars.com/api/?name=${attributes.givenName}+${attributes.familyName}&size=300&bold=true&background=FFB7B2&color=FFFFFF`;
+      newUser.profilePic = imageURL;
     }
 
+    console.log('newuser', newUser);
     return newUser;
   }
   default:
