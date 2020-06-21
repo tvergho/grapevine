@@ -69,23 +69,6 @@ export function resetLoading() {
 }
 
 // Auth0 flow
-/* export function getManagementToken() {
-  const options = {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      grant_type: 'client_credentials',
-      client_id: 'yxKSxkJOTEDljuiWo4jJWMCxNz2P41Qp',
-      client_secret: 'Oit50WL5ZGwzJW3gYs-qPTp_kmb3b33p5lFOv3R62pLmbacbwZxRuVLnWJrfMEOE',
-      audience: 'https://dev-recroom.us.auth0.com/api/v2/',
-    }),
-  };
-
-  fetch('https://dev-recroom.us.auth0.com/oauth/token', options)
-    .then((response) => response.json())
-    .then((json) => { SecureStore.setItemAsync('managementToken', json.access_token); })
-    .catch((error) => { console.log(error); });
-} */
 
 export function completeSignUpAuth0(token) {
   return (dispatch) => {
@@ -201,26 +184,23 @@ export function logInUserAuth0(user, navigation) {
   };
 }
 
-/*
-export function checkIfEmailVerified(callback) {
-  SecureStore.getItemAsync('accessToken').then((token) => {
-    if (token && token.length > 0) {
-      console.log(token);
-      auth0.auth.userInfo({ token }).then((data) => {
-        if (data.emailVerified) {
-          callback();
-        }
-      }).catch((error) => { console.log(error); });
-    }
-  });
-} */
-
 export function tryAuth0OnStart() {
   return (dispatch) => {
     SecureStore.getItemAsync('accessToken').then((token) => {
       auth0.auth.userInfo({ token }).then((data) => {
         dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
         dispatch({ type: ActionTypes.AUTH_USER });
+
+        const fbOptions = {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${token}` },
+        };
+
+        fetch('https://y3i0zwdih5.execute-api.us-east-2.amazonaws.com/refresh', fbOptions)
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json);
+          });
       })
         .catch((error) => { console.log(error); })
         .finally(() => {
@@ -239,12 +219,7 @@ export function tryAuth0OnStart() {
         }),
       };
 
-      fetch('https://dev-recroom.us.auth0.com/oauth/token', options)
-        .then((response) => response.json())
-        .then((json) => {
-          console.log(json);
-          SecureStore.setItemAsync('accessToken', json.access_token);
-        });
+      fetch('https://dev-recroom.us.auth0.com/oauth/token', options);
     });
   };
 }
