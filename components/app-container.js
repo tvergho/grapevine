@@ -23,6 +23,7 @@ import HomeScreen from './home-screen';
 import ProfileScreen from './profile-screen';
 import Business from './business';
 import SignIn from './sign-in';
+import CreateRec from './create-recommendation';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,10 +35,19 @@ const LogoHeader = () => {
   );
 };
 
+const FeedButtonNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName="Feed" mode="modal">
+      <Stack.Screen name="FeedScreen" component={FeedScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="CreateRec" component={CreateRec} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+
 const FeedNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Feed">
-      <Stack.Screen name="Feed" component={FeedScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Feed" component={FeedButtonNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="Business" component={Business} options={{ headerShown: false }} />
     </Stack.Navigator>
   );

@@ -274,8 +274,9 @@ export function tryAuth0OnStart() {
                 .finally(() => {
                   setTimeout(() => { dispatch({ type: ActionTypes.APP_LOADED }); }, 500);
                 });
+            } else {
+              dispatch({ type: ActionTypes.APP_LOADED });
             }
-            dispatch({ type: ActionTypes.APP_LOADED });
           }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
         }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
 
@@ -295,8 +296,7 @@ export function tryAuth0OnStart() {
             .then((json) => {
               console.log(json);
               SecureStore.setItemAsync('accessToken', json.access_token);
-            })
-            .finally(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
+            });
         });
       }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
     }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });

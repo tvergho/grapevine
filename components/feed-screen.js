@@ -36,6 +36,10 @@ class FeedScreen extends Component {
     this.setState({ search: text });
   }
 
+  createRec = () => {
+    this.props.navigation.navigate('CreateRec');
+  }
+
   topSection = () => {
     return (
       <View style={styles.topSection}>
@@ -46,7 +50,7 @@ class FeedScreen extends Component {
           <Button type="clear" titleStyle={this.state.active === 'Friends' ? styles.activeLink : styles.inactiveLink} title="Friends" onPress={this.onFriendsClick} />
         </View>
 
-        <TouchableOpacity style={styles.headerButton}>
+        <TouchableOpacity style={styles.headerButton} onPress={this.createRec}>
           <FontAwesomeIcon icon={faPencilAlt} size={20} color="rgb(255,255,255)" />
         </TouchableOpacity>
       </View>
@@ -84,6 +88,7 @@ class FeedScreen extends Component {
           scrollEventThrottle={200}
           showsVerticalScrollIndicator={false}
           style={this.state.active === 'Friends' ? '' : { display: 'none' }} // Uses 'display' so that the component stays mounted and doesn't reload images.
+          contentContainerStyle={{ paddingBottom: 100 }}
         >
           {Data.RECOMMENDATIONS.filter(this.searchFilter).sort((a, b) => (b.timestamp - a.timestamp)).map((rec) => { // Sorts by timestamp in descending order.
             return (
@@ -140,6 +145,7 @@ class FeedScreen extends Component {
           scrollEventThrottle={200}
           showsVerticalScrollIndicator={false}
           style={{ marginTop: 5 }}
+          contentContainerStyle={{ paddingBottom: 100 }}
         >
           {Data.TRANSACTIONS.map((transaction) => {
             return (

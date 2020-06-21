@@ -12,9 +12,14 @@ const EarningsItem = (props) => {
     const { user } = props.transaction;
     return (
       <View style={styles.background}>
-        <View style={styles.textBubble}><Text style={[styles.mainText, { color: user.color }]}>{user.name}</Text></View>
-        <Text style={[styles.subText, { marginLeft: 7, marginRight: 7 }]}>bought from</Text>
-        <View style={styles.textBubble}><Text style={[styles.mainText, { color: '#6D7278' }]}>{business}</Text></View>
+        <View style={{
+          maxWidth: wp('75%'), flex: -1, flexDirection: 'row', flexWrap: 'wrap',
+        }}
+        >
+          <View style={styles.textBubble}><Text style={[styles.mainText, { color: user.color }]}>{user.name}</Text></View>
+          <Text style={[styles.subText, { marginLeft: 7, marginRight: 7 }]}>bought from</Text>
+          <View style={styles.textBubble}><Text style={[styles.mainText, { color: '#6D7278' }]}>{business}</Text></View>
+        </View>
 
         <NumberFormat
           value={amount}
@@ -30,8 +35,13 @@ const EarningsItem = (props) => {
   } else {
     return (
       <View style={styles.background}>
-        <Text style={[styles.subText, { marginRight: 7 }]}>You just visited</Text>
-        <View style={styles.textBubble}><Text style={[styles.mainText, { color: '#6D7278' }]}>{business}</Text></View>
+        <View style={{
+          maxWidth: wp('75%'), flex: -1, flexDirection: 'row', flexWrap: 'wrap',
+        }}
+        >
+          <Text style={[styles.subText, { marginRight: 7 }]}>You just visited</Text>
+          <View style={styles.textBubble}><Text style={[styles.mainText, { color: '#6D7278' }]}>{business}</Text></View>
+        </View>
 
         <NumberFormat
           value={amount}
@@ -51,7 +61,7 @@ export default EarningsItem;
 
 const styles = StyleSheet.create({
   background: {
-    height: 40,
+    minHeight: 40,
     width: wp('100%'),
     flex: -1,
     flexDirection: 'row',
@@ -76,6 +86,7 @@ const styles = StyleSheet.create({
     paddingTop: 6,
     paddingBottom: 2,
     height: 25,
+    marginBottom: 10,
   },
   mainText: {
     fontFamily: 'Hiragino W7',
