@@ -25,6 +25,7 @@ import Business from './business';
 import SignIn from './sign-in';
 import CreateRec from './create-recommendation';
 import FriendsScreen from './friends-screen';
+import FriendRequests from './friend-requests';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -67,7 +68,16 @@ const ProfileNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Profile" mode="modal">
       <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Friends" component={FriendNavigator} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+
+const FriendNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName="Friends">
       <Stack.Screen name="Friends" component={FriendsScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="FriendRequests" component={FriendRequests} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };

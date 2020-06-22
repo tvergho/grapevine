@@ -249,3 +249,21 @@ export const FRIENDS = [
     imageURL: 'https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-1/c0.279.480.480a/p480x480/89766231_783333615488893_3638920035197517824_o.jpg?_nc_cat=102&_nc_sid=7206a8&_nc_ohc=xNgyxavI864AX9efTuC&_nc_ht=scontent-sjc3-1.xx&oh=d4598a59804d1acf841b2a3bb618ce55&oe=5F165AB3',
   },
 ];
+
+export const FRIEND_REQUESTS = [
+  {
+    name: 'Kevin Gottlieb',
+    username: '@kgott',
+    imageURL: 'https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-1/p480x480/89669291_722389838165337_8647447511218257920_o.jpg?_nc_cat=102&_nc_sid=7206a8&_nc_ohc=RaXW6zO5oe4AX8RfQWj&_nc_ht=scontent-sjc3-1.xx&_nc_tp=6&oh=59da8ff3651f513e5cc52415c36b7782&oe=5F15CCD9',
+  },
+  {
+    name: 'Gabriel Young',
+    username: '@gabe-young',
+    imageURL: 'https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-1/p480x480/91526816_10220199549796744_5607765779924647936_o.jpg?_nc_cat=101&_nc_sid=7206a8&_nc_ohc=APJyi-e7X_oAX9wTIw1&_nc_ht=scontent-sjc3-1.xx&_nc_tp=6&oh=170bfbfdb8a12ae4b6de367d7ca1aea2&oe=5F15145B',
+  },
+  {
+    name: 'Devansh Taori',
+    username: '@dtaori',
+    imageURL: 'https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-1/c272.36.411.410a/p720x720/87036658_1489655941191566_8528824397153173504_o.jpg?_nc_cat=103&_nc_sid=7206a8&_nc_ohc=Gype3iTGSzUAX8oyO8P&_nc_ht=scontent-sjc3-1.xx&oh=bd314b543d95c033ce50fba634e818f3&oe=5F1638F7',
+  },
+];
