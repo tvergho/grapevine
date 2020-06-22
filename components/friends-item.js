@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
   },
   profilePic: {
     borderRadius: 100,
-    height: 40,
-    width: 40,
+    height: hp('7%'),
+    width: hp('7%'),
   },
   nameBubble: {
     minHeight: 20,
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Hiragino W7',
     fontSize: 12,
     color: '#6D7278',
+    alignSelf: 'center',
   },
   usernameText: {
     fontFamily: 'Hiragino W4',

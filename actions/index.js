@@ -70,6 +70,23 @@ export function resetLoading() {
 
 // Auth0 flow
 
+export function addToDatabase(token) {
+  const stringifiedToken = JSON.stringify({ token: `Bearer ${token}` });
+
+  const options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      input: stringifiedToken,
+      stateMachineArn: 'arn:aws:states:us-east-2:512038042092:stateMachine:AddUserMachine',
+    }),
+  };
+
+  fetch('https://wyxfg7hyik.execute-api.us-east-2.amazonaws.com/dev/users', options)
+    .then((response) => { console.log(response); })
+    .catch((error) => { console.log(error); });
+}
+
 export function completeSignUpAuth0(token) {
   return (dispatch) => {
     dispatch({ type: ActionTypes.LOADING });
@@ -81,6 +98,8 @@ export function completeSignUpAuth0(token) {
       dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
       dispatch({ type: ActionTypes.AUTH_USER });
       dispatch({ type: ActionTypes.RESET_LOADING });
+
+      addToDatabase(token);
     }).catch((error) => { console.log('complete', error); });
   };
 }
@@ -196,7 +215,9 @@ export function tryAuth0OnStart() {
           headers: { Authorization: `Bearer ${token}` },
         };
 
-        fetch('https://y3i0zwdih5.execute-api.us-east-2.amazonaws.com/refresh', fbOptions);
+        fetch('https://y3i0zwdih5.execute-api.us-east-2.amazonaws.com/refresh', fbOptions)
+          .then((response) => { console.log(response); })
+          .catch((error) => { console.log(error); });
       })
         .catch((error) => { console.log(error); })
         .finally(() => {
@@ -215,7 +236,10 @@ export function tryAuth0OnStart() {
         }),
       };
 
-      fetch('https://dev-recroom.us.auth0.com/oauth/token', options);
+      fetch('https://dev-recroom.us.auth0.com/oauth/token', options)
+        .then((response) => {
+          console.log('refresh', response);
+        });
     });
   };
 }
@@ -242,6 +266,7 @@ export function signUpWithFacebookAuth0(navigation) {
         SecureStore.setItemAsync('idToken', credentials.idToken);
         SecureStore.setItemAsync('accessToken', credentials.accessToken);
         SecureStore.setItemAsync('refreshToken', credentials.refreshToken);
+        addToDatabase(credentials.accessToken);
 
         auth0.auth.userInfo({ token: credentials.accessToken }).then((data) => {
           SecureStore.setItemAsync('id', data.sub);
