@@ -8,7 +8,6 @@ const auth0 = new Auth0({ domain: 'dev-recroom.us.auth0.com', clientId: 'UMh55EL
 
 export const ActionTypes = {
   FONTS_LOADED: 'FONTS_LOADED',
-  SIGN_UP_USER: 'SIGN_UP_USER',
   AUTH_USER: 'AUTH_USER',
   ERROR: 'ERROR',
   RESET_ERROR: 'RESET_ERROR',
@@ -126,13 +125,6 @@ export function signUpUserAuth0(user, navigation) {
       })
       .then((result) => {
         SecureStore.setItemAsync('id', `auth0|${result.Id}`);
-
-        dispatch({
-          type: ActionTypes.SIGN_UP_USER,
-          payload: {
-            firstName, lastName, email, phone, password, username: result.Id,
-          },
-        });
 
         auth0.auth
           .passwordRealm({

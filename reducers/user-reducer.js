@@ -15,8 +15,6 @@ const initialState = {
 
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
-  case ActionTypes.SIGN_UP_USER:
-    return { ...state, ...action.payload };
   case ActionTypes.USER_SIGN_IN: {
     console.log('action', action.payload);
     const newUser = { ...state };
