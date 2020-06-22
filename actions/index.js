@@ -196,11 +196,7 @@ export function tryAuth0OnStart() {
           headers: { Authorization: `Bearer ${token}` },
         };
 
-        fetch('https://y3i0zwdih5.execute-api.us-east-2.amazonaws.com/refresh', fbOptions)
-          .then((response) => response.json())
-          .then((json) => {
-            console.log(json);
-          });
+        fetch('https://y3i0zwdih5.execute-api.us-east-2.amazonaws.com/refresh', fbOptions);
       })
         .catch((error) => { console.log(error); })
         .finally(() => {
