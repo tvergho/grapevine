@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     height: 30,
   },
   acceptButton: {
-    backgroundColor: '#BED894',
+    backgroundColor: '#9EBF68',
     padding: 5,
     paddingTop: 10,
     minWidth: 75,

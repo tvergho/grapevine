@@ -86,7 +86,11 @@ class Business extends Component {
 
   // This will become a Redux action once the backend's set up.
   getBusinessById = (id) => {
-    return Data.BUSINESSES[id];
+    if (this.props.route.params.boba) {
+      return Data.BOBA_BUSINESSES[id];
+    } else {
+      return Data.BUSINESSES[id];
+    }
   }
 
   header = () => {
@@ -137,7 +141,7 @@ class Business extends Component {
         <Animated.Text style={[styles.headerBusinessName, { color: bizName }]} numberOfLines={1}>{rec.business.name}</Animated.Text>
 
         {/* Commission bubble (upper right corner). */}
-        <View style={[styles.commissionBubble, { backgroundColor: rec.fromUser.color }]}>
+        <View style={[styles.commissionBubble, { backgroundColor: rec.fromUser ? rec.fromUser.color : '#B5EAD7' }]}>
           <Animated.Text style={[styles.commissionText, { fontSize: commissionSize }]}>{rec.commission}</Animated.Text>
         </View>
       </Animated.View>
@@ -173,7 +177,7 @@ class Business extends Component {
               width: 17, height: 15, position: 'absolute', bottom: 5, right: 35,
             }}
           />
-          <Text style={styles.likeText}>{rec.likes}</Text>
+          <Text style={styles.likeText}>{rec.likes ? rec.likes : '0'}</Text>
         </View>
       </View>
     );

@@ -11,8 +11,8 @@ import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-// import * as SecureStore from 'expo-secure-store';
 import * as SplashScreen from 'expo-splash-screen';
+import Geocoder from 'react-native-geocoding';
 import {
   setFontsLoaded, setAppLoaded, signOut, tryAuth0OnStart,
 } from '../actions';
@@ -122,6 +122,7 @@ class AppContainer extends Component {
       })
       .finally(() => {
         this.props.tryAuth0OnStart();
+        Geocoder.init('AIzaSyDgbpn2Mnmxm_YmEnuuQKOJT5zMcD6XW90');
       });
   }
 
