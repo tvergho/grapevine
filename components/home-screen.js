@@ -108,6 +108,7 @@ class HomeScreen extends Component {
         style={{
           backgroundColor: 'white',
         }}
+        ref={(ref) => { this.scrollView = ref; }}
         scrollEnabled={this.state.scroll}
       >
         {this.recSection()}
@@ -123,7 +124,7 @@ class HomeScreen extends Component {
       }}
       >
         <View style={{
-          backgroundColor: '#D8D8D8', height: 4, width: 35, borderRadius: 4, marginTop: 10, marginBottom: -10,
+          backgroundColor: '#D8D8D8', height: 4, width: 35, borderRadius: 4, marginTop: 10, marginBottom: 10,
         }}
         />
       </View>
@@ -213,6 +214,7 @@ class HomeScreen extends Component {
   onClose = () => {
     console.log('close');
     this.setState({ scroll: false });
+    this.scrollView.scrollTo({ y: 0, animated: false });
   }
 
   render() {
@@ -244,7 +246,7 @@ const styles = StyleSheet.create({
     height: hp('100%'),
   },
   section: {
-    marginTop: 20,
+    marginBottom: 20,
     marginLeft: 15,
     marginRight: 15,
   },
