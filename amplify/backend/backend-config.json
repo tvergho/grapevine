@@ -1,9 +1,0 @@
-{
-    "auth": {
-        "recroom3b6eacb3": {
-            "service": "Cognito",
-            "providerPlugin": "awscloudformation",
-            "dependsOn": []
-        }
-    }
-}

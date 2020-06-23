@@ -40,7 +40,6 @@ target 'RecRoom' do
   pod 'DoubleConversion', :podspec => "#{rnPrefix}/third-party-podspecs/DoubleConversion.podspec"
   pod 'glog', :podspec => "#{rnPrefix}/third-party-podspecs/glog.podspec", :modular_headers => false
   pod 'Folly', :podspec => "#{rnPrefix}/third-party-podspecs/Folly.podspec", :modular_headers => false
-  pod 'RNAWSCognito', :path => '../node_modules/amazon-cognito-identity-js'
 
   # Other native modules
   
