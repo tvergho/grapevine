@@ -46,5 +46,19 @@
             "jsx": true,
             "sourceType": "module"
         }
-    }
+    },
+    "settings": {
+        "import/resolver": {
+          "alias": [
+            ["actions", "./actions"],
+            ["assets", "./assets"],
+            ["components", "./components"],
+            ["data", "./data"],
+            ["navigation", "./navigation"],
+            ["reducers", "./reducers"],
+            ["res", "./res"],
+            ["screens", "./screens"]
+          ]
+        }
+      }
 }

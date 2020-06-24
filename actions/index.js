@@ -7,7 +7,6 @@ import Auth0 from 'react-native-auth0';
 const auth0 = new Auth0({ domain: 'dev-recroom.us.auth0.com', clientId: 'UMh55ELLqvogWbyKGrcivBO6TpFm0PEI' });
 
 export const ActionTypes = {
-  FONTS_LOADED: 'FONTS_LOADED',
   AUTH_USER: 'AUTH_USER',
   ERROR: 'ERROR',
   RESET_ERROR: 'RESET_ERROR',
@@ -25,13 +24,6 @@ function getError(error) {
   else if (error.message) return error.message;
   else if (error.json && error.json.error_description) return error.json.error_description;
   else return error;
-}
-
-export function setFontsLoaded() {
-  return {
-    type: ActionTypes.FONTS_LOADED,
-    payload: null,
-  };
 }
 
 export function setAppLoaded() {
@@ -69,7 +61,8 @@ export function resetLoading() {
 
 // Auth0 flow
 
-export function addToDatabase(token) {
+// Upon user registration, adds the user's info to the RecRoom database.
+function addToDatabase(token) {
   const stringifiedToken = JSON.stringify({ token: `Bearer ${token}` });
 
   const options = {
@@ -86,6 +79,7 @@ export function addToDatabase(token) {
     .catch((error) => { console.log(error); });
 }
 
+// Runs after sign up to load the user data and authenticate them.
 export function completeSignUpAuth0(token) {
   return (dispatch) => {
     dispatch({ type: ActionTypes.LOADING });
@@ -103,6 +97,7 @@ export function completeSignUpAuth0(token) {
   };
 }
 
+// Native sign up cycle.
 export function signUpUserAuth0(user, navigation) {
   const {
     firstName, lastName, email, phone, password,
@@ -156,6 +151,7 @@ export function signUpUserAuth0(user, navigation) {
   };
 }
 
+// Native login cycle.
 export function logInUserAuth0(user, navigation) {
   const { email, password } = user;
 
@@ -195,6 +191,7 @@ export function logInUserAuth0(user, navigation) {
   };
 }
 
+// Check to see if the user is logged in on app start.
 export function tryAuth0OnStart() {
   return (dispatch) => {
     SecureStore.getItemAsync('accessToken').then((token) => {
@@ -217,6 +214,7 @@ export function tryAuth0OnStart() {
         });
     }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
 
+    // Gets a refreshed token to keep the user logged in.
     SecureStore.getItemAsync('refreshToken').then((refreshToken) => {
       const options = {
         method: 'POST',
@@ -229,9 +227,8 @@ export function tryAuth0OnStart() {
       };
 
       fetch('https://dev-recroom.us.auth0.com/oauth/token', options)
-        .then((response) => {
-          console.log('refresh', response);
-        });
+        .then((response) => response.json())
+        .then((json) => { SecureStore.setItemAsync('accessToken', json.access_token); });
     });
   };
 }

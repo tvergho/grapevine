@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import * as SplashScreen from 'expo-splash-screen';
-import AppContainer from './components/app-container';
+import AppContainer from 'navigation/AppContainer';
 import reducers from './reducers';
 
 console.disableYellowBox = true;

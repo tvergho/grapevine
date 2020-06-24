@@ -1,7 +1,6 @@
 import { ActionTypes } from '../actions';
 
 const initialState = {
-  fontsLoaded: false,
   appLoaded: false,
   loading: false,
   errorMessage: '',
@@ -10,8 +9,6 @@ const initialState = {
 
 const LifecycleReducer = (state = initialState, action) => {
   switch (action.type) {
-  case ActionTypes.FONTS_LOADED:
-    return { ...state, fontsLoaded: true };
   case ActionTypes.APP_LOADED:
     return { ...state, appLoaded: true };
   case ActionTypes.ERROR:

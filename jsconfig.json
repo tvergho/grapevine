@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "target": "es2017",
+      "allowSyntheticDefaultImports": false,
+      "baseUrl": "./",
+      "paths": {
+        "actions/*": ["actions/*"],
+        "assets/*": ["assets/*"],
+        "components/*": ["components/*"],
+        "data/*": ["data/*"],
+        "navigation/*": ["navigation/*"],
+        "reducers/*": ["reducers/*"],
+        "res/*": ["res/*"],
+        "screens/*": ["screens/*"]
+      }
+    },
+    "exclude": ["node_modules", "dist"]
+  }
