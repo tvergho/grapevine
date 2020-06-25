@@ -63,19 +63,14 @@ export function resetLoading() {
 
 // Upon user registration, adds the user's info to the RecRoom database.
 function addToDatabase(token) {
-  const stringifiedToken = JSON.stringify({ token: `Bearer ${token}` });
-
   const options = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      input: stringifiedToken,
-      stateMachineArn: 'arn:aws:states:us-east-2:512038042092:stateMachine:AddUserMachine',
-    }),
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
   };
 
-  fetch('https://wyxfg7hyik.execute-api.us-east-2.amazonaws.com/dev/users', options)
-    .then((response) => { console.log(response); })
+  fetch('https://03q30dqfqi.execute-api.us-east-2.amazonaws.com/dev/users', options)
+    .then((response) => response.json())
+    .then((json) => { console.log(json); })
     .catch((error) => { console.log(error); });
 }
 
@@ -204,8 +199,9 @@ export function tryAuth0OnStart() {
           headers: { Authorization: `Bearer ${token}` },
         };
 
-        fetch('https://y3i0zwdih5.execute-api.us-east-2.amazonaws.com/refresh', fbOptions)
-          .then((response) => { console.log(response); })
+        fetch('https://03q30dqfqi.execute-api.us-east-2.amazonaws.com/dev/refresh', fbOptions)
+          .then((response) => response.json())
+          .then((json) => { console.log(json); })
           .catch((error) => { console.log(error); });
       })
         .catch((error) => { console.log(error); })
