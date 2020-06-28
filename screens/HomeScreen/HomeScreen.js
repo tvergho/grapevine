@@ -1,20 +1,22 @@
+/* eslint-disable react/no-did-update-set-state */
+/* eslint-disable react/no-unused-state */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  View, StyleSheet, ScrollView, FlatList,
+  View, StyleSheet, ScrollView, RefreshControl,
 } from 'react-native';
 import * as Location from 'expo-location';
 import { connect } from 'react-redux';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import Geocoder from 'react-native-geocoding';
 import BottomSheet from 'components/ReanimatedBottomSheet_patched';
 import * as Data from 'data';
-import RecCard from 'components/RecCard';
-import BusinessCard from 'components/BusinessCard';
+import { businessLocationSearch, businessLocationScroll, setCanLoad } from 'actions';
+import Constants from 'expo-constants';
+import RecSection from './RecSection';
 import MapSection from './MapSection';
-import HomeSection from './HomeSection';
+import BusinessSection from './BusinessSection';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -33,32 +35,36 @@ class HomeScreen extends Component {
       },
       locations: [],
       scroll: false,
+      searchResults: [],
+      refreshing: false,
     };
   }
 
   componentDidMount() {
     // Checks to see whether permission's been granted and requests permission if necessary.
-    Location.getPermissionsAsync()
-      .then((response) => {
-        if (!response.granted) {
-          this.requestPermission();
-        } else {
-          this.detectLocation();
-        }
-      });
-
-    this.getAddresses();
+    // Immediately jumps to loading on the simulator.
+    if (Constants.isDevice) {
+      Location.getPermissionsAsync()
+        .then((response) => {
+          if (!response.granted) {
+            this.requestPermission();
+          } else {
+            this.detectLocation();
+          }
+        });
+    } else {
+      this.props.businessLocationSearch(this.state.curLoc.latitude, this.state.curLoc.longitude);
+    }
   }
 
-  getAddresses = async () => {
-    let locations = [];
-    for (let i = 0; i < Data.BOBA_BUSINESSES.length; i += 1) {
-      const json = await Geocoder.from(Data.BOBA_BUSINESSES[i].address);
-      const latLong = json.results[0].geometry.location;
-      const loc = { latitude: latLong.lat, longitude: latLong.lng };
-      locations = locations.concat([loc]);
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      if (this.props.search.searchResults !== prevProps.search.searchResults) {
+        this.setState({
+          searchResults: this.props.search.searchResults,
+        }, () => { setTimeout(() => { this.props.setCanLoad(true); }, 500); });
+      }
     }
-    this.setState({ locations });
   }
 
   requestPermission = () => {
@@ -82,9 +88,11 @@ class HomeScreen extends Component {
         newLoc.latitude = location.coords.latitude;
         newLoc.longitude = location.coords.longitude;
         this.setState(() => { return ({ location: newLoc, curLoc: newLoc }); });
+        this.props.businessLocationSearch(location.coords.latitude, location.coords.longitude);
       })
       .catch((error) => {
         console.log(error);
+        this.props.businessLocationSearch(this.state.curLoc.latitude, this.state.curLoc.longitude);
       });
   }
 
@@ -96,9 +104,18 @@ class HomeScreen extends Component {
         }}
         ref={(ref) => { this.scrollView = ref; }}
         scrollEnabled={this.state.scroll}
+        scrollEventThrottle={32}
+        onScroll={(e) => {
+          let paddingToBottom = 15;
+          paddingToBottom += e.nativeEvent.layoutMeasurement.height;
+          if (e.nativeEvent.contentOffset.y >= e.nativeEvent.contentSize.height - paddingToBottom) {
+            this.scroll();
+          }
+        }}
+        refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this.refresh} />}
       >
-        {this.recSection()}
-        {this.bizSection()}
+        <RecSection navigation={this.props.navigation} openFeed={this.openFeed} recs={Data.RECOMMENDATIONS} />
+        <BusinessSection navigation={this.props.navigation} searchResults={this.state.searchResults} loading={this.props.search.loading} refresh={this.refresh} />
       </ScrollView>
     );
   }
@@ -107,42 +124,20 @@ class HomeScreen extends Component {
     this.props.navigation.jumpTo('Feed');
   }
 
+  scroll = () => {
+    this.props.businessLocationScroll(this.state.curLoc.latitude, this.state.curLoc.longitude, this.props.search.scrollId);
+  }
+
+  refresh = () => {
+    this.setState({ refresh: true });
+    this.props.businessLocationSearch(this.state.curLoc.latitude, this.state.curLoc.longitude);
+  }
+
   header = () => {
     return (
       <View style={styles.headerContainer}>
         <View style={styles.headerTab} />
       </View>
-    );
-  }
-
-  recSection = () => {
-    return (
-      <HomeSection onPress={this.openFeed} title="Recommended to you">
-        <ScrollView
-          horizontal
-          decelerationRate="fast"
-          scrollEventThrottle={200}
-        >
-          {Data.RECOMMENDATIONS.sort((a, b) => (b.timestamp - a.timestamp)).slice(0, 3).map((rec) => { // Limits to the three most recent recs.
-            return (
-              <RecCard rec={rec} key={rec.id} navigation={this.props.navigation} />
-            );
-          })}
-        </ScrollView>
-      </HomeSection>
-    );
-  }
-
-  bizSection = () => {
-    return (
-      <HomeSection title="Boba Discounts">
-        <FlatList data={Data.BOBA_BUSINESSES}
-          renderItem={({ item, index }) => (<BusinessCard business={item} index={index} location={this.state.curLoc} navigation={this.props.navigation} />)}
-          keyExtractor={(biz) => biz.name}
-          scrollEnabled={false}
-          style={{ marginBottom: 30 }}
-        />
-      </HomeSection>
     );
   }
 
@@ -158,7 +153,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <View style={styles.background}>
-        <MapSection location={this.state.location} markers={this.state.locations} balance={this.props.balance} onRegionChange={this.onRegionChange} />
+        <MapSection location={this.state.location} markers={this.state.searchResults} balance={this.props.balance} onRegionChange={this.onRegionChange} />
         <BottomSheet
           snapPoints={[hp('80%'), hp('50%'), hp('20%')]}
           renderHeader={this.header}
@@ -198,7 +193,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (reduxState) => (
   {
     balance: reduxState.user.balance,
+    search: reduxState.search,
   }
 );
 
-export default connect(mapStateToProps, null)(HomeScreen);
+export default connect(mapStateToProps, { businessLocationScroll, businessLocationSearch, setCanLoad })(HomeScreen);

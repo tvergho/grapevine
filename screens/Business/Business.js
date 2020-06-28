@@ -25,7 +25,7 @@ class Business extends Component {
   // This will become a Redux action once the backend's set up.
   getBusinessById = (id) => {
     if (this.props.route.params.boba) {
-      return Data.BOBA_BUSINESSES[id];
+      return this.props.route.params;
     } else {
       return Data.BUSINESSES[id];
     }
@@ -42,7 +42,7 @@ class Business extends Component {
         <HeaderImageScrollView
           minHeight={60}
           maxHeight={hp('40%')}
-          headerImage={{ uri: business.imageURL }}
+          headerImage={{ uri: business.imageURL || business.photos[0] }}
           minOverlayOpacity={0.3}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],

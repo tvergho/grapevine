@@ -19,15 +19,22 @@ const MapSection = ({
   return (
     <>
       <MapView region={location} onRegionChangeComplete={onRegionChange} style={styles.mapStyle}>
-        {markers.map((coord, index) => {
+        {markers.map((business, index) => {
+          const coordString = business.location;
+          const coord = {};
+          coord.latitude = parseFloat(coordString.split(', ')[0]);
+          coord.longitude = parseFloat(coordString.split(', ')[1]);
+
+          const calcIndex = index + 1;
+
           return (
             <Marker coordinate={coord}>
               <FontAwesomeIcon icon={faMapMarker} size={40} color="#FFB7B2" />
               <Text style={{
-                fontFamily: 'Hiragino W7', color: 'white', fontSize: 16, position: 'absolute', left: 14, top: 8,
+                fontFamily: 'Hiragino W7', color: 'white', fontSize: 14, position: 'absolute', left: calcIndex >= 10 ? 10 : 15, top: 8,
               }}
               >
-                {`${index + 1}`}
+                {`${calcIndex}`}
               </Text>
             </Marker>
           );

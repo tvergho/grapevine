@@ -21,7 +21,9 @@ const Row = ({ children, text, icon }) => {
 };
 
 const InfoSection = ({ business }) => {
-  const { address } = business;
+  let address = '';
+  if (business.address) address = business.address;
+  else if (business.street_address) address = `${business.street_address}, ${business.city}, ${business.state} ${business.zip}`;
   const mapQuery = { query: address };
   const openAddress = createOpenLink(mapQuery);
 

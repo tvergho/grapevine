@@ -19,8 +19,6 @@ const LifecycleReducer = (state = initialState, action) => {
     return { ...state, loading: true };
   case ActionTypes.RESET_LOADING:
     return { ...state, loading: false };
-  case ActionTypes.CODE_ERROR:
-    return { ...state, codeError: action.payload };
   default:
     return state;
   }
