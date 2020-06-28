@@ -13,32 +13,44 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 const window = Dimensions.get('window');
 const small = window.width <= 350;
 
+const CustomMarker = React.memo(({ coord, index }) => {
+  return (
+    <Marker coordinate={coord} key={`${coord.latitude}${coord.longitude}`} tracksViewChanges={false}>
+      <FontAwesomeIcon icon={faMapMarker} size={40} color="#FFB7B2" />
+      <Text style={{
+        fontFamily: 'Hiragino W7', color: 'white', fontSize: 14, position: 'absolute', left: index >= 10 ? 10 : 15, top: 8,
+      }}
+      >
+        {`${index}`}
+      </Text>
+    </Marker>
+  );
+});
+
+const Markers = React.memo(({ markers }) => {
+  return (
+    markers.map((business, index) => {
+      const coordString = business.location;
+      const coord = {};
+      coord.latitude = parseFloat(coordString.split(', ')[0]);
+      coord.longitude = parseFloat(coordString.split(', ')[1]);
+
+      const calcIndex = index + 1;
+
+      return (
+        <CustomMarker coord={coord} index={calcIndex} />
+      );
+    })
+  );
+});
+
 const MapSection = ({
   location, onRegionChange, markers, balance,
 }) => {
   return (
     <>
       <MapView region={location} onRegionChangeComplete={onRegionChange} style={styles.mapStyle}>
-        {markers.map((business, index) => {
-          const coordString = business.location;
-          const coord = {};
-          coord.latitude = parseFloat(coordString.split(', ')[0]);
-          coord.longitude = parseFloat(coordString.split(', ')[1]);
-
-          const calcIndex = index + 1;
-
-          return (
-            <Marker coordinate={coord}>
-              <FontAwesomeIcon icon={faMapMarker} size={40} color="#FFB7B2" />
-              <Text style={{
-                fontFamily: 'Hiragino W7', color: 'white', fontSize: 14, position: 'absolute', left: calcIndex >= 10 ? 10 : 15, top: 8,
-              }}
-              >
-                {`${calcIndex}`}
-              </Text>
-            </Marker>
-          );
-        })}
+        <Markers markers={markers} />
       </MapView>
 
       <AppButton
