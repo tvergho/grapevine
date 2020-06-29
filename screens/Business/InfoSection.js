@@ -13,8 +13,8 @@ const Row = ({
 }) => {
   return (
     <View style={styles.row}>
-      <View style={{ flex: -1, flexDirection: 'row', alignItems: 'center' }}>
-        <FontAwesomeIcon icon={icon} size={16} color="rgba(0,0,0,0.7)" style={{ marginRight: 8, alignSelf: 'flex-start' }} />
+      <View style={{ flex: -1, flexDirection: 'row', alignItems: 'flex-start' }}>
+        <FontAwesomeIcon icon={icon} size={16} color="rgba(0,0,0,0.7)" style={{ marginRight: 8 }} />
         <Text style={styles.sectionText}>{text}</Text>
       </View>
       {button ? (
@@ -22,6 +22,7 @@ const Row = ({
           title={button}
           titleStyle={styles.mapButton}
           onPress={onPress}
+          containerStyle={{ marginTop: -10 }}
         />
       ) : <></>}
       {children}
@@ -75,8 +76,9 @@ const styles = StyleSheet.create({
     flex: -1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     width: wp('100%'),
+    marginBottom: 5,
   },
   mapButton: {
     color: '#93DAC0',
