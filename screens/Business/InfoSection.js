@@ -3,18 +3,27 @@ import { View, StyleSheet, Text } from 'react-native';
 import { Colors } from 'res';
 import { Button } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCompass } from '@fortawesome/free-solid-svg-icons';
+import { faCompass, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { createOpenLink } from 'react-native-open-maps';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import * as WebBrowser from 'expo-web-browser';
 
-const Row = ({ children, text, icon }) => {
+const Row = ({
+  children, text, icon, button, onPress,
+}) => {
   return (
     <View style={styles.row}>
       <View style={{ flex: -1, flexDirection: 'row', alignItems: 'center' }}>
-        <FontAwesomeIcon icon={icon} size={16} color="rgba(0,0,0,0.7)" style={{ marginBottom: 3, marginRight: 8 }} />
+        <FontAwesomeIcon icon={icon} size={16} color="rgba(0,0,0,0.7)" style={{ marginRight: 8, alignSelf: 'flex-start' }} />
         <Text style={styles.sectionText}>{text}</Text>
       </View>
-
+      {button ? (
+        <Button type="clear"
+          title={button}
+          titleStyle={styles.mapButton}
+          onPress={onPress}
+        />
+      ) : <></>}
       {children}
     </View>
   );
@@ -27,17 +36,16 @@ const InfoSection = ({ business }) => {
   const mapQuery = { query: address };
   const openAddress = createOpenLink(mapQuery);
 
+  const openLink = async (link) => {
+    await WebBrowser.openBrowserAsync(link);
+  };
+
   return (
     <View style={styles.background}>
       <Text style={styles.sectionHeader}>Business Info</Text>
 
-      <Row text={address} icon={faCompass}>
-        <Button type="clear"
-          title="Map it"
-          titleStyle={styles.mapButton}
-          onPress={openAddress}
-        />
-      </Row>
+      <Row text={address} icon={faCompass} button="Map it" onPress={openAddress} />
+      {business.website ? <Row text={business.website} icon={faSearch} button="Open" onPress={() => { openLink(business.website); }} /> : <></>}
     </View>
   );
 };
