@@ -1,10 +1,9 @@
 import React from 'react';
 import {
-  View, StyleSheet, TextInput, ScrollView,
+  View, ScrollView,
 } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import RecCard from 'components/RecCard';
+import SearchBar from 'components/SearchBar';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const FriendsFeed = ({
@@ -30,10 +29,7 @@ const FriendsFeed = ({
 
   return (
     <View style={{ display: display ? '' : 'none' }}>
-      <View style={{ flex: -1, flexDirection: 'row' }}>
-        <FontAwesomeIcon icon={faSearch} size={20} color="rgba(0,0,0,0.7)" />
-        <TextInput style={styles.searchBar} placeholder="Search businesses..." placeholderTextColor="#D8D8D8" value={searchQuery} onChangeText={onChange} clearButtonMode="always" />
-      </View>
+      <SearchBar placeholder="Search businesses..." value={searchQuery} onChange={onChange} width={wp('85%')} />
 
       <ScrollView
         decelerationRate="fast"
@@ -50,15 +46,5 @@ const FriendsFeed = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  searchBar: {
-    width: wp('85%'),
-    height: 40,
-    marginBottom: 20,
-    marginTop: -10,
-    paddingLeft: 10,
-  },
-});
 
 export default FriendsFeed;

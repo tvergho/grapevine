@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import ModalHeader from 'components/ModalHeader';
 import * as Data from 'data';
-import FriendsItem from './FriendsItem';
+import FriendsItem from 'components/FriendsItem';
 import FriendRequestsCard from './FriendRequestsCard';
 
 const FriendsScreen = (props) => {

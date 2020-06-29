@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import * as Data from 'data';
 import ModalHeader from 'components/ModalHeader';
-import FriendsItem from './FriendsItem';
+import FriendsItem from 'components/FriendsItem';
 
 const FriendRequests = (props) => {
   const { navigation } = props;

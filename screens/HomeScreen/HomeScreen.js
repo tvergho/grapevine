@@ -153,7 +153,13 @@ class HomeScreen extends Component {
   render() {
     return (
       <View style={styles.background}>
-        <MapSection location={this.state.location} markers={this.state.searchResults} balance={this.props.balance} onRegionChange={this.onRegionChange} />
+        <MapSection
+          location={this.state.location}
+          markers={this.state.searchResults}
+          balance={this.props.balance}
+          onRegionChange={this.onRegionChange}
+          navigation={this.props.navigation}
+        />
         <BottomSheet
           snapPoints={[hp('80%'), hp('50%'), hp('20%')]}
           renderHeader={this.header}

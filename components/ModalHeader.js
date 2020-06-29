@@ -6,7 +6,7 @@ import { Icon } from 'react-native-elements';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Colors } from 'res';
 
-const ModalHeader = ({ navigation, title }) => {
+const ModalHeader = ({ navigation, title, children }) => {
   const goBack = () => {
     navigation.goBack();
   };
@@ -24,6 +24,7 @@ const ModalHeader = ({ navigation, title }) => {
       </TouchableOpacity>
 
       <Text style={styles.titleText}>{title}</Text>
+      {children}
     </View>
   );
 };

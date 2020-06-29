@@ -45,7 +45,7 @@ const Markers = React.memo(({ markers }) => {
 });
 
 const MapSection = ({
-  location, onRegionChange, markers, balance,
+  location, onRegionChange, markers, balance, navigation,
 }) => {
   return (
     <>
@@ -67,6 +67,7 @@ const MapSection = ({
         activeOpacity={0.6}
         shadowHeight={2}
         shadowWidth={1}
+        onPress={() => { navigation.navigate('AddFriend'); }}
       />
 
       <AppButton
