@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
 /* eslint-disable import/no-cycle */
@@ -139,32 +140,11 @@ export function logInUserAuth0(user, navigation) {
   };
 }
 
-// Check to see if the user is logged in on app start.
-export function tryAuth0OnStart() {
+function refresh(useToLogin) {
   return (dispatch) => {
-    SecureStore.getItemAsync('accessToken').then((token) => {
-      auth0.auth.userInfo({ token }).then((data) => {
-        dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
-        dispatch({ type: ActionTypes.AUTH_USER });
-
-        const fbOptions = {
-          method: 'GET',
-          headers: { Authorization: `Bearer ${token}` },
-        };
-
-        fetch('https://03q30dqfqi.execute-api.us-east-2.amazonaws.com/dev/refresh', fbOptions)
-          .then((response) => response.json())
-          .then((json) => { console.log(json); })
-          .catch((error) => { console.log(error); });
-      })
-        .catch((error) => { console.log(error); })
-        .finally(() => {
-          setTimeout(() => { dispatch({ type: ActionTypes.APP_LOADED }); }, 500);
-        });
-    }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
-
-    // Gets a refreshed token to keep the user logged in.
+  // Gets a refreshed token to keep the user logged in.
     SecureStore.getItemAsync('refreshToken').then((refreshToken) => {
+      if (useToLogin) console.log('refresh', refreshToken);
       const options = {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -177,8 +157,58 @@ export function tryAuth0OnStart() {
 
       fetch('https://dev-recroom.us.auth0.com/oauth/token', options)
         .then((response) => response.json())
-        .then((json) => { SecureStore.setItemAsync('accessToken', json.access_token); });
-    });
+        .then((json) => {
+          SecureStore.setItemAsync('accessToken', json.access_token)
+            .then(() => { if (useToLogin) dispatch(loginWithToken(json.access_token)); })
+            .catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
+        }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
+    }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
+  };
+}
+
+function loginWithToken(token) {
+  return (dispatch) => {
+    auth0.auth.userInfo({ token }).then((data) => {
+      dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
+      dispatch({ type: ActionTypes.AUTH_USER });
+      dispatch({ type: ActionTypes.APP_LOADED });
+
+      const fbOptions = {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      fetch('https://03q30dqfqi.execute-api.us-east-2.amazonaws.com/dev/refresh', fbOptions)
+        .then((response) => response.json())
+        .then((json) => { console.log(json); })
+        .catch((error) => { console.log(error); });
+    }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
+  };
+}
+
+// Check to see if the user is logged in on app start.
+export function tryAuth0OnStart() {
+  return (dispatch) => {
+    SecureStore.getItemAsync('accessToken').then((token) => {
+      auth0.auth.userInfo({ token }).then((data) => {
+        refresh();
+
+        dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
+        dispatch({ type: ActionTypes.AUTH_USER });
+
+        const fbOptions = {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${token}` },
+        };
+
+        fetch('https://03q30dqfqi.execute-api.us-east-2.amazonaws.com/dev/refresh', fbOptions)
+          .then((response) => response.json())
+          .then((json) => { console.log(json); })
+          .catch((error) => { console.log(error); });
+
+        setTimeout(() => { dispatch({ type: ActionTypes.APP_LOADED }); }, 500);
+      }).catch(() => { dispatch(refresh(true)); });
+    }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
   };
 }
 
