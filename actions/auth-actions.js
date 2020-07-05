@@ -191,7 +191,7 @@ export function tryAuth0OnStart() {
   return (dispatch) => {
     SecureStore.getItemAsync('accessToken').then((token) => {
       auth0.auth.userInfo({ token }).then((data) => {
-        refresh();
+        dispatch(refresh());
 
         dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
         dispatch({ type: ActionTypes.AUTH_USER });

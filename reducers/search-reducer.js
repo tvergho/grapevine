@@ -1,8 +1,23 @@
-import { ActionTypes } from '../actions';
+/* eslint-disable import/no-cycle */
+import { ActionTypes } from 'actions';
+
+export const SearchTypes = {
+  BUSINESS_LOC: 'BUSINESS_LOC',
+  BUSINESS_NAME: 'BUSINESS_NAME',
+  BUSINESS_ALL: 'BUSINESS_ALL',
+};
 
 const initialState = {
-  scrollId: '',
-  searchResults: [],
+  businessLoc: {
+    scrollId: '',
+    searchResults: [],
+  },
+  businessName: {
+    searchResults: [],
+  },
+  businessAll: {
+    searchResults: [],
+  },
   error: '',
   canLoad: true,
   loading: true,
@@ -11,22 +26,54 @@ const initialState = {
 const SearchReducer = (state = initialState, action) => {
   switch (action.type) {
   case ActionTypes.SET_SEARCH: {
-    const { scrollId, searchResults } = action.payload;
+    const { scrollId, searchResults, type } = action.payload;
 
-    return {
-      ...state,
-      scrollId,
-      searchResults,
-    };
+    switch (type) {
+    case SearchTypes.BUSINESS_LOC:
+      return {
+        ...state,
+        businessLoc: {
+          scrollId,
+          searchResults,
+        },
+      };
+    case SearchTypes.BUSINESS_NAME:
+      return {
+        ...state,
+        businessName: {
+          searchResults,
+        },
+      };
+    case SearchTypes.BUSINESS_ALL:
+      return {
+        ...state,
+        businessAll: {
+          searchResults,
+        },
+      };
+    default:
+      return {
+        ...state,
+      };
+    }
   }
   case ActionTypes.UPDATE_SEARCH: {
-    const { scrollId, searchResults } = action.payload;
+    const { scrollId, searchResults, type } = action.payload;
 
-    return {
-      ...state,
-      scrollId,
-      searchResults: state.searchResults.concat(searchResults),
-    };
+    switch (type) {
+    case SearchTypes.BUSINESS_LOC:
+      return {
+        ...state,
+        businessLoc: {
+          scrollId,
+          searchResults: state.businessLoc.searchResults.concat(searchResults),
+        },
+      };
+    default:
+      return {
+        ...state,
+      };
+    }
   }
   case ActionTypes.SEARCH_ERROR:
     if (action.payload) return { ...state, error: action.payload };

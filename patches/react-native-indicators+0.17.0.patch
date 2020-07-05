@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-native-indicators/src/components/dot-indicator/styles.js b/node_modules/react-native-indicators/src/components/dot-indicator/styles.js
+index 9252b13..7afd54d 100644
+--- a/node_modules/react-native-indicators/src/components/dot-indicator/styles.js
++++ b/node_modules/react-native-indicators/src/components/dot-indicator/styles.js
+@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
+ 
+ export default StyleSheet.create({
+   container: {
+-    flex: 1,
++    flex: -1,
+     justifyContent: 'center',
+     alignItems: 'center',
+     flexDirection: 'row',

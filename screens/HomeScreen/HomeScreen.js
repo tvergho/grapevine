@@ -59,9 +59,9 @@ class HomeScreen extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props !== prevProps) {
-      if (this.props.search.searchResults !== prevProps.search.searchResults) {
+      if (this.props.search.businessLoc.searchResults !== prevProps.search.businessLoc.searchResults) {
         this.setState({
-          searchResults: this.props.search.searchResults,
+          searchResults: this.props.search.businessLoc.searchResults,
         }, () => { setTimeout(() => { this.props.setCanLoad(true); }, 500); });
       }
     }
@@ -125,7 +125,7 @@ class HomeScreen extends Component {
   }
 
   scroll = () => {
-    this.props.businessLocationScroll(this.state.curLoc.latitude, this.state.curLoc.longitude, this.props.search.scrollId);
+    this.props.businessLocationScroll(this.state.curLoc.latitude, this.state.curLoc.longitude, this.props.search.businessLoc.scrollId);
   }
 
   refresh = () => {

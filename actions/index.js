@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
   ERROR: 'ERROR',
@@ -12,8 +13,11 @@ export const ActionTypes = {
   UPDATE_SEARCH: 'UPDATE_SEARCH',
   CAN_LOAD_SEARCH: 'CAN_LOAD_SEARCH',
   SEARCH_LOADING: 'SEARCH_LOADING',
+  POST_LOADING: 'POST_LOADING',
+  POST_LOADING_STOP: 'POST_LOADING_STOP',
 };
 
 export * from './auth-actions';
 export * from './lifecycle-actions';
 export * from './search-actions';
+export * from './post-actions';

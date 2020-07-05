@@ -1,6 +1,7 @@
 import { ActionTypes } from '../actions';
 
 const initialState = {
+  userId: '',
   firstName: '',
   lastName: '',
   username: '',
@@ -22,13 +23,15 @@ const UserReducer = (state = initialState, action) => {
 
     newUser.profilePic = attributes.picture;
     newUser.firstName = attributes.givenName;
+    newUser.userId = attributes.sub;
 
     if (attributes.picture.includes('gravatar.com')) { // Fixes bug where image isn't refreshed right away.
       const imageURL = `https://ui-avatars.com/api/?name=${attributes.givenName}+${attributes.familyName}&size=300&bold=true&background=FFB7B2&color=FFFFFF`;
       newUser.profilePic = imageURL;
     }
 
-    console.log('newuser', newUser);
+    console.log('newUser', newUser);
+
     return newUser;
   }
   default:

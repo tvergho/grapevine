@@ -1,16 +1,19 @@
+/* eslint-disable react/no-did-update-set-state */
 /* eslint-disable global-require */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
-  View, StyleSheet, TextInput, KeyboardAvoidingView, Text, Image,
+  StyleSheet, TextInput, KeyboardAvoidingView,
 } from 'react-native';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import ModalHeader from 'components/ModalHeader';
-import * as Data from 'data';
-import { Images, Colors } from 'res';
+import { Colors } from 'res';
+import { businessLocationSearch, allBusinessSearch, makeRec } from 'actions';
+import { connect } from 'react-redux';
+import Constants from 'expo-constants';
+import PostRecButton from './PostRecButton';
 
 class CreateRec extends Component {
   constructor(props) {
@@ -21,7 +24,50 @@ class CreateRec extends Component {
       search: '',
       shadow: false,
       rec: '',
+      businesses: [],
+      curLoc: {
+        latitude: 37.343566,
+        longitude: -121.918752,
+      },
+      errors: {
+        business: false,
+        rec: false,
+      },
     };
+  }
+
+  componentDidMount() {
+    if (Constants.isDevice) {
+      Location.getPermissionsAsync()
+        .then((response) => {
+          if (response.granted) {
+            this.detectLocation();
+          }
+        });
+    } else {
+      this.props.allBusinessSearch(this.state.curLoc.latitude, this.state.curLoc.longitude);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.search.businessAll !== prevProps.search.businessAll) {
+      this.setState({ businesses: this.props.search.businessAll.searchResults });
+    }
+  }
+
+  detectLocation = () => {
+    Location.getCurrentPositionAsync()
+      .then((location) => {
+        const newLoc = { ...this.state.location };
+        newLoc.latitude = location.coords.latitude;
+        newLoc.longitude = location.coords.longitude;
+        this.setState(() => { return ({ location: newLoc, curLoc: newLoc }); });
+        this.props.allBusinessSearch(location.coords.latitude, location.coords.longitude);
+      })
+      .catch((error) => {
+        console.log(error);
+        this.props.allBusinessSearch(this.state.curLoc.latitude, this.state.curLoc.longitude);
+      });
   }
 
   onSelectBusiness = (biz) => {
@@ -34,10 +80,16 @@ class CreateRec extends Component {
 
   onSearchChange = (search) => {
     this.setState({ search });
+    const { errors } = this.state;
+    errors.business = false;
+    this.setState({ errors });
   }
 
   onRecChange = (rec) => {
     this.setState({ rec });
+    const { errors } = this.state;
+    errors.rec = false;
+    this.setState({ errors });
   }
 
   onFocus = () => {
@@ -46,6 +98,28 @@ class CreateRec extends Component {
 
   onBlur = () => {
     this.setState({ shadow: false });
+  }
+
+  validateInput = () => {
+    let isError = false;
+    const { errors } = this.state;
+    if (!this.state.selectedBusiness.businessId) {
+      errors.business = true;
+      isError = true;
+    }
+    if (this.state.rec.trim().length === 0) {
+      errors.rec = true;
+      isError = true;
+    }
+
+    this.setState({ errors });
+    return isError;
+  }
+
+  onSubmit = () => {
+    if (!this.validateInput()) {
+      this.props.makeRec(this.state.selectedBusiness.businessId, this.state.rec, this.props.navigation.goBack);
+    }
   }
 
   render() {
@@ -57,10 +131,10 @@ class CreateRec extends Component {
           multi={false}
           onItemSelect={this.onSelectBusiness}
           onRemoveBusiness={this.onRemoveBusiness}
-          items={Data.BUSINESSES}
+          items={this.state.businesses}
           placeholder="Location, store, restaurant, boba tea place..."
           containerStyle={this.state.shadow ? styles.searchContainerShadow : styles.searchContainerUnshadowed}
-          textInputStyle={styles.searchInput}
+          textInputStyle={this.state.errors.business ? styles.searchInputError : styles.searchInput}
           onTextChange={this.onSearchChange}
           itemTextStyle={styles.itemText}
           itemsContainerStyle={styles.itemContainerStyle}
@@ -70,7 +144,7 @@ class CreateRec extends Component {
 
         <TextInput
           placeholder="Why do you recommend it?"
-          style={styles.recInput}
+          style={[styles.recInput, this.state.errors.rec ? { borderColor: 'red', borderWidth: 1 } : {}]}
           value={this.state.rec}
           onChangeText={this.onRecChange}
           multiline
@@ -78,12 +152,7 @@ class CreateRec extends Component {
           scrollEnabled
         />
 
-        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-          <TouchableOpacity style={styles.submitButton}>
-            <Text style={styles.buttonText}>Post recommendation</Text>
-            <Image source={Images.send} style={{ width: 18, height: 18, marginLeft: 5 }} />
-          </TouchableOpacity>
-        </View>
+        <PostRecButton onSubmit={this.onSubmit} loading={this.props.post.loading} />
       </KeyboardAvoidingView>
     );
   }
@@ -119,17 +188,25 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: Colors.WHITE,
   },
+  searchInputError: {
+    fontFamily: 'Hiragino W5',
+    fontSize: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'red',
+    padding: 15,
+    backgroundColor: Colors.WHITE,
+  },
   itemText: {
     fontFamily: 'Hiragino W4',
     fontSize: 12,
-    marginBottom: 4,
+    marginBottom: 5,
   },
   itemContainerStyle: {
     paddingLeft: 15,
     paddingTop: 10,
     width: wp('100%'),
     backgroundColor: Colors.WHITE,
-    maxHeight: 125,
+    maxHeight: hp('20%'),
   },
   recInput: {
     minHeight: 120,
@@ -165,4 +242,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateRec;
+const mapStateToProps = (reduxState) => (
+  {
+    search: reduxState.search,
+    post: reduxState.post,
+  }
+);
+
+export default connect(mapStateToProps, { businessLocationSearch, allBusinessSearch, makeRec })(CreateRec);
