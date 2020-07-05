@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:RecRoom.xcodeproj">
+      location = "group:/Users/tylervergho/Documents/RecRoom/rec-room/ios/BobaMe.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

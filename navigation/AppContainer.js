@@ -59,7 +59,7 @@ class AppContainer extends Component {
 
     if (this.props !== prevProps) {
       if (this.props.appLoaded) {
-        setTimeout(() => { SplashScreen.hideAsync(); }, 200);
+        setTimeout(() => { SplashScreen.hideAsync(); }, 400);
       }
     }
   }

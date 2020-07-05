@@ -118,7 +118,7 @@ export function logInUserAuth0(user, navigation) {
         console.log('cred', credentials);
         SecureStore.setItemAsync('idToken', credentials.idToken);
         SecureStore.setItemAsync('accessToken', credentials.accessToken);
-        SecureStore.setItemAsync('refreshToken', credentials.refreshToken);
+        SecureStore.setItemAsync('refreshToken', credentials.refreshToken).then(() => { dispatch(refresh()); });
 
         auth0.auth.userInfo({ token: credentials.accessToken }).then((data) => {
           SecureStore.setItemAsync('id', data.sub);
@@ -233,7 +233,7 @@ export function signUpWithFacebookAuth0(navigation) {
         console.log('cred', credentials);
         SecureStore.setItemAsync('idToken', credentials.idToken);
         SecureStore.setItemAsync('accessToken', credentials.accessToken);
-        SecureStore.setItemAsync('refreshToken', credentials.refreshToken);
+        SecureStore.setItemAsync('refreshToken', credentials.refreshToken).then(() => { dispatch(refresh()); });
         addToDatabase(credentials.accessToken);
 
         auth0.auth.userInfo({ token: credentials.accessToken }).then((data) => {

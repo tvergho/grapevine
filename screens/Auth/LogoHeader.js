@@ -12,8 +12,8 @@ const LogoHeader = (props) => {
     <View style={styles.background}>
       <Image source={Images.recroomLogo} style={styles.imageLogo} />
       <View style={styles.appTextContainer}>
-        <Text key="rec" style={styles.appText}>rec</Text>
-        <Text key="room" style={styles.appText}>room</Text>
+        <Text key="boba" style={styles.appText}>boba</Text>
+        <Text key="me" style={styles.appText}>me</Text>
       </View>
     </View>
   );
@@ -24,20 +24,22 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     maxHeight: 100,
     marginTop: 10,
+    marginBottom: 20,
   },
   imageLogo: {
-    width: small ? 65 : 85,
-    height: small ? 65 : 85,
+    width: small ? 75 : 95,
+    height: small ? 75 : 95,
     marginRight: 20,
   },
   appTextContainer: {
-    paddingTop: 10,
+    paddingTop: 40,
   },
   appText: {
     fontFamily: 'Hiragino W7',
-    fontSize: small ? 40 : 48,
+    fontSize: small ? 38 : 45,
     color: Colors.WHITE,
     marginTop: -20,
   },

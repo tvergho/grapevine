@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Rec Room",
+    "name": "Boba Me",
     "slug": "rec-room",
     "scheme": "recroom",
     "platforms": [
@@ -8,7 +8,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -23,8 +23,8 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.recroom",
-      "buildNumber": "1.0.0",
+      "bundleIdentifier": "me.boba",
+      "buildNumber": "1.0.2",
       "supportsTablet": true
     },
     "packagerOpts": {
@@ -47,7 +47,7 @@
     "facebookAppId": "291040482030117",
     "facebookDisplayName": "Rec Room",
     "android": {
-      "package": "com.recroom"
+      "package": "me.boba"
     },
     "entryPoint": "node_modules/expo/AppEntry.js"
   }
