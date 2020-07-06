@@ -122,6 +122,7 @@ export function logInUserAuth0(user, navigation) {
 
         auth0.auth.userInfo({ token: credentials.accessToken }).then((data) => {
           SecureStore.setItemAsync('id', data.sub);
+          addToDatabase(credentials.accessToken);
           dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
           dispatch({ type: ActionTypes.AUTH_USER });
           setTimeout(() => { dispatch({ type: ActionTypes.RESET_LOADING }); }, 500);
