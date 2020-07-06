@@ -64,22 +64,20 @@ export function businessLocationScroll(lat, long, scrollId) {
   };
 }
 
-export function businessNameSearch(name) {
+export function businessNameSearch(name, lat, long) {
   return (dispatch) => {
     dispatch({ type: ActionTypes.SEARCH_LOADING, payload: true });
 
-    fetch(`${API_URL}/business/name?name=${name}`, { method: 'GET' })
+    fetch(lat && long ? `${API_URL}/business/name?name=${name.trim().toLowerCase()}&lat=${lat}&long=${long}` : `${API_URL}/business/name?name=${name.trim().toLowerCase()}`, { method: 'GET' })
       .then((response) => response.json())
       .then((json) => {
-        if (json.searchResult.length > 0) {
-          dispatch({
-            type: ActionTypes.SET_SEARCH,
-            payload: {
-              searchResults: json.searchResult,
-              type: SearchTypes.BUSINESS_NAME,
-            },
-          });
-        }
+        dispatch({
+          type: ActionTypes.SET_SEARCH,
+          payload: {
+            searchResults: json.searchResult,
+            type: SearchTypes.BUSINESS_NAME,
+          },
+        });
       })
       .catch((error) => {
         dispatch({ type: ActionTypes.SEARCH_ERROR, payload: error.message });

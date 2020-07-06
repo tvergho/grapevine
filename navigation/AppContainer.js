@@ -42,9 +42,6 @@ class AppContainer extends Component {
       'Hiragino W5': require('assets/fonts/HiraginoSans-W5.otf'),
       'Hiragino W7': require('assets/fonts/HiraginoSans-W7.otf'),
     })
-      .then((result) => {
-        this.props.setFontsLoaded();
-      })
       .catch((error) => {
         console.log(error.message);
       })

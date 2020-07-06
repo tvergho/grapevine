@@ -6,10 +6,10 @@ import { Images, Colors } from 'res';
 import { DotIndicator } from 'react-native-indicators';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const PostRecButton = ({ onSubmit, loading }) => {
+const PostRecButton = ({ onSubmit, loading, disabled }) => {
   return (
     <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-      <TouchableOpacity style={styles.submitButton} onPress={onSubmit} disabled={loading}>
+      <TouchableOpacity style={[styles.submitButton, { backgroundColor: disabled ? 'rgba(255,183,178,0.8)' : 'rgba(255,183,178,1)' }]} onPress={onSubmit} disabled={loading || disabled}>
         {!loading ? (
           <>
             <Text style={styles.buttonText}>Post recommendation</Text>
