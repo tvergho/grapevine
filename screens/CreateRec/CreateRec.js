@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet, TextInput, KeyboardAvoidingView,
 } from 'react-native';
+import * as Location from 'expo-location';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import ModalHeader from 'components/ModalHeader';
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     width: wp('100%'),
     backgroundColor: Colors.WHITE,
-    maxHeight: hp('20%'),
+    maxHeight: hp('15%'),
   },
   recInput: {
     minHeight: 120,
