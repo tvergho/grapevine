@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import BusinessCard from 'components/BusinessCard';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import SearchBar from 'components/SearchBar';
-import { businessNameSearch, businessLocationScroll } from 'actions';
+import { businessNameSearch, businessLocationScroll, clearNameSearch } from 'actions';
 import _ from 'lodash';
 
 const DetailScreen = (props) => {
@@ -30,11 +30,14 @@ const DetailScreen = (props) => {
       props.businessNameSearch(term, location.latitude, location.longitude);
     }
   };
-  const searchDelayed = _.debounce(execSearch, 600);
+  const searchDelayed = _.debounce(execSearch, 700);
 
   const searchChange = (term) => {
     setQuery(term);
     searchDelayed(term);
+    if (term.length === 0) {
+      setTimeout(() => { props.clearNameSearch(); }, 500);
+    }
   };
 
   const displayedResults = query.length > 0 ? businessName : businessLoc;
@@ -78,4 +81,4 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, { businessNameSearch, businessLocationScroll })(DetailScreen);
+export default connect(mapStateToProps, { businessNameSearch, businessLocationScroll, clearNameSearch })(DetailScreen);

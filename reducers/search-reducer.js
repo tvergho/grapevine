@@ -38,6 +38,7 @@ const SearchReducer = (state = initialState, action) => {
         },
       };
     case SearchTypes.BUSINESS_NAME:
+      console.log('clear', searchResults);
       return {
         ...state,
         businessName: {

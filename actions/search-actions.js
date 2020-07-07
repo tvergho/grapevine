@@ -9,7 +9,18 @@ export function setCanLoad(canLoad) {
   return { type: ActionTypes.CAN_LOAD_SEARCH, payload: canLoad };
 }
 
+export function clearNameSearch() {
+  return {
+    type: ActionTypes.SET_SEARCH,
+    payload: {
+      searchResults: [],
+      type: SearchTypes.BUSINESS_NAME,
+    },
+  };
+}
+
 export function businessLocationSearch(lat, long) {
+  console.log('location');
   return (dispatch) => {
     dispatch({ type: ActionTypes.SEARCH_LOADING, payload: true });
 
