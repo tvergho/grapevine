@@ -62,10 +62,6 @@ class ProfileScreen extends Component {
     this.props.signOut();
   }
 
-  openFriends = () => {
-    this.props.navigation.navigate('Friends');
-  }
-
   listSection = () => {
     return (
       <View style={{ backgroundColor: '#000000' }}>
@@ -74,11 +70,12 @@ class ProfileScreen extends Component {
         />
 
         <ProfileListItem title="Friends"
-          onPress={this.openFriends}
+          onPress={() => { this.props.navigation.navigate('Friends'); }}
           icon={<FontAwesomeIcon icon={faHandshake} size={25} color="rgba(0,0,0,0.7)" style={{ marginRight: 20 }} />}
         />
 
         <ProfileListItem title="Payment"
+          onPress={() => { this.props.navigation.navigate('Payment'); }}
           icon={<FontAwesomeIcon icon={faMoneyCheck} size={25} color="rgba(0,0,0,0.7)" style={{ marginRight: 20 }} />}
         />
 

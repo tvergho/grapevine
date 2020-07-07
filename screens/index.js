@@ -10,7 +10,8 @@ import FriendsScreen from './Friends/FriendsScreen';
 import Business from './Business/Business';
 import AddFriendScreen from './AddFriend/AddFriendScreen';
 import DetailScreen from './HomeScreen/DetailScreen';
+import PaymentScreen from './Payment/PaymentScreen';
 
 export {
-  CreateRec, SignIn, SignUp, FeedScreen, HomeScreen, SignUpStep, ProfileScreen, FriendRequests, FriendsScreen, Business, AddFriendScreen, DetailScreen,
+  CreateRec, SignIn, SignUp, FeedScreen, HomeScreen, SignUpStep, ProfileScreen, FriendRequests, FriendsScreen, Business, AddFriendScreen, DetailScreen, PaymentScreen,
 };
