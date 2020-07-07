@@ -115,7 +115,13 @@ class HomeScreen extends Component {
         refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this.refresh} />}
       >
         <RecSection navigation={this.props.navigation} openFeed={this.openFeed} recs={Data.RECOMMENDATIONS} />
-        <BusinessSection navigation={this.props.navigation} searchResults={this.state.searchResults} loading={this.props.search.loading} refresh={this.refresh} />
+        <BusinessSection
+          navigation={this.props.navigation}
+          searchResults={this.state.searchResults}
+          loading={this.props.search.loading}
+          refresh={this.refresh}
+          location={this.state.curLoc}
+        />
       </ScrollView>
     );
   }

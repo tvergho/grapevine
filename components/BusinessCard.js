@@ -8,11 +8,11 @@ import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import TextBubble from './TextBubble';
 
-const LoadingCard = () => {
+const LoadingCard = ({ full }) => {
   return (
-    <View style={[styles.background, { marginBottom: 30 }]}>
+    <View style={[full ? styles.backgroundFull : styles.background, { marginBottom: 30 }]}>
       <SkeletonPlaceholder height={190} paddingLeft={10} paddingRight={10}>
-        <SkeletonPlaceholder.Item height={100} width={wp('100%') - 50} marginTop={10} marginBottom={10} alignSelf="center" borderRadius={10} />
+        <SkeletonPlaceholder.Item height={100} width={full ? wp('95%') : wp('100%') - 50} marginTop={10} marginBottom={10} alignSelf="center" borderRadius={10} />
         <SkeletonPlaceholder.Item marginBottom={6} width={180} height={20} borderRadius={10} />
         <SkeletonPlaceholder.Item marginBottom={6} width={250} height={15} borderRadius={10} />
       </SkeletonPlaceholder>
@@ -22,7 +22,7 @@ const LoadingCard = () => {
 
 const BusinessCard = (props) => {
   const {
-    index, business, navigation, loading,
+    index, business, navigation, loading, full,
   } = props;
 
   if (!loading) {
@@ -31,7 +31,7 @@ const BusinessCard = (props) => {
     } = business;
 
     return (
-      <View style={{ backgroundColor: 'black', borderRadius: 10, marginBottom: 20 }}>
+      <View style={{ backgroundColor: 'black', borderRadius: full ? 0 : 10, marginBottom: full ? 0 : 20 }}>
         <TouchableOpacity activeOpacity={0.9}
           onPress={() => {
             navigation.navigate('Business', {
@@ -39,7 +39,7 @@ const BusinessCard = (props) => {
             });
           }}
         >
-          <View style={styles.background}>
+          <View style={full ? styles.backgroundFull : styles.background}>
             <Image source={{ uri: photos[0] }} style={styles.imageStyle} />
 
             <View style={{
@@ -58,7 +58,7 @@ const BusinessCard = (props) => {
     );
   } else {
     return (
-      <LoadingCard />
+      <LoadingCard full={full} />
     );
   }
 };
@@ -70,6 +70,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: 'rgba(0,0,0,0.1)',
     borderWidth: 1,
+    height: 190,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  backgroundFull: {
+    backgroundColor: Colors.WHITE,
+    flex: 1,
+    borderBottomColor: 'rgba(0,0,0,0.1)',
+    borderBottomWidth: 1,
     height: 190,
     paddingLeft: 10,
     paddingRight: 10,

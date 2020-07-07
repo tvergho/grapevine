@@ -6,9 +6,9 @@ import { Button } from 'react-native-elements';
 const HomeSection = ({ children, onPress, title }) => {
   return (
     <View style={styles.section}>
-      <View style={styles.sectionHeader}>
+      <View style={[styles.sectionHeader, { paddingBottom: !onPress ? 7 : 0 }]}>
         <Text style={styles.sectionTitle}>{title}</Text>
-        <Button type="clear" titleStyle={styles.sectionButton} title="See all" onPress={onPress} />
+        {onPress ? <Button type="clear" titleStyle={styles.sectionButton} title="See all" onPress={onPress} /> : <></>}
       </View>
 
       {children}

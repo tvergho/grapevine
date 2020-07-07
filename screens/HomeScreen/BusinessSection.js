@@ -10,11 +10,20 @@ import { Colors } from 'res';
 import HomeSection from './HomeSection';
 
 const BusinessSection = ({
-  searchResults, navigation, loading, searchError, refresh,
+  searchResults, navigation, loading, searchError, refresh, location,
 }) => {
   console.log(searchError);
   return (
-    <HomeSection title="Boba Discounts">
+    <HomeSection
+      title="Boba Discounts"
+      onPress={!loading && searchResults.length === 0
+        ? () => {}
+        : () => {
+          navigation.navigate('Detail', {
+            title: 'Boba Discounts', refresh, placeholder: 'Search for a boba shop...', location,
+          });
+        }}
+    >
       <FlatList data={loading && searchResults.length === 0 ? Array.from(Array(10).keys()) : searchResults}
         renderItem={({ item, index }) => (<BusinessCard business={item} index={index} navigation={navigation} loading={loading} />)}
         keyExtractor={(biz) => biz.businessId}

@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
-  HomeScreen, FeedScreen, CreateRec, ProfileScreen, FriendsScreen, FriendRequests, Business, AddFriendScreen,
+  HomeScreen, FeedScreen, CreateRec, ProfileScreen, FriendsScreen, FriendRequests, Business, AddFriendScreen, DetailScreen,
 } from 'screens';
 import { Icon } from 'react-native-elements';
 
@@ -41,6 +41,7 @@ const HomeModal = () => {
     <Stack.Navigator initialRouteName="Home" mode="modal">
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="AddFriend" component={AddFriendScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Detail" component={DetailScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
