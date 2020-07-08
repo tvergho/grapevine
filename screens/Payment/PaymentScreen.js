@@ -21,7 +21,7 @@ const PaymentScreen = ({ navigation }) => {
           onExit={(data) => console.log('exit: ', data)}
           componentProps={{
             hitSlop: {
-              top: 30, left: 30, bottom: 30, right: 30,
+              top: 20, left: 20, bottom: 20, right: 20,
             },
           }}
         >
