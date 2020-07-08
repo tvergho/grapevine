@@ -5,12 +5,14 @@ import ModalHeader from 'components/ModalHeader';
 import SearchBar from 'components/SearchBar';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-const AddFriendHeader = ({ value, onChange, navigation }) => {
+const AddFriendHeader = ({
+  value, onChange, navigation, loading,
+}) => {
   return (
     <>
       <ModalHeader navigation={navigation}>
         <View style={styles.searchBarContainer}>
-          <SearchBar placeholder="Search by username..." value={value} onChange={onChange} width={wp('70%')} />
+          <SearchBar placeholder="Search by username..." value={value} onChange={onChange} width={wp('70%')} loading={loading} />
         </View>
 
       </ModalHeader>

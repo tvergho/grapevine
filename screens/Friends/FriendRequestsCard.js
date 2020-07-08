@@ -10,16 +10,16 @@ const FriendRequestsCard = ({ requests, navigation }) => {
 
   else {
     const friendRequests = requests.slice(0, 3);
-    const friendsText = `${requests[0].name.split(' ')[0]}, ${requests[1].name.split(' ')[0]}, and ${requests.length - 2} more`;
+    const friendsText = `${requests[0].full_name.split(' ')[0]}, ${requests[1].full_name.split(' ')[0]}, and ${requests.length - 2} more`;
 
     return (
       <View style={{ backgroundColor: 'black', minHeight: hp('10%') }}>
         <TouchableOpacity activeOpacity={0.9} onPress={() => { navigation.navigate('FriendRequests'); }}>
           <View style={cardStyles.background}>
 
-            {friendRequests.map(({ imageURL, username }) => {
+            {friendRequests.map(({ picture, username }) => {
               return (
-                <Image style={cardStyles.profileImage} source={{ uri: imageURL }} key={username} />
+                <Image style={cardStyles.profileImage} source={{ uri: picture }} key={username} />
               );
             })}
 

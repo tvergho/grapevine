@@ -2,13 +2,17 @@ import React from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { UIActivityIndicator } from 'react-native-indicators';
+import { Colors } from 'res';
 
 const SearchBar = ({
-  placeholder, value, onChange, width, containerStyle, border,
+  placeholder, value, onChange, width, containerStyle, border, loading,
 }) => {
   return (
     <View style={[{ ...containerStyle, flex: -1, flexDirection: 'row' }, border ? styles.border : {}]}>
-      <FontAwesomeIcon icon={faSearch} size={20} color="rgba(0,0,0,0.7)" />
+      {!loading
+        ? <FontAwesomeIcon icon={faSearch} size={20} color="rgba(0,0,0,0.7)" />
+        : <UIActivityIndicator size={20} color={Colors.BLACK} style={{ marginBottom: 10, marginRight: 10 }} />}
       <TextInput style={[styles.searchBar, { width }]}
         placeholder={placeholder}
         placeholderTextColor="#D8D8D8"

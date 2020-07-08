@@ -28,3 +28,17 @@ export function makeRec(business_id, message, callback) {
     });
   };
 }
+
+export function makeFriendRequest(userId) {
+  SecureStore.getItemAsync('accessToken').then((token) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+        ToUserID: userId,
+      }),
+    };
+
+    fetch(`${API_URL}/request`, requestOptions);
+  });
+}

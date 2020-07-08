@@ -3,13 +3,17 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { Colors } from 'res';
-import * as Data from 'data';
 import FriendsItem from 'components/FriendsItem';
+import { connect } from 'react-redux';
+import { usernameSearch, clearUsernameSearch } from 'actions';
+import _ from 'lodash';
 import AddFriendHeader from './AddFriendHeader';
 
 class AddFriendScreen extends Component {
   constructor(props) {
     super(props);
+
+    this.searchDelayed = _.debounce(this.search, 300);
 
     this.state = {
       username: '',
@@ -18,13 +22,27 @@ class AddFriendScreen extends Component {
 
   onChangeUsername = (username) => {
     this.setState({ username });
+    this.searchDelayed(username);
+  }
+
+  search = (username) => {
+    if (username.length > 0) {
+      this.props.usernameSearch(username);
+    } else {
+      this.props.clearUsernameSearch();
+    }
   }
 
   render() {
+    const { username, loading } = this.props.search;
     return (
       <View style={styles.background}>
-        <AddFriendHeader navigation={this.props.navigation} value={this.state.username} onChange={this.onChangeUsername} />
-        <FlatList data={Data.FRIENDS} renderItem={({ item }) => (<FriendsItem user={item} type="add" />)} keyExtractor={(friend) => friend.username} />
+        <AddFriendHeader navigation={this.props.navigation} value={this.state.username} onChange={this.onChangeUsername} loading={loading} />
+        <FlatList
+          data={this.state.username.length > 0 ? username.searchResults : []}
+          renderItem={({ item }) => (<FriendsItem user={item} type="add" />)}
+          keyExtractor={(friend) => friend.username}
+        />
       </View>
     );
   }
@@ -44,4 +62,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddFriendScreen;
+const mapStateToProps = (reduxState) => (
+  {
+    search: reduxState.search,
+  }
+);
+
+export default connect(mapStateToProps, { usernameSearch, clearUsernameSearch })(AddFriendScreen);

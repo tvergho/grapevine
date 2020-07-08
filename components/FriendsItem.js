@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable global-require */
 import React, { useState } from 'react';
 import {
@@ -7,9 +8,10 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Icon } from 'react-native-elements';
 import { Images, Colors } from 'res';
 import TextBubble from 'components/TextBubble';
+import { makeFriendRequest } from 'actions';
 
 const FriendsItem = ({ user, type }) => {
-  const { name, username, imageURL } = user;
+  const { full_name, username, picture } = user;
   const [accepted, setAccepted] = useState(false);
   const [cancelled, setCancelled] = useState(false);
   const [sent, setSent] = useState(false);
@@ -23,6 +25,7 @@ const FriendsItem = ({ user, type }) => {
   };
 
   const onSent = () => {
+    makeFriendRequest(user.UserID);
     setSent(true);
   };
 
@@ -69,7 +72,7 @@ const FriendsItem = ({ user, type }) => {
   };
 
   const subText = () => {
-    if (!accepted && !cancelled && !sent) return username;
+    if (!accepted && !cancelled && !sent) return `@${username}`;
     else if (accepted) return 'This friend request has been accepted.';
     else if (sent) return 'Friend request sent.';
     else if (cancelled) return 'This friend request has been cancelled.';
@@ -80,10 +83,10 @@ const FriendsItem = ({ user, type }) => {
     <View style={{ backgroundColor: 'black' }}>
       <TouchableOpacity activeOpacity={0.9}>
         <View style={styles.background}>
-          <Image source={{ uri: imageURL }} style={styles.profilePic} />
+          <Image source={{ uri: picture }} style={styles.profilePic} />
 
           <View style={{ marginLeft: 10 }}>
-            <TextBubble text={name} textStyle={styles.nameText} backgroundColor={Colors.WHITE} minWidth={60} style={styles.customShadow} />
+            <TextBubble text={full_name} textStyle={styles.nameText} backgroundColor={Colors.WHITE} style={styles.customShadow} />
             <Text style={styles.usernameText}>{subText()}</Text>
           </View>
 

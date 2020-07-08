@@ -2,6 +2,7 @@
 /* eslint-disable import/no-cycle */
 import { ActionTypes } from 'actions';
 import { SearchTypes } from 'reducers/search-reducer';
+import * as SecureStore from 'expo-secure-store';
 
 const API_URL = 'https://03q30dqfqi.execute-api.us-east-2.amazonaws.com/dev';
 
@@ -19,6 +20,16 @@ export function clearNameSearch() {
     payload: {
       searchResults: [],
       type: SearchTypes.BUSINESS_NAME,
+    },
+  };
+}
+
+export function clearUsernameSearch() {
+  return {
+    type: ActionTypes.SET_SEARCH,
+    payload: {
+      searchResults: [],
+      type: SearchTypes.USERNAME,
     },
   };
 }
@@ -126,5 +137,31 @@ export function allBusinessSearch(lat, long) {
       .finally(() => {
         dispatch({ type: ActionTypes.SEARCH_LOADING, payload: false });
       });
+  };
+}
+
+export function usernameSearch(username) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.SEARCH_LOADING, payload: true });
+
+    SecureStore.getItemAsync('accessToken').then((token) => {
+      fetch(`${API_URL}/users/username?username=${username}`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
+        .then((response) => response.json())
+        .then((json) => {
+          dispatch({
+            type: ActionTypes.SET_SEARCH,
+            payload: {
+              searchResults: json.response,
+              type: SearchTypes.USERNAME,
+            },
+          });
+        })
+        .catch((error) => {
+          dispatch({ type: ActionTypes.SEARCH_ERROR, payload: error.message });
+        })
+        .finally(() => {
+          dispatch({ type: ActionTypes.SEARCH_LOADING, payload: false });
+        });
+    });
   };
 }

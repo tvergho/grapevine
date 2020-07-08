@@ -5,6 +5,7 @@ export const SearchTypes = {
   BUSINESS_LOC: 'BUSINESS_LOC',
   BUSINESS_NAME: 'BUSINESS_NAME',
   BUSINESS_ALL: 'BUSINESS_ALL',
+  USERNAME: 'USERNAME',
 };
 
 const initialState = {
@@ -16,6 +17,9 @@ const initialState = {
     searchResults: [],
   },
   businessAll: {
+    searchResults: [],
+  },
+  username: {
     searchResults: [],
   },
   error: '',
@@ -49,6 +53,13 @@ const SearchReducer = (state = initialState, action) => {
       return {
         ...state,
         businessAll: {
+          searchResults,
+        },
+      };
+    case SearchTypes.USERNAME:
+      return {
+        ...state,
+        username: {
           searchResults,
         },
       };
