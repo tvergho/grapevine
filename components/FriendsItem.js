@@ -9,6 +9,7 @@ import { Icon } from 'react-native-elements';
 import { Images, Colors } from 'res';
 import TextBubble from 'components/TextBubble';
 import { makeFriendRequest } from 'actions';
+import { connect } from 'react-redux';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 const LoadingCard = () => {
@@ -25,13 +26,17 @@ const LoadingCard = () => {
   );
 };
 
-const FriendsItem = ({ user, type, loading }) => {
+const FriendsItem = ({
+  user, type, loading, userId,
+}) => {
   if (loading) {
     return (
       <LoadingCard />
     );
   } else {
-    const { full_name, username, picture } = user;
+    const {
+      full_name, username, picture, status, UserID,
+    } = user;
     const [accepted, setAccepted] = useState(false);
     const [cancelled, setCancelled] = useState(false);
     const [sent, setSent] = useState(false);
@@ -45,29 +50,60 @@ const FriendsItem = ({ user, type, loading }) => {
     };
 
     const onSent = () => {
-      makeFriendRequest(user.UserID);
+      makeFriendRequest(UserID);
       setSent(true);
     };
 
+    const friendRequest = () => {
+      return (
+        <View style={{
+          position: 'absolute', right: 15, flex: -1, flexDirection: 'row',
+        }}
+        >
+          <TouchableOpacity style={styles.acceptButton} onPress={onAccept}>
+            <Text style={styles.acceptText}>Accept</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
+            <Icon name="times" type="font-awesome" size={20} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
+      );
+    };
+
+    const addRequest = () => {
+      return (
+        <TouchableOpacity style={[styles.cancelButton, { position: 'absolute', right: 15 }]} onPress={onSent}>
+          <Icon name="plus" type="font-awesome" size={20} color="#FFFFFF" iconStyle={{ paddingTop: 2 }} />
+        </TouchableOpacity>
+      );
+    };
+
     const renderIcon = () => {
+      const send = (<Image source={Images.sendPink} style={styles.icon} />);
+
+      if (UserID === userId) return send;
+
+      if (status) {
+        switch (status) {
+        case 'friends':
+          return send;
+        case 'requested':
+          return (<></>);
+        case 'requests':
+          return (friendRequest());
+        default:
+          break;
+        }
+      }
+
       switch (type) {
       case 'send':
-        return (<Image source={Images.sendPink} style={styles.icon} />);
+        return send;
       case 'request': {
         if (!accepted && !cancelled) {
           return (
-            <View style={{
-              position: 'absolute', right: 15, flex: -1, flexDirection: 'row',
-            }}
-            >
-              <TouchableOpacity style={styles.acceptButton} onPress={onAccept}>
-                <Text style={styles.acceptText}>Accept</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
-                <Icon name="times" type="font-awesome" size={20} color="#FFFFFF" />
-              </TouchableOpacity>
-            </View>
+            friendRequest()
           );
         } else {
           return (<></>);
@@ -76,9 +112,7 @@ const FriendsItem = ({ user, type, loading }) => {
       case 'add': {
         if (!sent) {
           return (
-            <TouchableOpacity style={[styles.cancelButton, { position: 'absolute', right: 15 }]} onPress={onSent}>
-              <Icon name="plus" type="font-awesome" size={20} color="#FFFFFF" iconStyle={{ paddingTop: 2 }} />
-            </TouchableOpacity>
+            addRequest()
           );
         } else {
           return (<></>);
@@ -92,7 +126,8 @@ const FriendsItem = ({ user, type, loading }) => {
     };
 
     const subText = () => {
-      if (!accepted && !cancelled && !sent) return `@${username}`;
+      if (status && status === 'requested') return 'Friend request sent.';
+      else if (!accepted && !cancelled && !sent) return `@${username}`;
       else if (accepted) return 'This friend request has been accepted.';
       else if (sent) return 'Friend request sent.';
       else if (cancelled) return 'This friend request has been cancelled.';
@@ -190,4 +225,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FriendsItem;
+const mapStateToProps = (reduxState) => (
+  {
+    userId: reduxState.user.userId,
+  }
+);
+
+export default connect(mapStateToProps, null)(FriendsItem);

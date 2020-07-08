@@ -20,6 +20,10 @@ class AddFriendScreen extends Component {
     };
   }
 
+  componentWillUnmount() {
+    this.props.clearUsernameSearch();
+  }
+
   onChangeUsername = (username) => {
     this.setState({ username });
     this.searchDelayed(username);

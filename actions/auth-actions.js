@@ -160,7 +160,10 @@ function refresh(useToLogin) {
         .then((response) => response.json())
         .then((json) => {
           SecureStore.setItemAsync('accessToken', json.access_token)
-            .then(() => { if (useToLogin) dispatch(loginWithToken(json.access_token)); })
+            .then(() => {
+              console.log('accessToken', json.access_token);
+              if (useToLogin) dispatch(loginWithToken(json.access_token));
+            })
             .catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
         }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
     }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
