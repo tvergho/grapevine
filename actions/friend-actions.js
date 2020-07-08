@@ -9,9 +9,11 @@ export function getFriends() {
     dispatch({ type: ActionTypes.FRIENDS_LOADING, payload: true });
 
     SecureStore.getItemAsync('accessToken').then((token) => {
+      console.log(token);
       fetch(`${API_URL}/friends`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
         .then((response) => response.json())
         .then((json) => {
+          console.log(json);
           dispatch({ type: ActionTypes.SET_FRIENDS, payload: json.friends });
         })
         .catch((error) => { console.log(error); })
@@ -34,4 +36,35 @@ export function getFriendRequests() {
         .finally(() => { dispatch({ type: ActionTypes.REQUESTS_LOADING, payload: false }); });
     });
   };
+}
+
+export function deleteFriend(friendId) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.DELETE_FRIEND, payload: friendId });
+    SecureStore.getItemAsync('accessToken').then((token) => {
+      const options = {
+        method: 'DELETE',
+        headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          to: friendId,
+        }),
+      };
+
+      fetch(`${API_URL}/friends`, options);
+    });
+  };
+}
+
+export function addFriend(friendId) {
+  SecureStore.getItemAsync('accessToken').then((token) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+        to: friendId,
+      }),
+    };
+
+    fetch(`${API_URL}/friends`, requestOptions);
+  });
 }

@@ -46,6 +46,7 @@ class AddFriendScreen extends Component {
           data={this.state.username.length > 0 ? username.searchResults : []}
           renderItem={({ item }) => (<FriendsItem user={item} type="add" />)}
           keyExtractor={(friend) => friend.username}
+          keyboardShouldPersistTaps="always"
         />
       </View>
     );

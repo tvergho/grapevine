@@ -19,6 +19,7 @@ export const ActionTypes = {
   SET_REQUESTS: 'SET_REQUESTS',
   FRIENDS_LOADING: 'FRIENDS_LOADING',
   REQUESTS_LOADING: 'REQUESTS_LOADING',
+  DELETE_FRIEND: 'DELETE_FRIEND',
 };
 
 export * from './auth-actions';

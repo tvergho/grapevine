@@ -42,3 +42,17 @@ export function makeFriendRequest(userId) {
     fetch(`${API_URL}/request`, requestOptions);
   });
 }
+
+export function deleteFriendRequest(userId) {
+  SecureStore.getItemAsync('accessToken').then((token) => {
+    const requestOptions = {
+      method: 'DELETE',
+      headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+        toUserId: userId,
+      }),
+    };
+
+    fetch(`${API_URL}/request`, requestOptions);
+  });
+}

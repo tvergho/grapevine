@@ -8,7 +8,7 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Icon } from 'react-native-elements';
 import { Images, Colors } from 'res';
 import TextBubble from 'components/TextBubble';
-import { makeFriendRequest } from 'actions';
+import { makeFriendRequest, deleteFriendRequest, addFriend } from 'actions';
 import { connect } from 'react-redux';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
@@ -27,7 +27,7 @@ const LoadingCard = () => {
 };
 
 const FriendsItem = ({
-  user, type, loading, userId,
+  user, type, loading, userId, shouldRefresh,
 }) => {
   if (loading) {
     return (
@@ -42,11 +42,15 @@ const FriendsItem = ({
     const [sent, setSent] = useState(false);
 
     const onAccept = () => {
+      addFriend(UserID);
       setAccepted(true);
+      if (shouldRefresh) shouldRefresh(true);
     };
 
     const onCancel = () => {
+      deleteFriendRequest(UserID);
       setCancelled(true);
+      if (shouldRefresh) shouldRefresh(true);
     };
 
     const onSent = () => {
@@ -55,20 +59,24 @@ const FriendsItem = ({
     };
 
     const friendRequest = () => {
-      return (
-        <View style={{
-          position: 'absolute', right: 15, flex: -1, flexDirection: 'row',
-        }}
-        >
-          <TouchableOpacity style={styles.acceptButton} onPress={onAccept}>
-            <Text style={styles.acceptText}>Accept</Text>
-          </TouchableOpacity>
+      if (!accepted && !cancelled) {
+        return (
+          <View style={{
+            position: 'absolute', right: 15, flex: -1, flexDirection: 'row',
+          }}
+          >
+            <TouchableOpacity style={styles.acceptButton} onPress={onAccept}>
+              <Text style={styles.acceptText}>Accept</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
-            <Icon name="times" type="font-awesome" size={20} color="#FFFFFF" />
-          </TouchableOpacity>
-        </View>
-      );
+            <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
+              <Icon name="times" type="font-awesome" size={20} color="#FFFFFF" />
+            </TouchableOpacity>
+          </View>
+        );
+      } else {
+        return (<></>);
+      }
     };
 
     const addRequest = () => {

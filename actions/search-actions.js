@@ -145,7 +145,7 @@ export function usernameSearch(username) {
     dispatch({ type: ActionTypes.SEARCH_LOADING, payload: true });
 
     SecureStore.getItemAsync('accessToken').then((token) => {
-      fetch(`${API_URL}/users/username?username=${username}`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
+      fetch(`${API_URL}/users/username?username=${username.replace('@', '')}`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
         .then((response) => response.json())
         .then((json) => {
           dispatch({

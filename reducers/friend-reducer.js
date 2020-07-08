@@ -29,6 +29,18 @@ const FriendReducer = (state = initialState, action) => {
       ...state,
       requests: action.payload,
     };
+  case ActionTypes.DELETE_FRIEND: {
+    const updatedFriends = [];
+    for (const friend of state.friends) {
+      if (friend.UserID !== action.payload) {
+        updatedFriends.push(friend);
+      }
+    }
+    return {
+      ...state,
+      friends: updatedFriends,
+    };
+  }
   default:
     return state;
   }
