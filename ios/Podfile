@@ -4,7 +4,7 @@ require_relative '../node_modules/react-native-unimodules/cocoapods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 
-target 'RecRoom' do
+target 'BobaMe' do
   rnPrefix = "../node_modules/react-native"
   use_modular_headers!
 
@@ -40,6 +40,7 @@ target 'RecRoom' do
   pod 'DoubleConversion', :podspec => "#{rnPrefix}/third-party-podspecs/DoubleConversion.podspec"
   pod 'glog', :podspec => "#{rnPrefix}/third-party-podspecs/glog.podspec", :modular_headers => false
   pod 'Folly', :podspec => "#{rnPrefix}/third-party-podspecs/Folly.podspec", :modular_headers => false
+  pod 'Plaid', '~> 1.1.33'
 
   # Other native modules
   

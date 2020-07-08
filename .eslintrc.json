@@ -57,7 +57,8 @@
             ["navigation", "./navigation"],
             ["reducers", "./reducers"],
             ["res", "./res"],
-            ["screens", "./screens"]
+            ["screens", "./screens"],
+            ["utils", "./utils"]
           ]
         }
       }

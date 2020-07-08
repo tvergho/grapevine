@@ -9,6 +9,10 @@ export function setCanLoad(canLoad) {
   return { type: ActionTypes.CAN_LOAD_SEARCH, payload: canLoad };
 }
 
+export function setSearchLoad(load) {
+  return { type: ActionTypes.SEARCH_LOADING, payload: load };
+}
+
 export function clearNameSearch() {
   return {
     type: ActionTypes.SET_SEARCH,

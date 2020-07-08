@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View, StyleSheet, FlatList, RefreshControl,
 } from 'react-native';
@@ -8,47 +8,65 @@ import { connect } from 'react-redux';
 import BusinessCard from 'components/BusinessCard';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import SearchBar from 'components/SearchBar';
-import { businessNameSearch, businessLocationScroll, clearNameSearch } from 'actions';
+import {
+  businessNameSearch, businessLocationScroll, clearNameSearch, setSearchLoad,
+} from 'actions';
 import _ from 'lodash';
+import { withLocation } from 'utils';
+
+const UpdateBusinessCard = React.memo(({
+  item, index, navigation, loading,
+}) => {
+  return (
+    <BusinessCard business={item} index={index} navigation={navigation} loading={loading} full />
+  );
+});
 
 const DetailScreen = (props) => {
-  const { navigation, route, search } = props;
+  const {
+    navigation, route, search, location,
+  } = props;
 
   const [refreshing, setRefreshing] = useState(false);
   const [query, setQuery] = useState('');
   const { loading, businessLoc, businessName } = search;
   const {
-    title, refresh, placeholder, location,
+    title, refresh, placeholder,
   } = route.params;
 
   useEffect(() => {
     if (!loading) setRefreshing(false);
-  });
+    if (query.length === 0) {
+      props.clearNameSearch();
+    }
+  }, [query, loading]);
 
   const execSearch = (term) => {
     if (term.length > 0) {
       props.businessNameSearch(term, location.latitude, location.longitude);
     }
   };
-  const searchDelayed = _.debounce(execSearch, 700);
+
+  const searchDelayed = useRef(_.debounce(execSearch, 300)).current;
 
   const searchChange = (term) => {
-    setQuery(term);
-    searchDelayed(term);
-    if (term.length === 0) {
-      setTimeout(() => { props.clearNameSearch(); }, 500);
+    if (term.length > 0) {
+      props.setSearchLoad(true);
+      searchDelayed(term);
     }
+    setQuery(term);
   };
 
   const displayedResults = query.length > 0 ? businessName : businessLoc;
+  const isLoading = (loading && displayedResults.searchResults.length === 0);
 
   return (
     <View style={styles.background}>
       <ModalHeader navigation={navigation} title={title} />
       <SearchBar width={wp('85%')} placeholder={placeholder} onChange={searchChange} value={query} border />
 
-      <FlatList data={loading && displayedResults.searchResults.length === 0 ? Array.from(Array(10).keys()) : displayedResults.searchResults}
-        renderItem={({ item, index }) => (<BusinessCard business={item} index={index} navigation={navigation} loading={loading} full />)}
+      <FlatList data={isLoading ? Array.from(Array(10).keys()) : displayedResults.searchResults}
+        renderItem={({ item, index }) => (<UpdateBusinessCard item={item} index={index} navigation={navigation} loading={loading || refreshing} full />)}
         keyExtractor={(biz) => biz.businessId}
         refreshControl={(
           <RefreshControl refreshing={refreshing}
@@ -81,4 +99,6 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, { businessNameSearch, businessLocationScroll, clearNameSearch })(DetailScreen);
+export default withLocation(connect(mapStateToProps, {
+  businessNameSearch, businessLocationScroll, clearNameSearch, setSearchLoad,
+})(DetailScreen));

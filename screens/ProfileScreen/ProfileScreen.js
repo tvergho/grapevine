@@ -74,7 +74,7 @@ class ProfileScreen extends Component {
           icon={<FontAwesomeIcon icon={faHandshake} size={25} color="rgba(0,0,0,0.7)" style={{ marginRight: 20 }} />}
         />
 
-        <ProfileListItem title="Payment"
+        <ProfileListItem title="Accounts"
           onPress={() => { this.props.navigation.navigate('Payment'); }}
           icon={<FontAwesomeIcon icon={faMoneyCheck} size={25} color="rgba(0,0,0,0.7)" style={{ marginRight: 20 }} />}
         />

@@ -7,13 +7,13 @@ import React, { Component } from 'react';
 import {
   View, StyleSheet, ScrollView, RefreshControl,
 } from 'react-native';
-import * as Location from 'expo-location';
 import { connect } from 'react-redux';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import BottomSheet from 'components/ReanimatedBottomSheet_patched';
 import * as Data from 'data';
 import { businessLocationSearch, businessLocationScroll, setCanLoad } from 'actions';
 import Constants from 'expo-constants';
+import { withLocation } from 'utils';
 import RecSection from './RecSection';
 import MapSection from './MapSection';
 import BusinessSection from './BusinessSection';
@@ -29,10 +29,6 @@ class HomeScreen extends Component {
         latitudeDelta: 0.12,
         longitudeDelta: 0.15,
       },
-      curLoc: {
-        latitude: 37.343566,
-        longitude: -121.918752,
-      },
       locations: [],
       scroll: false,
       searchResults: [],
@@ -41,19 +37,10 @@ class HomeScreen extends Component {
   }
 
   componentDidMount() {
-    // Checks to see whether permission's been granted and requests permission if necessary.
     // Immediately jumps to loading on the simulator.
-    if (Constants.isDevice) {
-      Location.getPermissionsAsync()
-        .then((response) => {
-          if (!response.granted) {
-            this.requestPermission();
-          } else {
-            this.detectLocation();
-          }
-        });
-    } else {
-      this.props.businessLocationSearch(this.state.curLoc.latitude, this.state.curLoc.longitude);
+    if (!Constants.isDevice) {
+      console.log(this.props.location);
+      this.props.businessLocationSearch(this.props.location.latitude, this.props.location.longitude);
     }
   }
 
@@ -64,36 +51,20 @@ class HomeScreen extends Component {
           searchResults: this.props.search.businessLoc.searchResults,
         }, () => { setTimeout(() => { this.props.setCanLoad(true); }, 500); });
       }
-    }
-  }
 
-  requestPermission = () => {
-    Location.requestPermissionsAsync()
-      .then((response) => {
-        if (response.granted) {
-          this.detectLocation();
-        }
-      });
+      if (this.props.location !== prevProps.location) {
+        const { latitude, longitude } = this.props.location;
+        const newLoc = { ...this.state.location };
+        newLoc.latitude = latitude;
+        newLoc.longitude = longitude;
+        this.setState(() => { return ({ location: newLoc }); });
+        this.props.businessLocationSearch(latitude, longitude);
+      }
+    }
   }
 
   onRegionChange = (region) => {
     this.setState({ location: region });
-  }
-
-  detectLocation = () => {
-    // Updates the latitude and longitude of the current map region in state.
-    Location.getCurrentPositionAsync()
-      .then((location) => {
-        const newLoc = { ...this.state.location };
-        newLoc.latitude = location.coords.latitude;
-        newLoc.longitude = location.coords.longitude;
-        this.setState(() => { return ({ location: newLoc, curLoc: newLoc }); });
-        this.props.businessLocationSearch(location.coords.latitude, location.coords.longitude);
-      })
-      .catch((error) => {
-        console.log(error);
-        this.props.businessLocationSearch(this.state.curLoc.latitude, this.state.curLoc.longitude);
-      });
   }
 
   bottomSheetContent = () => {
@@ -120,7 +91,7 @@ class HomeScreen extends Component {
           searchResults={this.state.searchResults}
           loading={this.props.search.loading}
           refresh={this.refresh}
-          location={this.state.curLoc}
+          location={this.props.location}
         />
       </ScrollView>
     );
@@ -131,12 +102,12 @@ class HomeScreen extends Component {
   }
 
   scroll = () => {
-    this.props.businessLocationScroll(this.state.curLoc.latitude, this.state.curLoc.longitude, this.props.search.businessLoc.scrollId);
+    this.props.businessLocationScroll(this.props.location.latitude, this.props.location.longitude, this.props.search.businessLoc.scrollId);
   }
 
   refresh = () => {
     this.setState({ refresh: true });
-    this.props.businessLocationSearch(this.state.curLoc.latitude, this.state.curLoc.longitude);
+    this.props.businessLocationSearch(this.props.location.latitude, this.props.location.longitude);
   }
 
   header = () => {
@@ -209,4 +180,4 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, { businessLocationScroll, businessLocationSearch, setCanLoad })(HomeScreen);
+export default withLocation(connect(mapStateToProps, { businessLocationScroll, businessLocationSearch, setCanLoad })(HomeScreen));

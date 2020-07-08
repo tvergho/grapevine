@@ -7,7 +7,6 @@ import _ from 'lodash';
 import {
   StyleSheet, TextInput, KeyboardAvoidingView,
 } from 'react-native';
-import * as Location from 'expo-location';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import ModalHeader from 'components/ModalHeader';
 import { Colors } from 'res';
@@ -15,7 +14,7 @@ import {
   businessLocationSearch, allBusinessSearch, makeRec, businessNameSearch,
 } from 'actions';
 import { connect } from 'react-redux';
-import Constants from 'expo-constants';
+import { withLocation } from 'utils';
 import DropdownSearchBar from './DropdownSearchBar';
 import PostRecButton from './PostRecButton';
 
@@ -31,41 +30,13 @@ class CreateRec extends Component {
       shadow: false,
       rec: '',
       businesses: [],
-      curLoc: {
-        latitude: 37.343566,
-        longitude: -121.918752,
-      },
     };
-  }
-
-  componentDidMount() {
-    if (Constants.isDevice) {
-      Location.getPermissionsAsync()
-        .then((response) => {
-          if (response.granted) {
-            this.detectLocation();
-          }
-        });
-    }
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.search.businessName !== prevProps.search.businessName) {
       this.setState({ businesses: this.props.search.businessName.searchResults });
     }
-  }
-
-  detectLocation = () => {
-    Location.getCurrentPositionAsync()
-      .then((location) => {
-        const newLoc = { ...this.state.location };
-        newLoc.latitude = location.coords.latitude;
-        newLoc.longitude = location.coords.longitude;
-        this.setState(() => { return ({ location: newLoc, curLoc: newLoc }); });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }
 
   onSelectBusiness = (biz) => {
@@ -91,7 +62,7 @@ class CreateRec extends Component {
 
   search = (search) => {
     if (search.length > 0) {
-      this.props.businessNameSearch(search, this.state.curLoc.latitude, this.state.curLoc.longitude);
+      this.props.businessNameSearch(search, this.props.location.latitude, this.props.location.longitude);
     }
   }
 
@@ -186,6 +157,6 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, {
+export default withLocation(connect(mapStateToProps, {
   businessLocationSearch, allBusinessSearch, makeRec, businessNameSearch,
-})(CreateRec);
+})(CreateRec));

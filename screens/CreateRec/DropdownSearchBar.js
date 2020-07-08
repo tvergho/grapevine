@@ -17,7 +17,7 @@ const DropdownSearchBar = ({
   const searchViewHeight = useRef(new Animated.Value(0)).current;
   const searchViewScale = searchViewHeight.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, hp('50%')],
+    outputRange: [0, hp('100%')],
   });
 
   const searchViewStyle = [{ ...styles.itemList, height: searchViewScale }];
