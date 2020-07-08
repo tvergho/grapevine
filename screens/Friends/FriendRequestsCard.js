@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import React from 'react';
 import {
   View, StyleSheet, Image, TouchableOpacity, Text,
@@ -10,7 +11,21 @@ const FriendRequestsCard = ({ requests, navigation }) => {
 
   else {
     const friendRequests = requests.slice(0, 3);
-    const friendsText = `${requests[0].full_name.split(' ')[0]}, ${requests[1].full_name.split(' ')[0]}, and ${requests.length - 2} more`;
+
+    let friendsText = '';
+    switch (friendRequests.length) {
+    case 0:
+      return null;
+    case 1:
+      friendsText = `${requests[0].first_name} ${requests[0].last_name}`;
+      break;
+    case 2:
+      friendsText = `${requests[0].first_name} and ${requests[1].first_name}`;
+      break;
+    default:
+      friendsText = `${requests[0].first_name}, ${requests[1].first_name}, and ${requests.length - 2} more`;
+      break;
+    }
 
     return (
       <View style={{ backgroundColor: 'black', minHeight: hp('10%') }}>

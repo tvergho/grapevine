@@ -15,9 +15,14 @@ export const ActionTypes = {
   SEARCH_LOADING: 'SEARCH_LOADING',
   POST_LOADING: 'POST_LOADING',
   POST_LOADING_STOP: 'POST_LOADING_STOP',
+  SET_FRIENDS: 'SET_FRIENDS',
+  SET_REQUESTS: 'SET_REQUESTS',
+  FRIENDS_LOADING: 'FRIENDS_LOADING',
+  REQUESTS_LOADING: 'REQUESTS_LOADING',
 };
 
 export * from './auth-actions';
 export * from './lifecycle-actions';
 export * from './search-actions';
 export * from './post-actions';
+export * from './friend-actions';

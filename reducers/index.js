@@ -5,6 +5,7 @@ import UserReducer from './user-reducer';
 import AuthReducer from './auth-reducer';
 import SearchReducer from './search-reducer';
 import PostReducer from './post-reducer';
+import FriendReducer from './friend-reducer';
 
 const rootReducer = combineReducers({
   lifecycle: LifecycleReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   auth: AuthReducer,
   search: SearchReducer,
   post: PostReducer,
+  friends: FriendReducer,
 });
 
 export default rootReducer;

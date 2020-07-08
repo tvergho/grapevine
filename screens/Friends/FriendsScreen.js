@@ -1,20 +1,34 @@
 /* eslint-disable react/destructuring-assignment */
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View, StyleSheet, FlatList,
 } from 'react-native';
 import ModalHeader from 'components/ModalHeader';
-import * as Data from 'data';
 import FriendsItem from 'components/FriendsItem';
+import { getFriendRequests, getFriends } from 'actions';
+import { connect } from 'react-redux';
 import FriendRequestsCard from './FriendRequestsCard';
 
 const FriendsScreen = (props) => {
   const { navigation } = props;
+
+  useEffect(() => {
+    props.getFriendRequests();
+    props.getFriends();
+  }, []);
+
+  const { requestsLoading, friendsLoading } = props.friends;
+  const loading = requestsLoading || friendsLoading;
+
   return (
     <View style={styles.background}>
       <ModalHeader navigation={navigation} title="Friends" />
-      <FriendRequestsCard requests={Data.FRIEND_REQUESTS} navigation={navigation} />
-      <FlatList data={Data.FRIENDS} renderItem={({ item }) => (<FriendsItem user={item} type="send" />)} keyExtractor={(friend) => friend.username} />
+      {!loading ? <FriendRequestsCard requests={props.friends.requests} navigation={navigation} /> : <></>}
+      <FlatList
+        data={loading ? Array.from(Array(5).keys()) : props.friends.friends}
+        renderItem={({ item }) => (<FriendsItem loading={loading} user={item} type="send" />)}
+        keyExtractor={(friend) => friend.username}
+      />
     </View>
   );
 };
@@ -26,4 +40,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FriendsScreen;
+const mapStateToProps = (reduxState) => (
+  {
+    friends: reduxState.friends,
+  }
+);
+
+export default connect(mapStateToProps, { getFriendRequests, getFriends })(FriendsScreen);
