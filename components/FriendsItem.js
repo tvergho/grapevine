@@ -1,8 +1,9 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable camelcase */
 /* eslint-disable global-require */
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
-  View, StyleSheet, Image, TouchableOpacity, Text,
+  View, StyleSheet, Image, TouchableOpacity, Text, Animated,
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Icon } from 'react-native-elements';
@@ -11,6 +12,9 @@ import TextBubble from 'components/TextBubble';
 import { makeFriendRequest, deleteFriendRequest, addFriend } from 'actions';
 import { connect } from 'react-redux';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import Swipeable from 'react-native-swipeable-row';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faUserTimes } from '@fortawesome/free-solid-svg-icons';
 
 const LoadingCard = () => {
   return (
@@ -27,7 +31,7 @@ const LoadingCard = () => {
 };
 
 const FriendsItem = ({
-  user, type, loading, userId, shouldRefresh,
+  user, type, loading, userId, shouldRefresh, swipeable, onRemove,
 }) => {
   if (loading) {
     return (
@@ -142,10 +146,51 @@ const FriendsItem = ({
       else return '';
     };
 
-    return (
-      <View style={{ backgroundColor: 'black' }}>
+    const leftContent = (
+      <View style={{
+        backgroundColor: '#EB6660', flex: 1, alignItems: 'flex-end', justifyContent: 'center',
+      }}
+      >
+        <FontAwesomeIcon icon={faUserTimes} size={40} color="white" style={{ marginRight: 15 }} />
+      </View>
+    );
+
+    const deleteValue = useRef(new Animated.Value(1)).current;
+    const deleteScale = deleteValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    });
+    const deleteStyles = [
+      styles.background,
+      { opacity: deleteValue },
+      {
+        transform: [
+          { scale: deleteValue },
+        ],
+      },
+    ];
+
+    const remove = () => {
+      Animated.timing(deleteValue, {
+        toValue: 0,
+        duration: 400,
+      }).start(() => onRemove(UserID));
+    };
+
+    const withSwipeable = (children) => {
+      if (swipeable) {
+        return (
+          <Swipeable leftContent={leftContent} onLeftActionRelease={remove}>
+            {children}
+          </Swipeable>
+        );
+      } else return children;
+    };
+
+    return withSwipeable(
+      <View style={deleteValue == 1 ? { backgroundColor: 'black' } : {}}>
         <TouchableOpacity activeOpacity={0.9}>
-          <View style={styles.background}>
+          <Animated.View style={swipeable ? deleteStyles : styles.background}>
             <Image source={{ uri: picture }} style={styles.profilePic} />
 
             <View style={{ marginLeft: 10 }}>
@@ -154,9 +199,9 @@ const FriendsItem = ({
             </View>
 
             {renderIcon()}
-          </View>
+          </Animated.View>
         </TouchableOpacity>
-      </View>
+      </View>,
     );
   }
 };
