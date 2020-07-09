@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: 'white',
     minWidth: wp('100%'),
-    top: 126,
+    top: hp('6%') + 90,
     marginBottom: 100,
   },
 });
