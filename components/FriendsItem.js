@@ -156,10 +156,7 @@ const FriendsItem = ({
     );
 
     const deleteValue = useRef(new Animated.Value(1)).current;
-    const deleteScale = deleteValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 1],
-    });
+
     const deleteStyles = [
       styles.background,
       { opacity: deleteValue },
