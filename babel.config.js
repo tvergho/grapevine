@@ -1,7 +1,7 @@
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: ['babel-preset-expo'],
+    presets: ['babel-preset-expo', 'module:metro-react-native-babel-preset'],
     plugins: [
       [
         'module-resolver',
@@ -17,6 +17,14 @@ module.exports = function (api) {
             screens: './screens',
             utils: './utils',
           },
+        },
+      ],
+      [
+        '@babel/plugin-transform-modules-commonjs',
+        {
+          strictMode: false,
+          allowTopLevelThis: true,
+          loose: true,
         },
       ],
     ],

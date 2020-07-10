@@ -66,6 +66,7 @@ class ProfileScreen extends Component {
     return (
       <View style={{ backgroundColor: '#000000' }}>
         <ProfileListItem title="Your recommendations"
+          onPress={() => { this.props.navigation.navigate('YourRecs'); }}
           icon={<Icon name="shopping-bag" type="font-awesome" size={25} color="rgba(0,0,0,0.7)" style={{ marginRight: 20 }} />}
         />
 

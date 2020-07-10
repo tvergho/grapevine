@@ -7,105 +7,125 @@ import {
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import TextBubble from 'components/TextBubble';
 import { Colors, Images } from 'res';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
-const RecCard = ({ rec, feed, navigation }) => {
-  const {
-    commission, business, message, likes, timestamp, personal,
-  } = rec;
-  const user = rec.fromUser;
+const LoadingCard = ({ width, height }) => {
+  return (
+    <View style={[recCardStyles.container, {
+      width, height, marginRight: 20, backgroundColor: 'white',
+    }]}
+    >
+      <SkeletonPlaceholder height={height} paddingLeft={10} paddingRight={10}>
+        <SkeletonPlaceholder.Item height={100} width={width} marginTop={10} marginBottom={10} alignSelf="center" borderRadius={10} />
+      </SkeletonPlaceholder>
+    </View>
+  );
+};
 
+const RecCard = ({
+  rec, feed, navigation, loading,
+}) => {
   // Gets bigger if it's a feed card.
   const width = feed ? wp('90%') : 250;
   const height = feed ? 180 : 130;
+  if (loading) {
+    console.log('loading');
+    return (<LoadingCard width={width} height={height} />);
+  } else {
+    const {
+      commission, business, message, likes, timestamp, personal,
+    } = rec;
+    const user = rec.from_user;
 
-  const convertMillesecondsToTime = (ms) => {
-    const curTime = new Date().getTime();
-    const millis = curTime - ms; // Get the difference in milliseconds.
+    const convertMillesecondsToTime = (ms) => {
+      const curTime = new Date().getTime();
+      const millis = curTime - ms; // Get the difference in milliseconds.
 
-    // First, attempt to convert to minutes.
-    const min = millis / 60000;
-    if (min < 60) return `${Math.round(min)} min`;
+      // First, attempt to convert to minutes.
+      const min = millis / 60000;
+      if (min < 60) return `${Math.round(min)} min`;
 
-    // Convert that to hours.
-    const hours = min / 60;
-    if (Math.round(hours) === 1) return '1 hr';
-    else if (hours < 24) return `${Math.round(hours)} hrs`;
+      // Convert that to hours.
+      const hours = min / 60;
+      if (Math.round(hours) === 1) return '1 hr';
+      else if (hours < 24) return `${Math.round(hours)} hrs`;
 
-    // Finally, display it in days.
-    const days = hours / 24;
-    if (Math.round(days) === 1) return '1 day';
-    return `${Math.round(days)} days`;
-  };
+      // Finally, display it in days.
+      const days = hours / 24;
+      if (Math.round(days) === 1) return '1 day';
+      return `${Math.round(days)} days`;
+    };
 
-  // Describes the card that's displayed on the home screen.
-  if (!feed) {
-    return (
-      <View style={[recCardStyles.container, { width, height, marginRight: 20 }]}>
-        <TouchableOpacity activeOpacity={0.5} onPress={() => { navigation.navigate('Business', { ...rec, back: 'Home' }); }}>
-          <Image source={{ uri: business.imageURL }} style={[recCardStyles.image, { width, height }]} />
+    // Describes the card that's displayed on the home screen.
+    if (!feed) {
+      return (
+        <View style={[recCardStyles.container, { width, height, marginRight: 20 }]}>
+          <TouchableOpacity activeOpacity={0.5} onPress={() => { navigation.navigate('Business', { ...rec, back: 'Home' }); }}>
+            <Image source={{ uri: business.imageURL }} style={[recCardStyles.image, { width, height }]} />
 
-          <TextBubble textStyle={recCardStyles.commissionText} text={commission} backgroundColor={user.color} style={recCardStyles.commissionBubble} />
+            <TextBubble textStyle={recCardStyles.commissionText} text={`${commission}% back`} backgroundColor={user.color} style={recCardStyles.commissionBubble} />
 
-          <Text style={[recCardStyles.bizName, { bottom: 30, left: 10 }]}>
-            {business.name}
-          </Text>
+            <Text style={[recCardStyles.bizName, { bottom: 30, left: 10 }]}>
+              {business.name}
+            </Text>
 
-          <View style={recCardStyles.lowerLeft}>
-            <Text style={recCardStyles.from}>from</Text>
-            <TextBubble textStyle={[recCardStyles.fromName, { color: user.color }]} text={user.name} backgroundColor={Colors.WHITE} />
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  } else { // More detailed card for the feed screen.
-    return (
-      <View style={[recCardStyles.container, { width, height, marginBottom: 20 }]}>
-        <TouchableOpacity activeOpacity={0.5} onPress={() => { navigation.navigate('Business', { ...rec, back: 'Feed' }); }}>
-          <Image source={{ uri: business.imageURL }} style={[recCardStyles.image, { width, height }]} />
+            <View style={recCardStyles.lowerLeft}>
+              <Text style={recCardStyles.from}>from</Text>
+              <TextBubble textStyle={[recCardStyles.fromName, { color: user.color }]} text={user.name} backgroundColor={Colors.WHITE} />
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    } else { // More detailed card for the feed screen.
+      return (
+        <View style={[recCardStyles.container, { width, height, marginBottom: 20 }]}>
+          <TouchableOpacity activeOpacity={0.5} onPress={() => { navigation.navigate('Business', { ...rec, back: 'Feed' }); }}>
+            <Image source={{ uri: business.imageURL }} style={[recCardStyles.image, { width, height }]} />
 
-          <Text style={[recCardStyles.bizName, { top: 13, left: 10 }]} numberOfLines={1}>
-            {business.name}
-          </Text>
+            <Text style={[recCardStyles.bizName, { top: 13, left: 10 }]} numberOfLines={1}>
+              {business.name}
+            </Text>
 
-          <TextBubble textStyle={recCardStyles.commissionText} text={commission} backgroundColor={user.color} style={recCardStyles.commissionBubble} />
+            <TextBubble textStyle={recCardStyles.commissionText} text={`${commission}% back`} backgroundColor={user.color} style={recCardStyles.commissionBubble} />
 
-          <View style={recCardStyles.upperLeft}>
-            <Text style={recCardStyles.from}>from</Text>
-            <TextBubble textStyle={[recCardStyles.fromName, { color: user.color }]} text={user.name} backgroundColor={Colors.WHITE} />
-            {personal ? <Image source={Images.personal} style={{ width: 25, height: 25, marginLeft: 3 }} /> : <></>}
-          </View>
+            <View style={recCardStyles.upperLeft}>
+              <Text style={recCardStyles.from}>from</Text>
+              <TextBubble textStyle={[recCardStyles.fromName, { color: user.color }]} text={user.name} backgroundColor={Colors.WHITE} />
+              {personal ? <Image source={Images.personal} style={{ width: 25, height: 25, marginLeft: 3 }} /> : <></>}
+            </View>
 
-          <TextBubble
-            text={message}
-            textStyle={recCardStyles.messageText}
-            numLines={3}
-            width={width - 20}
-            backgroundColor={Colors.WHITE}
-            style={recCardStyles.messageBubble}
-            paddingTop={10}
-            paddingBottom={10}
-          />
+            <TextBubble
+              text={message}
+              textStyle={recCardStyles.messageText}
+              numLines={3}
+              width={width - 20}
+              backgroundColor={Colors.WHITE}
+              style={recCardStyles.messageBubble}
+              paddingTop={10}
+              paddingBottom={10}
+            />
 
-          <View style={recCardStyles.lowerLeft}>
-            <Image source={Images.like} style={{ width: 17, height: 15 }} />
-            <Text style={recCardStyles.likeText}>{likes}</Text>
-          </View>
+            <View style={recCardStyles.lowerLeft}>
+              <Image source={Images.like} style={{ width: 17, height: 15 }} />
+              <Text style={recCardStyles.likeText}>{likes}</Text>
+            </View>
 
-          <TextBubble
-            text={convertMillesecondsToTime(timestamp)}
-            backgroundColor={Colors.WHITE}
-            width={70}
-            style={recCardStyles.timeBubble}
-            textStyle={recCardStyles.timeText}
-            borderRadius={20}
-            paddingTop={2}
-            paddingBottom={2}
-            paddingLeft={8}
-            paddingRight={8}
-          />
-        </TouchableOpacity>
-      </View>
-    );
+            <TextBubble
+              text={convertMillesecondsToTime(timestamp)}
+              backgroundColor={Colors.WHITE}
+              width={70}
+              style={recCardStyles.timeBubble}
+              textStyle={recCardStyles.timeText}
+              borderRadius={20}
+              paddingTop={2}
+              paddingBottom={2}
+              paddingLeft={8}
+              paddingRight={8}
+            />
+          </TouchableOpacity>
+        </View>
+      );
+    }
   }
 };
 

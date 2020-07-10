@@ -10,8 +10,9 @@ import {
 import { connect } from 'react-redux';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import BottomSheet from 'components/ReanimatedBottomSheet_patched';
-import * as Data from 'data';
-import { businessLocationSearch, businessLocationScroll, setCanLoad } from 'actions';
+import {
+  businessLocationSearch, businessLocationScroll, setCanLoad, getRecs,
+} from 'actions';
 import Constants from 'expo-constants';
 import { withLocation } from 'utils';
 import RecSection from './RecSection';
@@ -42,6 +43,7 @@ class HomeScreen extends Component {
       console.log(this.props.location);
       this.props.businessLocationSearch(this.props.location.latitude, this.props.location.longitude);
     }
+    this.props.getRecs();
   }
 
   componentDidUpdate(prevProps) {
@@ -85,7 +87,12 @@ class HomeScreen extends Component {
         }}
         refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this.refresh} />}
       >
-        <RecSection navigation={this.props.navigation} openFeed={this.openFeed} recs={Data.RECOMMENDATIONS} />
+        <RecSection
+          navigation={this.props.navigation}
+          openFeed={this.openFeed}
+          recs={this.props.rec.recs}
+          loading={this.props.rec.loading}
+        />
         <BusinessSection
           navigation={this.props.navigation}
           searchResults={this.state.searchResults}
@@ -177,7 +184,10 @@ const mapStateToProps = (reduxState) => (
   {
     balance: reduxState.user.balance,
     search: reduxState.search,
+    rec: reduxState.rec,
   }
 );
 
-export default withLocation(connect(mapStateToProps, { businessLocationScroll, businessLocationSearch, setCanLoad })(HomeScreen));
+export default withLocation(connect(mapStateToProps, {
+  businessLocationScroll, businessLocationSearch, setCanLoad, getRecs,
+})(HomeScreen));

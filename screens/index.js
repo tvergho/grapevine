@@ -11,7 +11,8 @@ import Business from './Business/Business';
 import AddFriendScreen from './AddFriend/AddFriendScreen';
 import DetailScreen from './HomeScreen/DetailScreen';
 import PaymentScreen from './Payment/PaymentScreen';
+import YourRecsScreen from './YourRecs/YourRecsScreen';
 
 export {
-  CreateRec, SignIn, SignUp, FeedScreen, HomeScreen, SignUpStep, ProfileScreen, FriendRequests, FriendsScreen, Business, AddFriendScreen, DetailScreen, PaymentScreen,
+  CreateRec, SignIn, SignUp, FeedScreen, HomeScreen, SignUpStep, ProfileScreen, FriendRequests, FriendsScreen, Business, AddFriendScreen, DetailScreen, PaymentScreen, YourRecsScreen,
 };

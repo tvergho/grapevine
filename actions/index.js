@@ -20,6 +20,10 @@ export const ActionTypes = {
   FRIENDS_LOADING: 'FRIENDS_LOADING',
   REQUESTS_LOADING: 'REQUESTS_LOADING',
   DELETE_FRIEND: 'DELETE_FRIEND',
+  RECS_LOADING: 'RECS_LOADING',
+  SET_MY_RECS: 'SET_MY_RECS',
+  DELETE_MY_RECS: 'DELETE_MY_RECS',
+  SET_RECS: 'SET_RECS',
 };
 
 export * from './auth-actions';
@@ -27,3 +31,4 @@ export * from './lifecycle-actions';
 export * from './search-actions';
 export * from './post-actions';
 export * from './friend-actions';
+export * from './rec-actions';
