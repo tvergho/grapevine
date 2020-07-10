@@ -5,19 +5,19 @@ import {
 import { Colors, Images } from 'res';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-const TitleSection = ({ rec, business }) => {
+const TitleSection = ({ business, rec }) => {
   return (
     <View style={styles.background}>
       <View style={{ flex: -1, flexDirection: 'row' }}>
-        <Text style={styles.businessName} numberOfLines={1}>{business.name}</Text>
-        {rec.personal ? <Image source={Images.personal} style={{ width: 25, height: 25, marginLeft: 3 }} /> : <></>}
+        <Text style={styles.businessName} numberOfLines={1}>{rec.business.name}</Text>
+        {/* rec.personal ? <Image source={Images.personal} style={{ width: 25, height: 25, marginLeft: 3 }} /> : <></> */}
       </View>
 
-      <Text style={styles.businessCategory} numberOfLines={1}>{business.category.join(', ')}</Text>
+      <Text style={styles.businessCategory} numberOfLines={1}>{business ? business.category : ''}</Text>
 
       <View>
         <Image source={Images.like} style={styles.likeImage} />
-        <Text style={styles.likeText}>{rec.likes ? rec.likes : '0'}</Text>
+        <Text style={styles.likeText}>{rec.likes ? rec.likes : ''}</Text>
       </View>
     </View>
   );

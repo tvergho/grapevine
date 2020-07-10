@@ -54,7 +54,7 @@ const AnimatedHeader = ({ scrollY, rec, navigation }) => {
       <Animated.Text style={[styles.headerBusinessName, { color: bizName }]} numberOfLines={1}>{rec.business.name}</Animated.Text>
 
       {/* Commission bubble (upper right corner). */}
-      <View style={[styles.commissionBubble, { backgroundColor: rec.fromUser ? rec.fromUser.color : '#B5EAD7' }]}>
+      <View style={[styles.commissionBubble, { backgroundColor: rec.from_user ? rec.from_user.color : '#B5EAD7' }]}>
         <Animated.Text style={[styles.commissionText, { fontSize: commissionSize }]}>{rec.commission.toString().length > 1 ? rec.commission : `${rec.commission}% back`}</Animated.Text>
       </View>
     </Animated.View>

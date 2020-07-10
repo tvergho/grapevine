@@ -7,7 +7,8 @@ import {
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import HeaderImageScrollView from 'react-native-image-header-scroll-view';
-import * as Data from 'data';
+import { getBusiness, clearBusiness } from 'actions';
+import { connect } from 'react-redux';
 import AnimatedHeader from './AnimatedHeader';
 import TitleSection from './TitleSection';
 import InfoSection from './InfoSection';
@@ -22,19 +23,17 @@ class Business extends Component {
     };
   }
 
-  // This will become a Redux action once the backend's set up.
-  getBusinessById = (id) => {
-    if (this.props.route.params.boba) {
-      return this.props.route.params;
-    } else {
-      return Data.BUSINESSES[id];
-    }
+  componentDidMount() {
+    this.props.getBusiness(this.props.route.params.business.id);
+  }
+
+  componentWillUnmount() {
+    this.props.clearBusiness();
   }
 
   render() {
-    // Basic rec information will be passed from the previous screen for speedy loading.
     const rec = this.props.route.params;
-    const business = this.getBusinessById(rec.business.id);
+    const { business, loading } = this.props;
 
     return (
       <>
@@ -42,16 +41,23 @@ class Business extends Component {
         <HeaderImageScrollView
           minHeight={60}
           maxHeight={hp('40%')}
-          headerImage={{ uri: business.imageURL || business.photos[0] }}
+          headerImage={{ uri: rec.business.imageURL || '' }}
           minOverlayOpacity={0.3}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
           )}
         >
           <View style={styles.background}>
-            <TitleSection rec={rec} business={business} />
-            <InfoSection business={business} />
-            <RecSection recommendations={business.recommendations} />
+            <TitleSection business={business} rec={rec} />
+
+            {!loading
+              ? (
+                <>
+                  <InfoSection business={business} />
+                  <RecSection recommendations={business.recommendations} />
+                </>
+              )
+              : <></>}
           </View>
         </HeaderImageScrollView>
       </>
@@ -59,7 +65,14 @@ class Business extends Component {
   }
 }
 
-export default Business;
+const mapStateToProps = (reduxState) => (
+  {
+    business: reduxState.rec.business,
+    loading: reduxState.rec.bizLoading,
+  }
+);
+
+export default connect(mapStateToProps, { getBusiness, clearBusiness })(Business);
 
 const styles = StyleSheet.create({
   background: {

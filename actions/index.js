@@ -24,6 +24,9 @@ export const ActionTypes = {
   SET_MY_RECS: 'SET_MY_RECS',
   DELETE_MY_RECS: 'DELETE_MY_RECS',
   SET_RECS: 'SET_RECS',
+  SET_BUSINESS: 'SET_BUSINESS',
+  CLEAR_BUSINESS: 'CLEAR_BUSINESS',
+  BUSINESS_LOADING: 'BUSINESS_LOADING',
 };
 
 export * from './auth-actions';

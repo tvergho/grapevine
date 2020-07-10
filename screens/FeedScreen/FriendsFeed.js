@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  View, ScrollView,
+  View, FlatList,
 } from 'react-native';
 import RecCard from 'components/RecCard';
 import SearchBar from 'components/SearchBar';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const FriendsFeed = ({
-  display, recommendations, searchQuery, onChange, navigation,
+  display, recommendations, searchQuery, onChange, navigation, loading,
 }) => {
   const searchFilter = (rec) => {
     let search = searchQuery;
@@ -31,18 +31,13 @@ const FriendsFeed = ({
     <View style={{ display: display ? '' : 'none' }}>
       <SearchBar placeholder="Search businesses..." value={searchQuery} onChange={onChange} width={wp('85%')} />
 
-      <ScrollView
-        decelerationRate="fast"
-        scrollEventThrottle={200}
-        showsVerticalScrollIndicator={false}
+      <FlatList
+        data={loading ? Array.from(Array(5).keys()) : recommendations.filter(searchFilter).sort((a, b) => (parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10)))}
+        renderItem={({ item, index }) => (<RecCard rec={item} feed navigation={navigation} loading={loading} />)}
+        keyExtractor={(item) => item.recommendationID}
         contentContainerStyle={{ paddingBottom: 100 }}
-      >
-        {recommendations.filter(searchFilter).sort((a, b) => (b.timestamp - a.timestamp)).map((rec) => { // Sorts by timestamp in descending order.
-          return (
-            <RecCard rec={rec} key={rec.id} feed navigation={navigation} />
-          );
-        })}
-      </ScrollView>
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   );
 };

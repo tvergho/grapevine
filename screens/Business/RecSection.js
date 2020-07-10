@@ -10,7 +10,7 @@ const RecSection = ({ recommendations }) => {
         <Text style={styles.sectionHeader}>Recommendations</Text>
         {recommendations.map((rec) => {
           return (
-            <BusinessRecCard name={rec.fromUser.name} color={rec.fromUser.color} message={rec.message} />
+            <BusinessRecCard name={rec.from_user} color={rec.color} message={rec.message} />
           );
         })}
       </View>

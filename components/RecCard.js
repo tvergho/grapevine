@@ -9,14 +9,14 @@ import TextBubble from 'components/TextBubble';
 import { Colors, Images } from 'res';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
-const LoadingCard = ({ width, height }) => {
+const LoadingCard = ({ width, height, feed }) => {
   return (
     <View style={[recCardStyles.container, {
       width, height, marginRight: 20, backgroundColor: 'white',
-    }]}
+    }, feed ? { marginRight: 0 } : {}]}
     >
       <SkeletonPlaceholder height={height} paddingLeft={10} paddingRight={10}>
-        <SkeletonPlaceholder.Item height={100} width={width} marginTop={10} marginBottom={10} alignSelf="center" borderRadius={10} />
+        <SkeletonPlaceholder.Item height={feed ? 160 : 120} width={width} marginTop={10} marginBottom={10} alignSelf="center" borderRadius={10} />
       </SkeletonPlaceholder>
     </View>
   );
@@ -29,8 +29,7 @@ const RecCard = ({
   const width = feed ? wp('90%') : 250;
   const height = feed ? 180 : 130;
   if (loading) {
-    console.log('loading');
-    return (<LoadingCard width={width} height={height} />);
+    return (<LoadingCard width={width} height={height} feed={feed} />);
   } else {
     const {
       commission, business, message, likes, timestamp, personal,

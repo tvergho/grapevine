@@ -54,3 +54,27 @@ export function deleteRec(recId) {
     });
   };
 }
+
+export function getBusiness(bizId) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.BUSINESS_LOADING, payload: true });
+
+    SecureStore.getItemAsync('accessToken').then((token) => {
+      console.log(token);
+      fetch(`${API_URL}/business?businessId=${bizId}`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
+        .then((response) => response.json())
+        .then((json) => {
+          console.log('business', json);
+          dispatch({ type: ActionTypes.SET_BUSINESS, payload: json });
+        })
+        .catch((error) => { console.log(error); })
+        .finally(() => { dispatch({ type: ActionTypes.BUSINESS_LOADING, payload: false }); });
+    });
+  };
+}
+
+export function clearBusiness() {
+  return {
+    type: ActionTypes.CLEAR_BUSINESS,
+  };
+}

@@ -11,6 +11,7 @@ import * as Data from 'data';
 import MainHeader from 'components/MainHeader';
 import AppButton from 'components/AppButton';
 import { Colors } from 'res';
+import { getRecs } from 'actions';
 import FriendsFeed from './FriendsFeed';
 import YouFeed from './YouFeed';
 
@@ -22,6 +23,10 @@ class FeedScreen extends Component {
       active: 'Friends',
       search: '',
     };
+  }
+
+  componentDidMount() {
+    this.props.getRecs();
   }
 
   onYouClick = () => {
@@ -68,10 +73,11 @@ class FeedScreen extends Component {
         {this.topSection()}
         <FriendsFeed
           display={this.state.active === 'Friends'}
-          recommendations={Data.RECOMMENDATIONS}
+          recommendations={this.props.rec.recs}
           searchQuery={this.state.search}
           onChange={this.onSearchChange}
           navigation={this.props.navigation}
+          loading={this.props.rec.loading}
         />
         <YouFeed
           display={this.state.active === 'You'}
@@ -104,7 +110,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (reduxState) => (
   {
     user: reduxState.user,
+    rec: reduxState.rec,
   }
 );
 
-export default connect(mapStateToProps, null)(FeedScreen);
+export default connect(mapStateToProps, { getRecs })(FeedScreen);
