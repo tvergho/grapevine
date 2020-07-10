@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  View, FlatList,
+  View, FlatList, RefreshControl,
 } from 'react-native';
 import RecCard from 'components/RecCard';
 import SearchBar from 'components/SearchBar';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const FriendsFeed = ({
-  display, recommendations, searchQuery, onChange, navigation, loading,
+  display, recommendations, searchQuery, onChange, navigation, loading, refresh,
 }) => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    if (!loading) setRefreshing(false);
+  }, [loading]);
+
   const searchFilter = (rec) => {
     let search = searchQuery;
     search = search.trim().toLowerCase();
@@ -37,6 +43,14 @@ const FriendsFeed = ({
         keyExtractor={(item) => item.recommendationID}
         contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
+        refreshControl={(
+          <RefreshControl refreshing={refreshing}
+            onRefresh={() => {
+              setRefreshing(true);
+              refresh();
+            }}
+          />
+        )}
       />
     </View>
   );

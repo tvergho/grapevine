@@ -115,6 +115,7 @@ class HomeScreen extends Component {
   refresh = () => {
     this.setState({ refresh: true });
     this.props.businessLocationSearch(this.props.location.latitude, this.props.location.longitude);
+    this.props.getRecs();
   }
 
   header = () => {

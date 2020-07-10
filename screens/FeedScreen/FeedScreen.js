@@ -45,6 +45,10 @@ class FeedScreen extends Component {
     this.props.navigation.navigate('CreateRec');
   }
 
+  refresh = () => {
+    this.props.getRecs();
+  }
+
   topSection = () => {
     return (
       <MainHeader title="Feed">
@@ -78,6 +82,7 @@ class FeedScreen extends Component {
           onChange={this.onSearchChange}
           navigation={this.props.navigation}
           loading={this.props.rec.loading}
+          refresh={this.refresh}
         />
         <YouFeed
           display={this.state.active === 'You'}
