@@ -19,7 +19,7 @@ const YourRecsScreen = (props) => {
       <ModalHeader navigation={navigation} title="Your Recommendations" />
 
       <FlatList data={props.rec.loading ? Array.from(Array(5).keys()) : rec.myRecs.sort((a, b) => (parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10)))}
-        renderItem={({ item, index }) => (<RecListItem rec={item} onRemove={props.deleteRec} loading={props.rec.loading} />)}
+        renderItem={({ item, index }) => (<RecListItem rec={item} onRemove={props.deleteRec} loading={props.rec.loading} navigation={navigation} />)}
         keyExtractor={(item) => item.recommendationID}
       />
     </View>

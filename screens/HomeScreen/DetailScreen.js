@@ -18,7 +18,7 @@ const UpdateBusinessCard = React.memo(({
   item, index, navigation, loading,
 }) => {
   return (
-    <BusinessCard business={item} index={index} navigation={navigation} loading={loading} full />
+    <BusinessCard business={item} index={index} navigation={navigation} loading={loading} full backText="Search" />
   );
 });
 

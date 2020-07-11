@@ -6,13 +6,15 @@ import { Icon } from 'react-native-elements';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Colors } from 'res';
 
-const ModalHeader = ({ navigation, title, children }) => {
+const ModalHeader = ({
+  navigation, title, children, style,
+}) => {
   const goBack = () => {
     navigation.goBack();
   };
 
   return (
-    <View style={styles.background}>
+    <View style={[styles.background, style]}>
       <TouchableOpacity onPress={goBack}
         activeOpacity={0.5}
         style={styles.backIcon}

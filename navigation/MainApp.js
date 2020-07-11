@@ -55,13 +55,22 @@ const HomeNavigator = () => {
   );
 };
 
+const YourRecsNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName="YourRecsScreen">
+      <Stack.Screen name="YourRecsScreen" component={YourRecsScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Business" component={Business} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+
 const ProfileNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Profile" mode="modal">
       <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Friends" component={FriendNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="Payment" component={PaymentScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="YourRecs" component={YourRecsScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="YourRecs" component={YourRecsNavigator} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };

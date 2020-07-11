@@ -22,7 +22,7 @@ const LoadingCard = ({ full }) => {
 
 const BusinessCard = (props) => {
   const {
-    index, business, navigation, loading, full,
+    index, business, navigation, loading, full, backText,
   } = props;
 
   if (!loading) {
@@ -35,7 +35,7 @@ const BusinessCard = (props) => {
         <TouchableOpacity activeOpacity={0.9}
           onPress={() => {
             navigation.navigate('Business', {
-              ...business, business: { ...business }, back: 'Home', boba: true,
+              ...business, business: { ...business }, back: backText || 'Home', boba: true,
             });
           }}
         >

@@ -27,7 +27,9 @@ const LoadingCard = () => {
   );
 };
 
-const RecListItem = ({ rec, onRemove, loading }) => {
+const RecListItem = ({
+  rec, onRemove, loading, navigation,
+}) => {
   if (!loading) {
     const {
       timestamp, business, message, recommendationID,
@@ -69,18 +71,16 @@ const RecListItem = ({ rec, onRemove, loading }) => {
 
     return (
       <Swipeable leftContent={leftContent} onLeftActionRelease={remove}>
-        <View style={deleteValue == 1 ? { backgroundColor: 'black' } : {}}>
-          <TouchableOpacity activeOpacity={0.9}>
-            <Animated.View style={deleteStyles}>
-              <Text style={styles.mainText}>{convertTimestampToDate()}</Text>
+        <TouchableOpacity activeOpacity={0.4} onPress={() => { navigation.navigate('Business', { ...rec, back: 'Your recommendations' }); }}>
+          <Animated.View style={deleteStyles}>
+            <Text style={styles.mainText}>{convertTimestampToDate()}</Text>
 
-              <View style={{ alignItems: 'flex-end', flex: -1 }}>
-                <Text style={styles.mainText}>{name}</Text>
-                <Text style={styles.messageText} numberOfLines={1}>{`${message}`}</Text>
-              </View>
-            </Animated.View>
-          </TouchableOpacity>
-        </View>
+            <View style={{ alignItems: 'flex-end', flex: -1 }}>
+              <Text style={styles.mainText}>{name}</Text>
+              <Text style={styles.messageText} numberOfLines={1}>{`${message}`}</Text>
+            </View>
+          </Animated.View>
+        </TouchableOpacity>
       </Swipeable>
     );
   } else {
