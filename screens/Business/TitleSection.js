@@ -17,7 +17,7 @@ const TitleSection = ({ business, rec }) => {
 
       <View>
         <Image source={Images.like} style={styles.likeImage} />
-        <Text style={styles.likeText}>{rec.likes ? rec.likes : ''}</Text>
+        <Text style={styles.likeText}>{rec.likes ? rec.likes : business.likes || ''}</Text>
       </View>
     </View>
   );
