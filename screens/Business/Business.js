@@ -33,6 +33,7 @@ class Business extends Component {
 
   render() {
     const rec = this.props.route.params;
+    console.log(rec);
     const { business, loading } = this.props;
 
     return (
@@ -41,7 +42,7 @@ class Business extends Component {
         <HeaderImageScrollView
           minHeight={60}
           maxHeight={hp('40%')}
-          headerImage={{ uri: rec.business.imageURL || '' }}
+          headerImage={{ uri: rec.business.imageURL || (rec.photos && rec.photos[0]) || '' }}
           minOverlayOpacity={0.3}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
