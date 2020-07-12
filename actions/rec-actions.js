@@ -3,7 +3,7 @@
 import { ActionTypes } from 'actions';
 import * as SecureStore from 'expo-secure-store';
 
-const API_URL = 'https://03q30dqfqi.execute-api.us-east-2.amazonaws.com/dev';
+const API_URL = 'https://api.bobame.app';
 
 export function getMyRecs() {
   return (dispatch) => {

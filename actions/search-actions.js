@@ -4,7 +4,7 @@ import { ActionTypes } from 'actions';
 import { SearchTypes } from 'reducers/search-reducer';
 import * as SecureStore from 'expo-secure-store';
 
-const API_URL = 'https://03q30dqfqi.execute-api.us-east-2.amazonaws.com/dev';
+const API_URL = 'https://api.bobame.app';
 
 export function setCanLoad(canLoad) {
   return { type: ActionTypes.CAN_LOAD_SEARCH, payload: canLoad };
@@ -157,6 +157,7 @@ export function usernameSearch(username) {
           });
         })
         .catch((error) => {
+          console.log(error);
           dispatch({ type: ActionTypes.SEARCH_ERROR, payload: error.message });
         })
         .finally(() => {

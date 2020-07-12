@@ -46,6 +46,7 @@ const DropdownSearchBar = ({
       <View style={styles.background}>
         {!loading ? <FontAwesomeIcon icon={faSearch} size={20} color="rgba(0,0,0,0.7)" /> : <UIActivityIndicator size={20} color={Colors.BLACK} />}
         <TextInput placeholder={placeholder}
+          placeholderTextColor="rgba(0,0,0,0.3)"
           style={styles.searchInput}
           onBlur={onBlur}
           onFocus={onFocus}
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.WHITE,
     paddingLeft: 15,
     width: wp('85%'),
+    color: Colors.BLACK,
   },
   itemList: {
     zIndex: 99,

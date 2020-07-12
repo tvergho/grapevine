@@ -15,7 +15,7 @@ const SearchBar = ({
         : <UIActivityIndicator size={20} color={Colors.BLACK} style={{ marginBottom: 10, marginRight: 10 }} />}
       <TextInput style={[styles.searchBar, { width }]}
         placeholder={placeholder}
-        placeholderTextColor="#D8D8D8"
+        placeholderTextColor="rgba(0,0,0,0.3)"
         value={value}
         onChangeText={onChange}
         clearButtonMode="always"
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: -10,
     paddingLeft: 10,
+    color: Colors.BLACK,
   },
   border: {
     paddingTop: 15,

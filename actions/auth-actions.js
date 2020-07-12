@@ -7,6 +7,7 @@ import Auth0 from 'react-native-auth0';
 import { ActionTypes } from 'actions';
 
 const auth0 = new Auth0({ domain: 'dev-recroom.us.auth0.com', clientId: 'UMh55ELLqvogWbyKGrcivBO6TpFm0PEI' });
+const API_URL = 'https://api.bobame.app';
 
 function getError(error) {
   if (!error || error === undefined) return 'There was an error.';
@@ -22,7 +23,7 @@ function addToDatabase(token) {
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
   };
 
-  fetch('https://03q30dqfqi.execute-api.us-east-2.amazonaws.com/dev/users', options)
+  fetch(`${API_URL}/users`, options)
     .then((response) => response.json())
     .then((json) => { console.log(json); })
     .catch((error) => { console.log(error); });
@@ -182,7 +183,7 @@ function loginWithToken(token) {
         headers: { Authorization: `Bearer ${token}` },
       };
 
-      fetch('https://03q30dqfqi.execute-api.us-east-2.amazonaws.com/dev/refresh', fbOptions)
+      fetch(`${API_URL}/users/refresh`, fbOptions)
         .then((response) => response.json())
         .then((json) => { console.log(json); })
         .catch((error) => { console.log(error); });
@@ -205,7 +206,7 @@ export function tryAuth0OnStart() {
           headers: { Authorization: `Bearer ${token}` },
         };
 
-        fetch('https://03q30dqfqi.execute-api.us-east-2.amazonaws.com/dev/refresh', fbOptions)
+        fetch(`${API_URL}/users/refresh`, fbOptions)
           .then((response) => response.json())
           .then((json) => { console.log(json); })
           .catch((error) => { console.log(error); });

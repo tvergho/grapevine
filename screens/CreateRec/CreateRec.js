@@ -113,6 +113,7 @@ class CreateRec extends Component {
           style={styles.recInput}
           value={this.state.rec}
           onChangeText={this.onRecChange}
+          placeholderTextColor="rgba(0,0,0,0.3)"
           multiline
           blurOnSubmit
           scrollEnabled

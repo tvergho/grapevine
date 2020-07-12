@@ -71,7 +71,7 @@ const RecListItem = ({
 
     return (
       <Swipeable leftContent={leftContent} onLeftActionRelease={remove}>
-        <TouchableOpacity activeOpacity={0.4} onPress={() => { navigation.navigate('Business', { ...rec, back: 'Your recommendations' }); }}>
+        <TouchableOpacity activeOpacity={0.4} onPress={() => { navigation.navigate('Business', { ...rec, back: 'You' }); }}>
           <Animated.View style={deleteStyles}>
             <Text style={styles.mainText}>{convertTimestampToDate()}</Text>
 

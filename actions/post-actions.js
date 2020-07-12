@@ -4,7 +4,7 @@
 import { ActionTypes } from 'actions';
 import * as SecureStore from 'expo-secure-store';
 
-const API_URL = 'https://03q30dqfqi.execute-api.us-east-2.amazonaws.com/dev';
+const API_URL = 'https://api.bobame.app';
 
 export function makeRec(business_id, message, callback) {
   return (dispatch) => {
@@ -39,7 +39,7 @@ export function makeFriendRequest(userId) {
       }),
     };
 
-    fetch(`${API_URL}/request`, requestOptions);
+    fetch(`${API_URL}/users/request`, requestOptions);
   });
 }
 
@@ -53,7 +53,7 @@ export function deleteFriendRequest(userId) {
       }),
     };
 
-    fetch(`${API_URL}/request`, requestOptions);
+    fetch(`${API_URL}/users/request`, requestOptions);
   });
 }
 
@@ -64,6 +64,6 @@ export function deleteRec(recId) {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    fetch(`${API_URL}/request?rec_id=${recId}`, requestOptions);
+    fetch(`${API_URL}/users/request?rec_id=${recId}`, requestOptions);
   });
 }
