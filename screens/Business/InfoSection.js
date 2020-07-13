@@ -30,10 +30,9 @@ const Row = ({
   );
 };
 
-const InfoSection = ({ business }) => {
-  let address = '';
-  if (business.address) address = business.address;
-  else if (business.street_address) address = `${business.street_address}, ${business.city}, ${business.state} ${business.zip}`;
+const InfoSection = ({ rec, business }) => {
+  const address = rec.street_address ? `${rec.street_address}, ${rec.city}, ${rec.state} ${rec.zip}` : `${business.street_address}, ${business.city}, ${business.state} ${business.zip}`;
+  const website = rec.website || business.website;
   const mapQuery = { query: address };
   const openAddress = createOpenLink(mapQuery);
 
@@ -46,7 +45,7 @@ const InfoSection = ({ business }) => {
       <Text style={styles.sectionHeader}>Business Info</Text>
 
       <Row text={address} icon={faCompass} button="Map it" onPress={openAddress} />
-      {business.website ? <Row text={business.website} icon={faSearch} button="Open" onPress={() => { openLink(business.website); }} /> : <></>}
+      {website ? <Row text={website} icon={faSearch} button="Open" onPress={() => { openLink(website); }} /> : <></>}
     </View>
   );
 };

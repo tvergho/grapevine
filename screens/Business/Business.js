@@ -24,7 +24,7 @@ class Business extends Component {
   }
 
   componentDidMount() {
-    this.props.getBusiness(this.props.route.params.business.id);
+    this.props.getBusiness(this.props.route.params.business.id || this.props.route.params.business.businessId);
   }
 
   componentWillUnmount() {
@@ -33,7 +33,6 @@ class Business extends Component {
 
   render() {
     const rec = this.props.route.params;
-    console.log(rec);
     const { business, loading } = this.props;
 
     return (
@@ -50,11 +49,12 @@ class Business extends Component {
         >
           <View style={styles.background}>
             <TitleSection business={business} rec={rec} />
+            {rec.street_address ? <InfoSection rec={rec} business={business} /> : <></>}
 
             {!loading
               ? (
                 <>
-                  <InfoSection business={business} />
+                  {!rec.street_address ? <InfoSection rec={rec} business={business} /> : <></>}
                   <RecSection recommendations={business.recommendations} />
                 </>
               )

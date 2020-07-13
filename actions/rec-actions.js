@@ -14,7 +14,6 @@ export function getMyRecs() {
       fetch(`${API_URL}/recommendation/me?status=active`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
         .then((response) => response.json())
         .then((json) => {
-          console.log(json);
           dispatch({ type: ActionTypes.SET_MY_RECS, payload: json.recommendations });
         })
         .catch((error) => { console.log(error); })
@@ -32,7 +31,6 @@ export function getRecs() {
       fetch(`${API_URL}/recommendation?status=active`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
         .then((response) => response.json())
         .then((json) => {
-          console.log(json);
           dispatch({ type: ActionTypes.SET_RECS, payload: json.recommendations });
         })
         .catch((error) => { console.log(error); })
@@ -64,7 +62,6 @@ export function getBusiness(bizId) {
       fetch(`${API_URL}/business?businessId=${bizId}`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
         .then((response) => response.json())
         .then((json) => {
-          console.log('business', json);
           dispatch({ type: ActionTypes.SET_BUSINESS, payload: json });
         })
         .catch((error) => { console.log(error); })
