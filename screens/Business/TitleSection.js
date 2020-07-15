@@ -41,13 +41,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Hiragino W5',
     fontSize: 14,
     color: Colors.WHITE,
+    marginTop: 5,
   },
   likeText: {
     fontFamily: 'Hiragino W7',
     fontSize: 12,
     color: Colors.WHITE,
     position: 'absolute',
-    bottom: 0,
+    bottom: 5,
     right: 22,
   },
   likeImage: {
@@ -56,7 +57,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 5,
     right: 35,
-
   },
 });
 

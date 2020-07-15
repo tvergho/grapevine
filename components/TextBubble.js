@@ -19,7 +19,7 @@ const TextBubble = ({
       paddingTop: paddingTop || 5,
       paddingLeft: paddingLeft || 10,
       paddingRight: paddingRight || 10,
-      paddingBottom: paddingBottom || 0,
+      paddingBottom: paddingBottom || 5,
       width: width || null,
       height: height || null,
       minWidth: minWidth || null,

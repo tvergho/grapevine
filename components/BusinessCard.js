@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Hiragino W5',
     fontSize: 12,
     color: 'black',
+    marginTop: 5,
   },
   distanceText: {
     fontFamily: 'Hiragino W4',

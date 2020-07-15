@@ -50,10 +50,12 @@ const styles = StyleSheet.create({
   linkText: {
     fontFamily: 'Hiragino W7',
     marginTop: 10,
+    marginBottom: 10,
   },
   linkSubText: {
     fontFamily: 'Hiragino W4',
     fontSize: 12,
+    paddingBottom: 5,
   },
 });
 

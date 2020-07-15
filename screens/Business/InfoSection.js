@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Hiragino W5',
     fontSize: 12,
     color: Colors.BLACK,
-    paddingTop: 2,
     maxWidth: wp('75%'),
+    lineHeight: 15,
   },
   row: {
     flex: -1,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     width: wp('100%'),
-    marginBottom: 5,
+    marginTop: 10,
   },
   mapButton: {
     color: '#93DAC0',

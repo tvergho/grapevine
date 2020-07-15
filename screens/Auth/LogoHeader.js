@@ -34,14 +34,10 @@ const styles = StyleSheet.create({
     height: small ? 75 : 95,
     marginRight: 20,
   },
-  appTextContainer: {
-    paddingTop: 40,
-  },
   appText: {
     fontFamily: 'Hiragino W7',
     fontSize: small ? 38 : 45,
     color: Colors.WHITE,
-    marginTop: -20,
   },
 });
 

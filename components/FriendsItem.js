@@ -221,13 +221,12 @@ const styles = StyleSheet.create({
     width: hp('7%'),
   },
   customShadow: {
-    minHeight: 20,
+    minHeight: 25,
     shadowColor: 'rgba(0,0,0, .4)',
     shadowOffset: { height: 2, width: 1 },
     shadowOpacity: 0.7,
     shadowRadius: 2,
     elevation: 2,
-    marginBottom: 8,
   },
   nameText: {
     fontFamily: 'Hiragino W7',
@@ -239,6 +238,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Hiragino W4',
     fontSize: 12,
     color: '#6D7278',
+    paddingTop: 5,
   },
   icon: {
     position: 'absolute',

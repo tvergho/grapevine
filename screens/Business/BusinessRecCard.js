@@ -43,6 +43,7 @@ const recCardStyles = StyleSheet.create({
     fontFamily: 'Hiragino W5',
     fontSize: 12,
     alignSelf: 'flex-start',
+    paddingBottom: 5,
   },
   saidText: {
     fontFamily: 'Hiragino W4',

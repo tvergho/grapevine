@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
     paddingTop: large ? hp('12%') : hp('7%'),
   },
   buttonText: {
-    paddingTop: 10,
+    paddingBottom: 5,
+    paddingTop: 8,
     fontSize: 18,
     color: '#FFB7B2',
     fontFamily: 'Hiragino W7',
@@ -139,6 +140,7 @@ const styles = StyleSheet.create({
   emailText: {
     marginTop: 20,
     fontSize: 18,
+    paddingBottom: 2,
     color: '#FFFFFF',
     textAlign: 'center',
     fontFamily: 'Hiragino W7',

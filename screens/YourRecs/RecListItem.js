@@ -111,6 +111,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'Hiragino W4',
     width: wp('100%') - 30,
+    marginTop: 5,
+    paddingBottom: 2,
   },
 });
 

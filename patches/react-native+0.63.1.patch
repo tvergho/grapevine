@@ -1,0 +1,49 @@
+diff --git a/node_modules/react-native/Libraries/Components/TextInput/TextInput.js b/node_modules/react-native/Libraries/Components/TextInput/TextInput.js
+index 478af12..007546c 100644
+--- a/node_modules/react-native/Libraries/Components/TextInput/TextInput.js
++++ b/node_modules/react-native/Libraries/Components/TextInput/TextInput.js
+@@ -1130,7 +1130,7 @@ function InternalTextInput(props: Props): React.Node {
+     <TextAncestor.Provider value={true}>
+       <TouchableWithoutFeedback
+         onLayout={props.onLayout}
+-        onPress={_onPress}
++        onPress={e => {_onPress(e);if (props.onPress) {props.onPress(e);}}}
+         accessible={props.accessible}
+         accessibilityLabel={props.accessibilityLabel}
+         accessibilityRole={props.accessibilityRole}
+diff --git a/node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.h b/node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.h
+index 02de122..c017398 100644
+--- a/node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.h
++++ b/node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.h
+@@ -10,6 +10,7 @@
+ #import <UIKit/UIUserActivity.h>
+ #endif
+ #import <React/RCTEventEmitter.h>
++#import <UMReactNativeAdapter/UMReactNativeEventEmitter.h>
+ 
+ @interface RCTLinkingManager : RCTEventEmitter
+ 
+diff --git a/node_modules/react-native/scripts/.packager.env b/node_modules/react-native/scripts/.packager.env
+new file mode 100644
+index 0000000..361f5fb
+--- /dev/null
++++ b/node_modules/react-native/scripts/.packager.env
+@@ -0,0 +1 @@
++export RCT_METRO_PORT=8081
+diff --git a/node_modules/react-native/scripts/react_native_pods.rb b/node_modules/react-native/scripts/react_native_pods.rb
+index 86afd7f..5ae68d7 100644
+--- a/node_modules/react-native/scripts/react_native_pods.rb
++++ b/node_modules/react-native/scripts/react_native_pods.rb
+@@ -44,9 +44,9 @@ def use_react_native! (options={})
+   pod 'ReactCommon/turbomodule/core', :path => "#{prefix}/ReactCommon"
+   pod 'Yoga', :path => "#{prefix}/ReactCommon/yoga", :modular_headers => true
+ 
+-  pod 'DoubleConversion', :podspec => "#{prefix}/third-party-podspecs/DoubleConversion.podspec"
+-  pod 'glog', :podspec => "#{prefix}/third-party-podspecs/glog.podspec"
+-  pod 'Folly', :podspec => "#{prefix}/third-party-podspecs/Folly.podspec"
++  pod 'DoubleConversion', :podspec => "#{prefix}/third-party-podspecs/DoubleConversion.podspec", :modular_headers => false
++  pod 'glog', :podspec => "#{prefix}/third-party-podspecs/glog.podspec", :modular_headers => false
++  pod 'Folly', :podspec => "#{prefix}/third-party-podspecs/Folly.podspec", :modular_headers => false
+ 
+   if fabric_enabled
+     pod 'React-Fabric', :path => "#{prefix}/ReactCommon"

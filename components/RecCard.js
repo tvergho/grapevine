@@ -64,7 +64,7 @@ const RecCard = ({
 
             <TextBubble textStyle={recCardStyles.commissionText} text={`${commission}% back`} backgroundColor={user.color} style={recCardStyles.commissionBubble} />
 
-            <Text style={[recCardStyles.bizName, { bottom: 30, left: 10 }]}>
+            <Text style={[recCardStyles.bizName, { bottom: 35, left: 10 }]}>
               {business.name}
             </Text>
 
@@ -117,7 +117,7 @@ const RecCard = ({
               textStyle={recCardStyles.timeText}
               borderRadius={20}
               paddingTop={2}
-              paddingBottom={2}
+              paddingBottom={5}
               paddingLeft={8}
               paddingRight={8}
             />
@@ -150,7 +150,7 @@ const recCardStyles = StyleSheet.create({
     fontFamily: 'Hiragino W4',
     fontSize: 12,
     color: Colors.WHITE,
-    paddingTop: 2,
+    paddingBottom: 2,
     marginRight: 5,
   },
   fromName: {
@@ -198,12 +198,13 @@ const recCardStyles = StyleSheet.create({
   messageText: {
     fontFamily: 'Hiragino W5',
     fontSize: 12,
+    paddingBottom: 5,
   },
   likeText: {
     fontFamily: 'Hiragino W7',
     fontSize: 12,
     color: 'white',
-    marginTop: 5,
+    marginTop: 2,
     marginLeft: 3,
   },
   timeBubble: {

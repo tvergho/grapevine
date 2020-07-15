@@ -143,7 +143,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Hiragino W7',
     fontSize: 14,
-    paddingTop: 6,
     marginRight: 5,
   },
 });

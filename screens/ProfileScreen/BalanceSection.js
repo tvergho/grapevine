@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     color: Colors.BLACK,
     fontFamily: 'Hiragino W7',
     fontSize: 14,
-    marginTop: 6,
+    marginTop: 12,
   },
 });
 
