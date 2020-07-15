@@ -9,7 +9,12 @@ import AppContainer from 'navigation/AppContainer';
 import reducers from './reducers';
 
 console.disableYellowBox = true;
-const store = createStore(reducers, applyMiddleware(thunk));
+const middleware = [thunk];
+if (__DEV__) { // eslint-disable-line
+  const createFlipperMiddleware = require('rn-redux-middleware-flipper').default;
+  middleware.push(createFlipperMiddleware());
+}
+const store = createStore(reducers, applyMiddleware(...middleware));
 
 const App = () => {
   SplashScreen.preventAutoHideAsync();

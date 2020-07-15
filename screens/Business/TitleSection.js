@@ -36,12 +36,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Hiragino W7',
     fontSize: 18,
     color: Colors.WHITE,
+    paddingBottom: 5,
   },
   businessCategory: {
     fontFamily: 'Hiragino W5',
     fontSize: 14,
     color: Colors.WHITE,
-    marginTop: 5,
   },
   likeText: {
     fontFamily: 'Hiragino W7',

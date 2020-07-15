@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     color: Colors.BLACK,
     fontFamily: 'Hiragino W7',
     fontSize: 24,
+    paddingBottom: 3,
   },
 });
 

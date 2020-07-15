@@ -4331,6 +4331,11 @@ flatted@^2.0.0:
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-2.0.2.tgz#4575b21e2bcee7434aa9be662f4b7b5f9c2b5138"
   integrity sha512-r5wGx7YeOwNWNlCA0wQ86zKyDLMQr+/RB8xy74M4hTphfmjlijTSSXGuH8rnvKZnfT9i+75zmd8jcKdMR4O6jA==
 
+flipper-plugin-react-native-performance@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/flipper-plugin-react-native-performance/-/flipper-plugin-react-native-performance-0.5.0.tgz#7f33ca9d1d8f4cbccdb82633ed4f9bfd807859a3"
+  integrity sha512-QsxoyE4m1MrJeprOk6j3rFS8I9BVuI3Y+TnhvOiCpCMf46MukJKFRVtveR0rgdXe/o3tuSdquyToYE8IuvWY6A==
+
 fontfaceobserver@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/fontfaceobserver/-/fontfaceobserver-2.1.0.tgz#e2705d293e2c585a6531c2a722905657317a2991"
@@ -7518,6 +7523,11 @@ react-native-fbsdk@^2.0.0:
   resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-2.0.0.tgz#eb041bdb8f9b9180a1696d3bd7d7accee6554262"
   integrity sha512-CyPKoBVt9Y+KznALcnN4lkh6dUNqZjyFS6GbkXXTFf72wR9Dl8bXF2dDj56w/o5/TFoCnNCmQlZgh7P/NiElZQ==
 
+react-native-flipper@^0.50.0:
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.50.0.tgz#24c5e6bb11ebe3903f41a1f86feb13cea28fbaf1"
+  integrity sha512-hPfyVnYyWhOEvSzfDhos07piUmr+FULXwX2S/4SL+x49R32u7JNpYhTC2uFCehCka4SP/hZl5ID9L9qTLjQeUg==
+
 react-native-geocoding@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/react-native-geocoding/-/react-native-geocoding-0.4.0.tgz#e22c97500bfccc25273499ab3af87c27ac6ede8f"
@@ -8133,6 +8143,11 @@ rimraf@~2.2.6:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
   integrity sha1-5Dm+Kq7jJzIZUnMPmaiSnk/FBYI=
+
+rn-redux-middleware-flipper@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/rn-redux-middleware-flipper/-/rn-redux-middleware-flipper-0.1.0.tgz#805ce91bb7b28755481235865f90e535fa1b777c"
+  integrity sha512-hYii3l3jCHWejt7g07vVUST4Q+RjM9oLMCUr7oQWZ1HRSTJX9yeB0bIcf/I+Qvytwl947ObTJVL39vwIxfK24w==
 
 rsvp@^4.8.4:
   version "4.8.5"

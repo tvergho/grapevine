@@ -34,6 +34,7 @@
     "react-native-confirmation-code-field": "^6.4.0",
     "react-native-elements": "^2.0.2",
     "react-native-fbsdk": "^2.0.0",
+    "react-native-flipper": "^0.50.0",
     "react-native-geocoding": "^0.4.0",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-image-header-scroll-view": "^0.10.3",
@@ -59,7 +60,8 @@
     "react-redux": "^7.2.0",
     "reanimated-bottom-sheet": "^1.0.0-alpha.20",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "rn-redux-middleware-flipper": "^0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
@@ -73,6 +75,7 @@
     "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
+    "flipper-plugin-react-native-performance": "^0.5.0",
     "jest": "~25.2.6",
     "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "~16.9.0"

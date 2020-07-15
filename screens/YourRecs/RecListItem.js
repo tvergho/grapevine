@@ -105,14 +105,14 @@ const styles = StyleSheet.create({
     color: Colors.BLACK,
     fontSize: 14,
     fontFamily: 'Hiragino W5',
+    paddingBottom: 5,
   },
   messageText: {
     color: 'rgba(0,0,0,0.7)',
     fontSize: 12,
     fontFamily: 'Hiragino W4',
     width: wp('100%') - 30,
-    marginTop: 5,
-    paddingBottom: 2,
+    paddingBottom: 4,
   },
 });
 

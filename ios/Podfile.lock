@@ -83,6 +83,8 @@ PODS:
     - OpenSSL-Universal (= 1.0.2.19)
   - Flipper-Glog (0.3.6)
   - Flipper-PeerTalk (0.0.4)
+  - flipper-plugin-react-native-performance (0.5.0):
+    - React
   - Flipper-RSocket (1.1.0):
     - Flipper-Folly (~> 2.2)
   - FlipperKit (0.41.5):
@@ -311,6 +313,8 @@ PODS:
   - react-native-fbsdk/Share (2.0.0):
     - FBSDKShareKit (~> 7.0)
     - React
+  - react-native-flipper (0.50.0):
+    - React
   - react-native-maps (0.27.1):
     - React
   - react-native-netinfo (5.9.2):
@@ -442,6 +446,7 @@ DEPENDENCIES:
   - Flipper-Folly (~> 2.2)
   - Flipper-Glog (= 0.3.6)
   - Flipper-PeerTalk (~> 0.0.4)
+  - flipper-plugin-react-native-performance (from `../node_modules/flipper-plugin-react-native-performance/ios`)
   - Flipper-RSocket (~> 1.1)
   - FlipperKit (~> 0.41.1)
   - FlipperKit/Core (~> 0.41.1)
@@ -472,6 +477,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
+  - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-plaid-link-sdk (from `../node_modules/react-native-plaid-link-sdk`)
@@ -569,6 +575,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
     :path: "../node_modules/react-native/Libraries/FBReactNativeSpec"
+  flipper-plugin-react-native-performance:
+    :path: "../node_modules/flipper-plugin-react-native-performance/ios"
   Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
@@ -595,6 +603,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-fbsdk:
     :path: "../node_modules/react-native-fbsdk"
+  react-native-flipper:
+    :path: "../node_modules/react-native-flipper"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-netinfo:
@@ -697,6 +707,7 @@ SPEC CHECKSUMS:
   Flipper-Folly: c12092ea368353b58e992843a990a3225d4533c3
   Flipper-Glog: 1dfd6abf1e922806c52ceb8701a3599a79a200a6
   Flipper-PeerTalk: 116d8f857dc6ef55c7a5a75ea3ceaafe878aadc9
+  flipper-plugin-react-native-performance: bfe0f405c600267cac5c921cdb1f4a06b171722f
   Flipper-RSocket: 64e7431a55835eb953b0bf984ef3b90ae9fdddd7
   FlipperKit: bc68102cd4952a258a23c9c1b316c7bec1fecf83
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
@@ -714,6 +725,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 7ab9cdcdd18d57652fb041f8a147fe9658d4e00a
   React-jsinspector: 2e28bb487e42dda6c94dbfa0c648d1343767a0fb
   react-native-fbsdk: 00c15d138bba6d4efa628670886fc58cec858c19
+  react-native-flipper: b7340d18f1bf088de47fed2d77a729f2aa533854
   react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
   react-native-netinfo: cb74e17062b2af5a16a4b137f32495f241df1a8e
   react-native-plaid-link-sdk: e2cec089b33127cd9a6cf429bbe1073b769170df
@@ -750,6 +762,6 @@ SPEC CHECKSUMS:
   Yoga: d5bd05a2b6b94c52323745c2c2b64557c8c66f64
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 4d367c71fca82714099e1c5cf3092c54610fa2c9
+PODFILE CHECKSUM: ad9d873794a22408a40fed210fa80dab2f369ecb
 
 COCOAPODS: 1.9.1
