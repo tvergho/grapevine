@@ -38,8 +38,8 @@ const FriendsFeed = ({
       <SearchBar placeholder="Search businesses..." value={searchQuery} onChange={onChange} width={wp('85%')} />
 
       <FlatList
-        data={loading ? Array.from(Array(5).keys()) : recommendations.filter(searchFilter).sort((a, b) => (parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10)))}
-        renderItem={({ item, index }) => (<RecCard rec={item} feed navigation={navigation} loading={loading} />)}
+        data={loading || !recommendations ? Array.from(Array(5).keys()) : recommendations.filter(searchFilter).sort((a, b) => (parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10)))}
+        renderItem={({ item, index }) => (<RecCard rec={item} feed navigation={navigation} loading={loading || !recommendations} />)}
         keyExtractor={(item) => item.recommendationID}
         contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}

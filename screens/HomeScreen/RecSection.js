@@ -14,12 +14,12 @@ const RecSection = ({
         decelerationRate="fast"
         scrollEventThrottle={200}
       >
-        {loading ? Array.from(Array(10).keys()).map((rec) => {
+        {loading && recs ? Array.from(Array(10).keys()).map((rec) => {
           return (
             <RecCard loading={loading} />
           );
         }) : <></>}
-        {!loading ? recs.sort((a, b) => (parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10))).slice(0, 3).map((rec) => { // Limits to the three most recent recs.
+        {!loading && recs ? recs.sort((a, b) => (parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10))).slice(0, 3).map((rec) => { // Limits to the three most recent recs.
           return (
             <RecCard rec={rec} key={rec.id} navigation={navigation} loading={loading} />
           );

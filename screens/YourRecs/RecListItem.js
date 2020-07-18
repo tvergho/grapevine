@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'Hiragino W4',
     width: wp('100%') - 30,
-    paddingBottom: 4,
+    paddingBottom: 5,
   },
 });
 
