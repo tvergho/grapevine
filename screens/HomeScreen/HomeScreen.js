@@ -14,7 +14,7 @@ import {
   businessLocationSearch, businessLocationScroll, setCanLoad, getRecs,
 } from 'actions';
 import Constants from 'expo-constants';
-import { withLocation } from 'utils';
+import { withLocation } from 'utils/withLocation';
 import RecSection from './RecSection';
 import MapSection from './MapSection';
 import BusinessSection from './BusinessSection';

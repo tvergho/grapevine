@@ -40,6 +40,7 @@ export function withLocation(WrappedComponent) {
         .then((location) => {
           const { latitude, longitude } = location.coords;
           this.setState({ latitude, longitude });
+          console.log(latitude, longitude);
         })
         .catch((error) => {
           console.log(error);

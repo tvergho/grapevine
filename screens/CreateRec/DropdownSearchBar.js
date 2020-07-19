@@ -88,8 +88,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   searchInput: {
-    fontFamily: 'Hiragino W5',
-    fontSize: 12,
+    fontSize: 14,
     backgroundColor: Colors.WHITE,
     paddingLeft: 15,
     width: wp('85%'),

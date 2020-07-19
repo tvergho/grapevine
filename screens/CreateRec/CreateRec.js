@@ -14,7 +14,7 @@ import {
   businessLocationSearch, allBusinessSearch, makeRec, businessNameSearch,
 } from 'actions';
 import { connect } from 'react-redux';
-import { withLocation } from 'utils';
+import { withLocation } from 'utils/withLocation';
 import DropdownSearchBar from './DropdownSearchBar';
 import PostRecButton from './PostRecButton';
 
@@ -136,8 +136,7 @@ const styles = StyleSheet.create({
     minHeight: 120,
     maxHeight: hp('30%'),
     width: wp('95%'),
-    fontFamily: 'Hiragino W5',
-    fontSize: 12,
+    fontSize: 14,
     paddingLeft: 10,
     paddingTop: 10,
     borderRadius: 12,

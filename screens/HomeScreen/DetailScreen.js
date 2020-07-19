@@ -12,7 +12,7 @@ import {
   businessNameSearch, businessLocationScroll, clearNameSearch, setSearchLoad,
 } from 'actions';
 import _ from 'lodash';
-import { withLocation } from 'utils';
+import { withLocation } from 'utils/withLocation';
 
 const UpdateBusinessCard = React.memo(({
   item, index, navigation, loading,
