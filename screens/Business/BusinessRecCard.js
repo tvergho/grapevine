@@ -4,9 +4,26 @@ import {
 } from 'react-native';
 import TextBubble from 'components/TextBubble';
 import { Colors } from 'res';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+
+const LoadingCard = () => {
+  return (
+    <View style={{ marginBottom: 15 }}>
+      <SkeletonPlaceholder>
+        <SkeletonPlaceholder.Item height={20} width={100} marginBottom={5} borderRadius={10} />
+        <SkeletonPlaceholder.Item height={25} width={200} borderRadius={10} />
+      </SkeletonPlaceholder>
+    </View>
+  );
+};
 
 const BusinessRecCard = (props) => {
-  const { name, color, message } = props;
+  const {
+    name, color, message, loading,
+  } = props;
+
+  if (!name || loading) return (<LoadingCard />);
+
   return (
     <View style={{ marginBottom: 30 }}>
       <View style={{ flex: -1, flexDirection: 'row' }}>

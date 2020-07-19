@@ -7,6 +7,18 @@ import { faCompass, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { createOpenLink } from 'react-native-open-maps';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import * as WebBrowser from 'expo-web-browser';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+
+const LoadingCard = () => {
+  return (
+    <View style={{ marginTop: 5 }}>
+      <SkeletonPlaceholder>
+        <SkeletonPlaceholder.Item height={20} width={300} marginBottom={10} borderRadius={10} />
+        <SkeletonPlaceholder.Item height={20} width={300} marginBottom={10} borderRadius={10} />
+      </SkeletonPlaceholder>
+    </View>
+  );
+};
 
 const Row = ({
   children, text, icon, button, onPress,
@@ -30,7 +42,7 @@ const Row = ({
   );
 };
 
-const InfoSection = ({ rec, business }) => {
+const InfoSection = ({ rec, business, loading }) => {
   const address = rec.street_address ? `${rec.street_address}, ${rec.city}, ${rec.state} ${rec.zip}` : `${business.street_address}, ${business.city}, ${business.state} ${business.zip}`;
   const website = rec.website || business.website;
   const mapQuery = { query: address };
@@ -43,9 +55,13 @@ const InfoSection = ({ rec, business }) => {
   return (
     <View style={styles.background}>
       <Text style={styles.sectionHeader}>Business Info</Text>
-
-      <Row text={address} icon={faCompass} button="Map it" onPress={openAddress} />
-      {website ? <Row text={website} icon={faSearch} button="Open" onPress={() => { openLink(website); }} /> : <></>}
+      {loading ? <LoadingCard />
+        : (
+          <>
+            <Row text={address} icon={faCompass} button="Map it" onPress={openAddress} />
+            {website ? <Row text={website} icon={faSearch} button="Open" onPress={() => { openLink(website); }} /> : <></>}
+          </>
+        )}
     </View>
   );
 };

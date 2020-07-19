@@ -6,6 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import * as SplashScreen from 'expo-splash-screen';
 import AppContainer from 'navigation/AppContainer';
+import { TouchableOpacity } from 'react-native';
 import reducers from './reducers';
 
 console.disableYellowBox = true;
@@ -15,6 +16,8 @@ if (__DEV__) { // eslint-disable-line
   middleware.push(createFlipperMiddleware());
 }
 const store = createStore(reducers, applyMiddleware(...middleware));
+
+TouchableOpacity.defaultProps = { ...(TouchableOpacity.defaultProps || {}), delayPressIn: 0 };
 
 const App = () => {
   SplashScreen.preventAutoHideAsync();

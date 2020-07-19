@@ -43,12 +43,19 @@ const AnimatedHeader = ({ scrollY, rec, navigation }) => {
   return (
     <Animated.View style={[styles.header, { backgroundColor: background, borderBottomWidth: 1, borderBottomColor: bottomBorder }]}>
       {/* Back button navigation. */}
-      <View style={{ marginTop: 4 }}>
-        <TouchableOpacity style={{ flex: -1, flexDirection: 'row', justifyContent: 'center' }} onPress={() => { navigation.goBack(); }} activeOpacity={0.7}>
-          <AnimatedIcon name="chevron-left" type="font-awesome" size={16} color={text} />
-          <Animated.Text style={[styles.backButtonText, { color: text }]}>{rec.back}</Animated.Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        style={{
+          marginTop: 4, flex: -1, flexDirection: 'row', justifyContent: 'center',
+        }}
+        onPress={() => { navigation.goBack(); }}
+        activeOpacity={0.7}
+        hitSlop={{
+          top: 5, left: 5, right: 5, bottom: 5,
+        }}
+      >
+        <AnimatedIcon name="chevron-left" type="font-awesome" size={16} color={text} />
+        <Animated.Text style={[styles.backButtonText, { color: text }]}>{rec.back}</Animated.Text>
+      </TouchableOpacity>
 
       {/* Center business name (only appears on scroll). */}
       <Animated.Text style={[styles.headerBusinessName, { color: bizName }]} numberOfLines={1}>{rec.business.name}</Animated.Text>

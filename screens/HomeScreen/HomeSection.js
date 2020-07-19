@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Hiragino W7',
     fontSize: 18,
     color: Colors.BLACK,
+    paddingBottom: 5,
   },
   sectionButton: {
     fontFamily: 'Hiragino W5',

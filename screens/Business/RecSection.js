@@ -3,21 +3,22 @@ import { View, StyleSheet, Text } from 'react-native';
 import { Colors } from 'res';
 import BusinessRecCard from './BusinessRecCard';
 
-const RecSection = ({ recommendations }) => {
-  if (recommendations) {
-    return (
-      <View style={styles.background}>
-        <Text style={styles.sectionHeader}>Recommendations</Text>
-        {recommendations.map((rec) => {
+const RecSection = ({ recommendations, loading }) => {
+  return (
+    <View style={styles.background}>
+      <Text style={styles.sectionHeader}>Recommendations</Text>
+      {recommendations && !loading ? recommendations.map((rec) => {
+        return (
+          <BusinessRecCard name={rec.from_user} color={rec.color} message={rec.message} />
+        );
+      })
+        : Array.from(Array(10).keys()).map((num) => {
           return (
-            <BusinessRecCard name={rec.from_user} color={rec.color} message={rec.message} />
+            <BusinessRecCard loading />
           );
         })}
-      </View>
-    );
-  } else {
-    return (<></>);
-  }
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

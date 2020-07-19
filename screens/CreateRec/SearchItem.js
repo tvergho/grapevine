@@ -33,17 +33,21 @@ const searchItemStyles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0,0,0,0.1)',
     justifyContent: 'center',
-    padding: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 5,
   },
   nameText: {
     color: 'black',
     fontSize: 14,
     fontFamily: 'Hiragino W5',
+    paddingBottom: 5,
   },
   cityText: {
     color: 'black',
     fontSize: 12,
     fontFamily: 'Hiragino W4',
+    paddingBottom: 5,
   },
 });
 
