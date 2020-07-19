@@ -5,6 +5,7 @@ import ModalHeader from 'components/ModalHeader';
 import PlaidLink from 'react-native-plaid-link-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
+import { addAccountToken } from 'actions';
 
 const PaymentScreen = ({ navigation }) => {
   return (
@@ -15,9 +16,9 @@ const PaymentScreen = ({ navigation }) => {
         <PlaidLink
           publicKey="2664ac1ba958fb3db7f51f0e0bb265"
           clientName="BobaMe"
-          env="sandbox"
+          env="development"
           product={['transactions']}
-          onSuccess={(data) => console.log('success: ', data)}
+          onSuccess={(data) => addAccountToken(data.public_token)}
           onExit={(data) => console.log('exit: ', data)}
           componentProps={{
             hitSlop: {

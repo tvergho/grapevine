@@ -35,3 +35,4 @@ export * from './search-actions';
 export * from './post-actions';
 export * from './friend-actions';
 export * from './rec-actions';
+export * from './payment-actions';

@@ -56,14 +56,3 @@ export function deleteFriendRequest(userId) {
     fetch(`${API_URL}/users/request`, requestOptions);
   });
 }
-
-export function deleteRec(recId) {
-  SecureStore.getItemAsync('accessToken').then((token) => {
-    const requestOptions = {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${token}` },
-    };
-
-    fetch(`${API_URL}/users/request?rec_id=${recId}`, requestOptions);
-  });
-}
