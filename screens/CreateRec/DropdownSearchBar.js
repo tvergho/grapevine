@@ -9,15 +9,18 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { UIActivityIndicator } from 'react-native-indicators';
+import { useKeyboard } from 'react-native-keyboard-height';
 import SearchItem from './SearchItem';
 
 const DropdownSearchBar = ({
   placeholder, value, onChange, searchResults, loading, onSelect,
 }) => {
+  const keyboardHeight = useKeyboard();
+
   const searchViewHeight = useRef(new Animated.Value(0)).current;
   const searchViewScale = searchViewHeight.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, hp('100%')],
+    outputRange: [0, hp('100%') - keyboardHeight],
   });
 
   const searchViewStyle = [{ ...styles.itemList, height: searchViewScale }];
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: 'white',
     minWidth: wp('100%'),
-    top: hp('6%') + 90,
+    top: hp('6%') + 85,
     marginBottom: 100,
   },
 });
