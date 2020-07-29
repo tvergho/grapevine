@@ -38,7 +38,7 @@ const Markers = React.memo(({ markers }) => {
       const calcIndex = index + 1;
 
       return (
-        <CustomMarker coord={coord} index={calcIndex} />
+        <CustomMarker coord={coord} index={calcIndex} key={`${coord.latitude}${coord.longitude}`} />
       );
     })
   );

@@ -26,7 +26,7 @@ const BusinessSection = ({
     >
       <FlatList data={loading && searchResults.length === 0 ? Array.from(Array(10).keys()) : searchResults}
         renderItem={({ item, index }) => (<BusinessCard business={item} index={index} navigation={navigation} loading={loading} />)}
-        keyExtractor={(biz) => biz.businessId}
+        keyExtractor={(biz, index) => biz.businessId || `${index}`}
         scrollEnabled={false}
         style={{ marginBottom: 30 }}
       />

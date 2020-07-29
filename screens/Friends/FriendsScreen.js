@@ -25,7 +25,7 @@ const FriendsScreen = (props) => {
       <ModalHeader navigation={navigation} title="Friends" />
       {!loading ? <FriendRequestsCard requests={props.friends.requests} navigation={navigation} /> : <></>}
       <FlatList
-        data={loading ? Array.from(Array(5).keys()) : props.friends.friends}
+        data={loading ? Array.from(Array(5).keys()) : props?.friends?.friends}
         renderItem={({ item }) => (
           <FriendsItem loading={loading} user={item} type="send" swipeable onRemove={props.deleteFriend} />
         )}

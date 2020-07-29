@@ -6,7 +6,6 @@ import HomeSection from './HomeSection';
 const RecSection = ({
   openFeed, navigation, recs, loading,
 }) => {
-  console.log('recs', recs);
   return (
     <HomeSection onPress={openFeed} title="Recommended to you">
       <ScrollView

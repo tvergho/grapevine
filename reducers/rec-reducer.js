@@ -21,7 +21,6 @@ const RecReducer = (state = initialState, action) => {
       bizLoading: action.payload,
     };
   case ActionTypes.SET_RECS:
-    console.log('set recs', action.payload);
     return {
       ...state,
       recs: action.payload,
@@ -44,7 +43,6 @@ const RecReducer = (state = initialState, action) => {
   case ActionTypes.DELETE_MY_RECS: {
     const updatedRecs = [];
     for (const rec of state.myRecs) {
-      console.log(rec.recommendationID, action.payload);
       if (rec.recommendationID !== action.payload) {
         updatedRecs.push(rec);
       }

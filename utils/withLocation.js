@@ -4,14 +4,18 @@
 import React, { Component } from 'react';
 import * as Location from 'expo-location';
 
+// Default location set to Bell.
+export const DEFAULT_LATITUDE = 37.343566;
+export const DEFAULT_LONGITUDE = -121.918752;
+
 export function withLocation(WrappedComponent) {
   return class extends Component {
     constructor(props) {
       super(props);
 
       this.state = {
-        latitude: 37.343566,
-        longitude: -121.918752,
+        latitude: DEFAULT_LATITUDE,
+        longitude: DEFAULT_LONGITUDE,
       };
     }
 
@@ -40,7 +44,6 @@ export function withLocation(WrappedComponent) {
         .then((location) => {
           const { latitude, longitude } = location.coords;
           this.setState({ latitude, longitude });
-          console.log(latitude, longitude);
         })
         .catch((error) => {
           console.log(error);

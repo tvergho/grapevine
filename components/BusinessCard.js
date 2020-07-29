@@ -25,42 +25,42 @@ const BusinessCard = (props) => {
     index, business, navigation, loading, full, backText,
   } = props;
 
-  if (!loading) {
-    const {
-      name, street_address, city, commission, dist, photos,
-    } = business;
-
-    return (
-      <View style={{ backgroundColor: 'black', borderRadius: full ? 0 : 10, marginBottom: full ? 0 : 20 }}>
-        <TouchableOpacity activeOpacity={0.9}
-          onPress={() => {
-            navigation.navigate('Business', {
-              ...business, business: { ...business }, back: backText || 'Home', boba: true,
-            });
-          }}
-        >
-          <View style={full ? styles.backgroundFull : styles.background}>
-            <Image source={{ uri: photos[0] }} style={styles.imageStyle} />
-
-            <View style={{
-              flex: -1, flexDirection: 'row', justifyContent: 'space-between',
-            }}
-            >
-              <Text style={styles.nameText}>{`${index + 1}. ${name}`}</Text>
-              <TextBubble style={styles.commissionBubble} width={80} backgroundColor={Colors.SECONDARY} textStyle={styles.commissionText} text={`${commission}% back`} borderRadius={12} />
-            </View>
-
-            <Text style={styles.addressText}>{`${street_address}, ${city}`}</Text>
-            <Text style={styles.distanceText}>{dist === 0 ? '' : `${Math.round(dist * 10) / 10} mi`}</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  } else {
+  if (loading) {
     return (
       <LoadingCard full={full} />
     );
   }
+
+  const {
+    name, street_address, city, commission, dist, photos,
+  } = business;
+
+  return (
+    <View style={{ backgroundColor: 'black', borderRadius: full ? 0 : 10, marginBottom: full ? 0 : 20 }}>
+      <TouchableOpacity activeOpacity={0.9}
+        onPress={() => {
+          navigation.navigate('Business', {
+            ...business, business: { ...business }, back: backText || 'Home', boba: true,
+          });
+        }}
+      >
+        <View style={full ? styles.backgroundFull : styles.background}>
+          <Image source={{ uri: photos[0] }} style={styles.imageStyle} />
+
+          <View style={{
+            flex: -1, flexDirection: 'row', justifyContent: 'space-between',
+          }}
+          >
+            <Text style={styles.nameText}>{`${index + 1}. ${name}`}</Text>
+            <TextBubble style={styles.commissionBubble} width={80} backgroundColor={Colors.SECONDARY} textStyle={styles.commissionText} text={`${commission}% back`} borderRadius={12} />
+          </View>
+
+          <Text style={styles.addressText}>{`${street_address}, ${city}`}</Text>
+          <Text style={styles.distanceText}>{dist === 0 ? '' : `${Math.round(dist * 10) / 10} mi`}</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

@@ -27,6 +27,11 @@ const LoadingCard = () => {
   );
 };
 
+const convertTimestampToDate = (timestamp) => {
+  const date = new Date(parseInt(timestamp, 10));
+  return dateFormat(date, 'mmmm dS, yyyy');
+};
+
 const RecListItem = ({
   rec, onRemove, loading, navigation,
 }) => {
@@ -35,11 +40,6 @@ const RecListItem = ({
       timestamp, business, message, recommendationID,
     } = rec;
     const { name } = business;
-
-    const convertTimestampToDate = () => {
-      const date = new Date(parseInt(timestamp, 10));
-      return dateFormat(date, 'mmmm dS, yyyy');
-    };
 
     const leftContent = (
       <View style={{
@@ -73,7 +73,7 @@ const RecListItem = ({
       <Swipeable leftContent={leftContent} onLeftActionRelease={remove}>
         <TouchableOpacity activeOpacity={0.4} onPress={() => { navigation.navigate('Business', { ...rec, back: 'You' }); }}>
           <Animated.View style={deleteStyles}>
-            <Text style={styles.mainText}>{convertTimestampToDate()}</Text>
+            <Text style={styles.mainText}>{convertTimestampToDate(timestamp)}</Text>
 
             <View style={{ alignItems: 'flex-end', flex: -1 }}>
               <Text style={styles.mainText}>{name}</Text>

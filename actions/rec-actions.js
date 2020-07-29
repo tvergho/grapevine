@@ -4,6 +4,7 @@ import { ActionTypes } from 'actions';
 import * as SecureStore from 'expo-secure-store';
 
 const API_URL = 'https://api.bobame.app';
+const STATUS = 'pending';
 
 export function getMyRecs() {
   return (dispatch) => {
@@ -11,7 +12,7 @@ export function getMyRecs() {
 
     SecureStore.getItemAsync('accessToken').then((token) => {
       console.log(token);
-      fetch(`${API_URL}/recommendation/me?status=active`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
+      fetch(`${API_URL}/recommendation/me?status=${STATUS}`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
         .then((response) => response.json())
         .then((json) => {
           dispatch({ type: ActionTypes.SET_MY_RECS, payload: json.recommendations });
@@ -28,7 +29,7 @@ export function getRecs() {
 
     SecureStore.getItemAsync('accessToken').then((token) => {
       console.log(token);
-      fetch(`${API_URL}/recommendation?status=active`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
+      fetch(`${API_URL}/recommendation?status=${STATUS}`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
         .then((response) => response.json())
         .then((json) => {
           dispatch({ type: ActionTypes.SET_RECS, payload: json.recommendations });

@@ -14,10 +14,19 @@ import {
   businessLocationSearch, businessLocationScroll, setCanLoad, getRecs,
 } from 'actions';
 import Constants from 'expo-constants';
-import { withLocation } from 'utils/withLocation';
+import { withLocation, DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from 'utils/withLocation';
 import RecSection from './RecSection';
 import MapSection from './MapSection';
 import BusinessSection from './BusinessSection';
+
+const floatsAreEqual = (n1, n2) => {
+  const precision = 0.001;
+
+  if (Math.abs(n1 - n2) <= precision) {
+    return true;
+  }
+  return false;
+};
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -40,33 +49,39 @@ class HomeScreen extends Component {
   componentDidMount() {
     // Immediately jumps to loading on the simulator.
     if (!Constants.isDevice) {
-      console.log(this.props.location);
       this.props.businessLocationSearch(this.props.location.latitude, this.props.location.longitude);
     }
+
+    this.setLocation(this.props.location);
     this.props.getRecs();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props !== prevProps) {
-      if (this.props.search.businessLoc.searchResults !== prevProps.search.businessLoc.searchResults) {
-        this.setState({
-          searchResults: this.props.search.businessLoc.searchResults,
-        }, () => { setTimeout(() => { this.props.setCanLoad(true); }, 500); });
-      }
+    if (this.props.search.businessLoc.searchResults !== prevProps.search.businessLoc.searchResults) {
+      this.setState({
+        searchResults: this.props.search.businessLoc.searchResults,
+      }, () => { setTimeout(() => { this.props.setCanLoad(true); }, 500); });
+    }
 
-      if (this.props.location !== prevProps.location) {
-        const { latitude, longitude } = this.props.location;
-        const newLoc = { ...this.state.location };
-        newLoc.latitude = latitude;
-        newLoc.longitude = longitude;
-        this.setState(() => { return ({ location: newLoc }); });
-        this.props.businessLocationSearch(latitude, longitude);
-      }
+    if (this.props.location !== prevProps.location) {
+      this.setLocation(this.props.location);
+      const { latitude, longitude } = this.props.location;
+      this.props.businessLocationSearch(latitude, longitude);
     }
   }
 
+  setLocation = ({ latitude, longitude }) => {
+    const newLoc = { ...this.state.location };
+    newLoc.latitude = latitude;
+    newLoc.longitude = longitude;
+    this.setState(() => { return ({ location: newLoc }); });
+  }
+
   onRegionChange = (region) => {
-    this.setState({ location: region });
+    // Prevent bug from onRegionChangeComplete callback.
+    if (!floatsAreEqual(region.latitude, DEFAULT_LATITUDE) && !floatsAreEqual(region.longitude, DEFAULT_LONGITUDE)) {
+      this.setState({ location: region });
+    }
   }
 
   bottomSheetContent = () => {

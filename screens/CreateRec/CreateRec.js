@@ -3,16 +3,14 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
-import _ from 'lodash';
+import { debounce } from 'lodash';
 import {
   StyleSheet, TextInput, KeyboardAvoidingView,
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import ModalHeader from 'components/ModalHeader';
 import { Colors } from 'res';
-import {
-  businessLocationSearch, allBusinessSearch, makeRec, businessNameSearch,
-} from 'actions';
+import { makeRec, businessNameSearch } from 'actions';
 import { connect } from 'react-redux';
 import { withLocation } from 'utils/withLocation';
 import DropdownSearchBar from './DropdownSearchBar';
@@ -22,7 +20,7 @@ class CreateRec extends Component {
   constructor(props) {
     super(props);
 
-    this.onSearchChangeDelayed = _.debounce(this.search, 300);
+    this.onSearchChangeDelayed = debounce(this.search, 300);
 
     this.state = {
       selectedBusiness: {},
@@ -158,5 +156,5 @@ const mapStateToProps = (reduxState) => (
 );
 
 export default withLocation(connect(mapStateToProps, {
-  businessLocationSearch, allBusinessSearch, makeRec, businessNameSearch,
+  makeRec, businessNameSearch,
 })(CreateRec));

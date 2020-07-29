@@ -55,19 +55,20 @@ const recCardStyles = StyleSheet.create({
   fromName: {
     fontFamily: 'Hiragino W7',
     fontSize: 16,
+    paddingBottom: 5,
   },
   messageText: {
     fontFamily: 'Hiragino W5',
     fontSize: 12,
     alignSelf: 'flex-start',
     paddingBottom: 5,
+    lineHeight: 15,
   },
   saidText: {
     fontFamily: 'Hiragino W4',
     fontSize: 16,
     marginLeft: 10,
     paddingTop: 5,
-
   },
 });
 

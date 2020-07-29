@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as SplashScreen from 'expo-splash-screen';
-import Geocoder from 'react-native-geocoding';
 import {
   SignUp, SignIn, SignUpStep,
 } from 'screens';
@@ -47,17 +46,12 @@ class AppContainer extends Component {
       })
       .finally(() => {
         this.props.tryAuth0OnStart();
-        Geocoder.init('AIzaSyDgbpn2Mnmxm_YmEnuuQKOJT5zMcD6XW90');
       });
   }
 
   componentDidUpdate(prevProps) {
-    console.log(this.props);
-
-    if (this.props !== prevProps) {
-      if (this.props.appLoaded) {
-        setTimeout(() => { SplashScreen.hideAsync(); }, 400);
-      }
+    if (this.props.appLoaded !== prevProps.appLoaded && this.props.appLoaded) {
+      setTimeout(() => { SplashScreen.hideAsync(); }, 400);
     }
   }
 
