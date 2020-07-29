@@ -1,10 +1,13 @@
 import React from 'react';
 import {
-  View, StyleSheet, TouchableOpacity, Text,
+  View, StyleSheet, TouchableOpacity, Text, Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Colors } from 'res';
+
+const window = Dimensions.get('window');
+const large = window.height >= 800;
 
 const ModalHeader = ({
   navigation, title, children, style,
@@ -57,6 +60,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     alignSelf: 'center',
     textAlign: 'center',
+    paddingBottom: large ? 5 : 0,
   },
 });
 

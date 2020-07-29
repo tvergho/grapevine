@@ -260,6 +260,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 12,
     fontFamily: 'Hiragino W7',
+    paddingBottom: 5,
   },
   cancelButton: {
     backgroundColor: '#EB6660',
