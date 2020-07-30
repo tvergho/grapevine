@@ -27,7 +27,7 @@ class ProfileScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.refreshUserInfo();
+    refreshUserInfo();
   }
 
   topSection = () => {
@@ -153,4 +153,4 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, { signOut, refreshUserInfo })(ProfileScreen);
+export default connect(mapStateToProps, { signOut })(ProfileScreen);

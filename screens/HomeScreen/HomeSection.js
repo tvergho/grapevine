@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Hiragino W5',
     fontSize: 14,
     color: Colors.PRIMARY,
+    paddingBottom: 5,
   },
 });
 

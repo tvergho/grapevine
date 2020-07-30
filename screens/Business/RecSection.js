@@ -7,7 +7,7 @@ const RecSection = ({ recommendations, loading }) => {
   return (
     <View style={styles.background}>
       <Text style={styles.sectionHeader}>Recommendations</Text>
-      {recommendations && !loading ? recommendations.map((rec) => {
+      {!loading ? recommendations?.map((rec) => {
         return (
           <BusinessRecCard name={rec.from_user} color={rec.color} message={rec.message} />
         );

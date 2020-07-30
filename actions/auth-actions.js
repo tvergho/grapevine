@@ -5,140 +5,106 @@
 import * as SecureStore from 'expo-secure-store';
 import Auth0 from 'react-native-auth0';
 import { ActionTypes } from 'actions';
+import auth from '@react-native-firebase/auth';
 
 const auth0 = new Auth0({ domain: 'dev-recroom.us.auth0.com', clientId: 'UMh55ELLqvogWbyKGrcivBO6TpFm0PEI' });
 const API_URL = 'https://api.bobame.app';
 
+// Todo: Facebook, confirm phone number, send email verification.
+
 function getError(error) {
   if (!error || error === undefined) return 'There was an error.';
+  else if (error.code) return handleFirebaseError(error);
   else if (error.message) return error.message;
   else if (error.json && error.json.error_description) return error.json.error_description;
   else return error;
 }
 
-// Upon user registration, adds the user's info to the RecRoom database.
-function addToDatabase(token) {
+function handleFirebaseError({ code }) {
+  switch (code) {
+  case 'auth/weak-password':
+    return 'Password is too weak.';
+  case 'auth/email-already-in-use':
+    return 'Email is already in use by another user.';
+  case 'auth/invalid-email':
+    return 'Invalid email.';
+  default:
+    return 'There was an error completing this request.';
+  }
+}
+
+// Upon user registration, adds the user's info to the BobaMe database.
+function addToDatabase(token, user) {
+  const {
+    firstName, lastName, phone, photoURL,
+  } = user;
   const options = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    headers: { 'Content-Type': 'application/json', Authorization: token },
+    body: JSON.stringify({
+      firstName,
+      lastName,
+      phone,
+      picture: photoURL,
+    }),
   };
 
   fetch(`${API_URL}/users`, options)
-    .then((response) => response.json())
-    .then((json) => { console.log(json); })
+    .then(() => { console.log('wrote to database'); })
     .catch((error) => { console.log(error); });
 }
 
-// Runs after sign up to load the user data and authenticate them.
-export function completeSignUpAuth0(token) {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.LOADING });
-    console.log('complete');
-    console.log(token);
+// Native sign up cycle.
+export function signUpUserFirebase(userData, navigation) {
+  const {
+    firstName, lastName, email, phone, password,
+  } = userData;
 
-    auth0.auth.userInfo({ token }).then((data) => {
-      console.log(data);
-      dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
-      dispatch({ type: ActionTypes.AUTH_USER });
-      dispatch({ type: ActionTypes.RESET_LOADING });
+  return async (dispatch) => {
+    try {
+      const { user } = await auth().createUserWithEmailAndPassword(email, password);
+      const photoURL = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&size=300&bold=true&background=FFB7B2&color=FFFFFF`;
 
-      addToDatabase(token);
-    }).catch((error) => { console.log('complete', error); });
+      const profile = {
+        displayName: firstName,
+        photoURL,
+      };
+      dispatch({ type: ActionTypes.USER_SIGN_IN, payload: { ...profile, uid: user.uid } });
+      await user.updateProfile(profile);
+
+      const token = await user.getIdToken(true);
+      addToDatabase(token, { ...userData, photoURL });
+    } catch (e) {
+      navigation.goBack();
+      dispatch({ type: ActionTypes.ERROR, payload: getError(e) });
+    }
   };
 }
 
-// Native sign up cycle.
-export function signUpUserAuth0(user, navigation) {
-  const {
-    firstName, lastName, email, phone, password,
-  } = user;
-
+export function authUser(user) {
   return (dispatch) => {
-    dispatch({ type: ActionTypes.LOADING });
-
-    auth0.auth
-      .createUser({
-        email,
-        password,
-        connection: 'Username-Password-Authentication',
-        metadata: {
-          firstName,
-          lastName,
-          name: `${firstName} ${lastName}`,
-          phone,
-        },
-      })
-      .then((result) => {
-        SecureStore.setItemAsync('id', `auth0|${result.Id}`);
-
-        auth0.auth
-          .passwordRealm({
-            username: email,
-            password,
-            realm: 'Username-Password-Authentication',
-            scope: 'openid profile email offline_access',
-          })
-          .then((credentials) => {
-            console.log('cred', credentials);
-            SecureStore.setItemAsync('idToken', credentials.idToken);
-            SecureStore.setItemAsync('accessToken', credentials.accessToken);
-            SecureStore.setItemAsync('refreshToken', credentials.refreshToken);
-            dispatch(completeSignUpAuth0(credentials.accessToken));
-          })
-          .catch((error) => {
-            navigation.goBack();
-            dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
-          })
-          .finally(() => {
-            dispatch({ type: ActionTypes.RESET_LOADING });
-          });
-      })
-      .catch((error) => {
-        navigation.goBack();
-        dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
-        dispatch({ type: ActionTypes.RESET_LOADING });
-      });
+    dispatch({ type: ActionTypes.AUTH_USER });
+    if (user) dispatch({ type: ActionTypes.USER_SIGN_IN, payload: user });
   };
 }
 
 // Native login cycle.
-export function logInUserAuth0(user, navigation) {
-  const { email, password } = user;
+export function logInUserFirebase(userData, navigation) {
+  const { email, password } = userData;
 
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.LOADING });
+  return async (dispatch) => {
+    try {
+      const { user } = await auth().signInWithEmailAndPassword(email, password);
+      const { claims } = await user.getIdTokenResult();
 
-    auth0.auth
-      .passwordRealm({
-        username: email,
-        password,
-        realm: 'Username-Password-Authentication',
-        scope: 'openid profile email offline_access',
-      })
-      .then((credentials) => {
-        console.log('cred', credentials);
-        SecureStore.setItemAsync('idToken', credentials.idToken);
-        SecureStore.setItemAsync('accessToken', credentials.accessToken);
-        SecureStore.setItemAsync('refreshToken', credentials.refreshToken).then(() => { dispatch(refresh()); });
-
-        auth0.auth.userInfo({ token: credentials.accessToken }).then((data) => {
-          SecureStore.setItemAsync('id', data.sub);
-          addToDatabase(credentials.accessToken);
-          dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
-          dispatch({ type: ActionTypes.AUTH_USER });
-          setTimeout(() => { dispatch({ type: ActionTypes.RESET_LOADING }); }, 500);
-        })
-          .catch((error) => {
-            console.log(error.json);
-            navigation.goBack();
-            dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
-          });
-      })
-      .catch((error) => {
-        console.log(error.json);
-        navigation.goBack();
-        dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
-      });
+      if (!claims.user) {
+        dispatch({ type: ActionTypes.ERROR, payload: 'Not a user account.' });
+        dispatch(signOut());
+      }
+    } catch (e) {
+      navigation.goBack();
+      dispatch({ type: ActionTypes.ERROR, payload: getError(e) });
+    }
   };
 }
 
@@ -191,41 +157,8 @@ function loginWithToken(token) {
   };
 }
 
-// Check to see if the user is logged in on app start.
-export function tryAuth0OnStart() {
-  return (dispatch) => {
-    SecureStore.getItemAsync('accessToken').then((token) => {
-      auth0.auth.userInfo({ token }).then((data) => {
-        dispatch(refresh());
-
-        dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
-        dispatch({ type: ActionTypes.AUTH_USER });
-
-        const fbOptions = {
-          method: 'GET',
-          headers: { Authorization: `Bearer ${token}` },
-        };
-
-        fetch(`${API_URL}/users/refresh`, fbOptions)
-          .then((response) => response.json())
-          .then((json) => { console.log(json); })
-          .catch((error) => { console.log(error); });
-
-        setTimeout(() => { dispatch({ type: ActionTypes.APP_LOADED }); }, 500);
-      }).catch(() => { dispatch(refresh(true)); });
-    }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
-  };
-}
-
 export function refreshUserInfo() {
-  return (dispatch) => {
-    SecureStore.getItemAsync('accessToken').then((token) => {
-      auth0.auth.userInfo({ token }).then((data) => {
-        dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
-      })
-        .catch((error) => { console.log(error); });
-    });
-  };
+  if (auth().currentUser) auth().currentUser.reload();
 }
 
 export function signUpWithFacebookAuth0(navigation) {
@@ -263,14 +196,14 @@ export function signUpWithFacebookAuth0(navigation) {
 }
 
 export function signOut() {
-  console.log('sign out');
-
   return (dispatch) => {
-    SecureStore.deleteItemAsync('id');
-    SecureStore.deleteItemAsync('accessToken');
-    SecureStore.deleteItemAsync('idToken');
-    SecureStore.deleteItemAsync('refreshToken');
+    auth().signOut();
+    dispatch({ type: ActionTypes.CLEAR_USER });
     dispatch({ type: ActionTypes.DEAUTH_USER });
     dispatch({ type: ActionTypes.APP_LOADED });
+
+    SecureStore.deleteItemAsync('idToken');
+    SecureStore.deleteItemAsync('accessToken');
+    SecureStore.deleteItemAsync('refreshToken');
   };
 }

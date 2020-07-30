@@ -14,9 +14,10 @@ import {
   SignUp, SignIn, SignUpStep,
 } from 'screens';
 import {
-  setAppLoaded, signOut, tryAuth0OnStart,
+  setAppLoaded, signOut, authUser,
 } from 'actions';
 import { Images } from 'res';
+import auth from '@react-native-firebase/auth';
 import MainApp from './MainApp';
 
 const Stack = createStackNavigator();
@@ -34,25 +35,34 @@ class AppContainer extends Component {
   }
 
   componentDidMount() {
-    // Loads all the custom fonts needed for the app upon startup.
-    // Notifies the other views via the Redux state if the fonts were not loaded.
-    Font.loadAsync({
-      'Hiragino W4': require('assets/fonts/HiraginoSans-W4.otf'),
-      'Hiragino W5': require('assets/fonts/HiraginoSans-W5.otf'),
-      'Hiragino W7': require('assets/fonts/HiraginoSans-W7.otf'),
-    })
-      .catch((error) => {
-        console.log(error.message);
-      })
-      .finally(() => {
-        this.props.tryAuth0OnStart();
-      });
+    this.onMount();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.appLoaded !== prevProps.appLoaded && this.props.appLoaded) {
       setTimeout(() => { SplashScreen.hideAsync(); }, 400);
     }
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribeListener) this.unsubscribeListener();
+  }
+
+  onMount = async () => {
+    await Font.loadAsync({
+      'Hiragino W4': require('assets/fonts/HiraginoSans-W4.otf'),
+      'Hiragino W5': require('assets/fonts/HiraginoSans-W5.otf'),
+      'Hiragino W7': require('assets/fonts/HiraginoSans-W7.otf'),
+    });
+
+    this.unsubscribeListener = auth().onAuthStateChanged(this.handleAuthStateChange);
+  }
+
+  handleAuthStateChange = (user) => {
+    if (user) {
+      this.props.authUser(user);
+    }
+    this.props.setAppLoaded();
   }
 
   loading = () => {
@@ -127,5 +137,5 @@ const mapStateToProps = (reduxState) => (
 );
 
 export default connect(mapStateToProps, {
-  setAppLoaded, tryAuth0OnStart, signOut,
+  setAppLoaded, signOut, authUser,
 })(AppContainer);

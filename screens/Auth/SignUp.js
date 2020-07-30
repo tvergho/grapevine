@@ -8,7 +8,7 @@ import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import {
-  displayError, signUpUserAuth0, signUpWithFacebookAuth0,
+  displayError, signUpUserFirebase, signUpWithFacebookAuth0,
 } from 'actions';
 import AlertDialog from 'components/AlertDialog';
 import AppButton from 'components/AppButton';
@@ -98,7 +98,7 @@ class SignUp extends Component {
   signUp = () => {
     if (!this.validateInput()) {
       this.props.navigation.navigate('SignUpStep');
-      this.props.signUpUserAuth0(this.state.user, this.props.navigation);
+      this.props.signUpUserFirebase(this.state.user, this.props.navigation);
     }
   }
 
@@ -199,5 +199,5 @@ const styles = StyleSheet.create({
 });
 
 export default connect(null, {
-  displayError, signUpUserAuth0, signUpWithFacebookAuth0,
+  displayError, signUpUserFirebase, signUpWithFacebookAuth0,
 })(SignUp);
