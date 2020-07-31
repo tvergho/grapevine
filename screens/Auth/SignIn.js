@@ -7,7 +7,7 @@ import {
 import { Button } from 'react-native-elements';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { connect } from 'react-redux';
-import { logInUserFirebase, signUpWithFacebookAuth0 } from 'actions';
+import { logInUserFirebase, loginWithFacebookFirebase } from 'actions';
 import AppButton from 'components/AppButton';
 import { Images, Colors } from 'res';
 import LogoHeader from './LogoHeader';
@@ -67,7 +67,7 @@ class SignIn extends Component {
   }
 
   signInWithFacebook = () => {
-    this.props.signUpWithFacebookAuth0(this.props.navigation);
+    this.props.loginWithFacebookFirebase(this.props.navigation);
     this.props.navigation.navigate('SignUpStep');
   }
 
@@ -114,7 +114,7 @@ class SignIn extends Component {
   }
 }
 
-export default connect(null, { logInUserFirebase, signUpWithFacebookAuth0 })(SignIn);
+export default connect(null, { logInUserFirebase, loginWithFacebookFirebase })(SignIn);
 
 const styles = StyleSheet.create({
   background: {

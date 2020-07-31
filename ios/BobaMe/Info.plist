@@ -54,7 +54,7 @@
 	<key>FacebookAppID</key>
 	<string>291040482030117</string>
 	<key>FacebookDisplayName</key>
-	<string>Rec Room</string>
+	<string>BobaMe</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -95,15 +95,15 @@
 	<key>NSContactsUsageDescription</key>
 	<string>Allow Rec Room experiences to access your contacts</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Allow Rec Room to use your location</string>
+	<string>Allow BobaMe to use your location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow Rec Room to use your location</string>
+	<string>Allow BobaMe to use your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow Rec Room to use your location</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow Rec Room to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Allow Rec Room to access your device's accelerometer</string>
+	<string>Allow Rec Room to access your device&apos;s accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Give Rec Room periences permission to save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>

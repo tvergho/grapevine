@@ -4,12 +4,23 @@ import {
 } from 'react-native';
 import { MaterialIndicator } from 'react-native-indicators';
 import AlertDialog from 'components/AlertDialog';
+import { connect } from 'react-redux';
+import LinkScreen from './LinkScreen';
 
-const SignUpStep = () => {
+const SignUpStep = ({ step }) => {
+  const renderContent = () => {
+    switch (step) {
+    case 'link':
+      return <LinkScreen />;
+    default:
+      return <MaterialIndicator color="white" size={100} />;
+    }
+  };
+
   return (
     <>
       <View style={styles.background}>
-        <MaterialIndicator color="white" size={100} />
+        {renderContent()}
       </View>
 
       <AlertDialog />
@@ -27,4 +38,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpStep;
+const mapStateToProps = (reduxState) => (
+  {
+    step: reduxState.lifecycle.signUpStep,
+  }
+);
+
+export default connect(mapStateToProps, null)(SignUpStep);

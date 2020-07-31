@@ -13,9 +13,9 @@ const UserReducer = (state = initialState, action) => {
     const user = action.payload;
     return {
       ...state,
-      userId: user.uid,
-      firstName: user.displayName,
-      profilePic: user.photoURL,
+      userId: user.uid || state.userId,
+      firstName: user.displayName || state.firstName,
+      profilePic: user.photoURL || state.profilePic,
     };
   }
   case ActionTypes.CLEAR_USER:

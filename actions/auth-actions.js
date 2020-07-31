@@ -1,17 +1,19 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
 /* eslint-disable import/no-cycle */
-import * as SecureStore from 'expo-secure-store';
-import Auth0 from 'react-native-auth0';
 import { ActionTypes } from 'actions';
 import auth from '@react-native-firebase/auth';
+import {
+  LoginManager, AccessToken, GraphRequest, GraphRequestManager,
+} from 'react-native-fbsdk';
 
-const auth0 = new Auth0({ domain: 'dev-recroom.us.auth0.com', clientId: 'UMh55ELLqvogWbyKGrcivBO6TpFm0PEI' });
 const API_URL = 'https://api.bobame.app';
 
-// Todo: Facebook, confirm phone number, send email verification.
+// Todo: Confirm phone number, update server authorizer.
 
+// Called to derive an error message from various error objects.
 function getError(error) {
   if (!error || error === undefined) return 'There was an error.';
   else if (error.code) return handleFirebaseError(error);
@@ -20,6 +22,7 @@ function getError(error) {
   else return error;
 }
 
+// Returns an error message for common Firebase errors.
 function handleFirebaseError({ code }) {
   switch (code) {
   case 'auth/weak-password':
@@ -54,7 +57,71 @@ function addToDatabase(token, user) {
     .catch((error) => { console.log(error); });
 }
 
-// Native sign up cycle.
+// Create a Firebase credential for the Facebook user and attempt to log them in.
+// If a user account already exists for the given email, direct them to a screen to link their accounts.
+function addFacebookUser(error, result, navigation) {
+  return async (dispatch) => {
+    if (error) {
+      navigation.goBack();
+      dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
+    } else {
+      try {
+        const tokenData = await AccessToken.getCurrentAccessToken();
+        console.log(tokenData);
+        const facebookCredential = auth.FacebookAuthProvider.credential(tokenData.accessToken);
+        const { user } = await auth().signInWithCredential(facebookCredential);
+        const { first_name, last_name, id } = result;
+
+        const photoURL = `https://graph.facebook.com/${id}/picture?width=300&height=300`;
+        const profile = {
+          displayName: first_name,
+          photoURL,
+        };
+        dispatch({ type: ActionTypes.USER_SIGN_IN, payload: { ...profile, uid: user.uid } });
+        await user.updateProfile(profile);
+
+        const token = await user.getIdToken(true);
+        addToDatabase(token, { firstName: first_name, lastName: last_name, photoURL });
+      } catch (e) {
+        // Handle linking.
+        if (e.code === 'auth/account-exists-with-different-credential') {
+          dispatch({ type: ActionTypes.SET_SIGNUP_STEP, payload: 'link' });
+        } else {
+          navigation.goBack();
+          dispatch({ type: ActionTypes.ERROR, payload: getError(e) });
+        }
+      }
+    }
+  };
+}
+
+// Link accounts with an existing Firebase user.
+export function linkFacebookUser(email, password) {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.SET_SIGNUP_STEP, payload: '' });
+
+    try {
+      const { accessToken, userID } = await AccessToken.getCurrentAccessToken();
+      const facebookCredential = auth.FacebookAuthProvider.credential(accessToken);
+
+      const { user } = await auth().signInWithEmailAndPassword(email, password);
+      await user.linkWithCredential(facebookCredential);
+
+      const photoURL = `https://graph.facebook.com/${userID}/picture?width=300&height=300`;
+      const profile = {
+        photoURL,
+      };
+      dispatch({ type: ActionTypes.USER_SIGN_IN, payload: profile });
+      await user.updateProfile(profile);
+
+      user.reload();
+    } catch (e) {
+      dispatch({ type: ActionTypes.SET_SIGNUP_STEP, payload: 'link' });
+      dispatch({ type: ActionTypes.ERROR, payload: getError(e) });
+    }
+  };
+}
+
 export function signUpUserFirebase(userData, navigation) {
   const {
     firstName, lastName, email, phone, password,
@@ -85,6 +152,7 @@ export function authUser(user) {
   return (dispatch) => {
     dispatch({ type: ActionTypes.AUTH_USER });
     if (user) dispatch({ type: ActionTypes.USER_SIGN_IN, payload: user });
+    AccessToken.refreshCurrentAccessTokenAsync();
   };
 }
 
@@ -108,102 +176,35 @@ export function logInUserFirebase(userData, navigation) {
   };
 }
 
-function refresh(useToLogin) {
-  return (dispatch) => {
-  // Gets a refreshed token to keep the user logged in.
-    SecureStore.getItemAsync('refreshToken').then((refreshToken) => {
-      if (useToLogin) console.log('refresh', refreshToken);
-      const options = {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          grant_type: 'refresh_token',
-          client_id: 'UMh55ELLqvogWbyKGrcivBO6TpFm0PEI',
-          refresh_token: refreshToken,
-        }),
-      };
-
-      fetch('https://dev-recroom.us.auth0.com/oauth/token', options)
-        .then((response) => response.json())
-        .then((json) => {
-          SecureStore.setItemAsync('accessToken', json.access_token)
-            .then(() => {
-              console.log('accessToken', json.access_token);
-              if (useToLogin) dispatch(loginWithToken(json.access_token));
-            })
-            .catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
-        }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
-    }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
-  };
-}
-
-function loginWithToken(token) {
-  return (dispatch) => {
-    auth0.auth.userInfo({ token }).then((data) => {
-      dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
-      dispatch({ type: ActionTypes.AUTH_USER });
-      dispatch({ type: ActionTypes.APP_LOADED });
-
-      const fbOptions = {
-        method: 'GET',
-        headers: { Authorization: `Bearer ${token}` },
-      };
-
-      fetch(`${API_URL}/users/refresh`, fbOptions)
-        .then((response) => response.json())
-        .then((json) => { console.log(json); })
-        .catch((error) => { console.log(error); });
-    }).catch(() => { dispatch({ type: ActionTypes.APP_LOADED }); });
-  };
-}
-
 export function refreshUserInfo() {
   if (auth().currentUser) auth().currentUser.reload();
 }
 
-export function signUpWithFacebookAuth0(navigation) {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.LOADING });
-    auth0
-      .webAuth
-      .authorize({ scope: 'openid profile email offline_access', connection: 'facebook' })
-      .then((credentials) => {
-        console.log('cred', credentials);
-        SecureStore.setItemAsync('idToken', credentials.idToken);
-        SecureStore.setItemAsync('accessToken', credentials.accessToken);
-        SecureStore.setItemAsync('refreshToken', credentials.refreshToken).then(() => { dispatch(refresh()); });
-        addToDatabase(credentials.accessToken);
+export function loginWithFacebookFirebase(navigation) {
+  return async (dispatch) => {
+    try {
+      await LoginManager.logInWithPermissions(['public_profile', 'email', 'user_friends']);
 
-        auth0.auth.userInfo({ token: credentials.accessToken }).then((data) => {
-          SecureStore.setItemAsync('id', data.sub);
-          dispatch({ type: ActionTypes.USER_SIGN_IN, payload: data });
-          dispatch({ type: ActionTypes.AUTH_USER });
-          setTimeout(() => { dispatch({ type: ActionTypes.RESET_LOADING }); }, 500);
-        }).catch((error) => {
-          console.log(error.json);
-          navigation.goBack();
-          dispatch({ type: ActionTypes.RESET_LOADING });
-          dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
-        });
-      })
-      .catch((error) => {
-        console.log(error.json);
-        navigation.goBack();
-        dispatch({ type: ActionTypes.RESET_LOADING });
-        dispatch({ type: ActionTypes.ERROR, payload: getError(error) });
-      });
+      const infoRequest = new GraphRequest(
+        '/me',
+        { parameters: { fields: { string: 'first_name, last_name' } } },
+        (error, result) => dispatch(addFacebookUser(error, result, navigation)),
+      );
+
+      new GraphRequestManager().addRequest(infoRequest).start();
+    } catch (e) {
+      navigation.goBack();
+      dispatch({ type: ActionTypes.ERROR, payload: getError(e) });
+    }
   };
 }
 
 export function signOut() {
   return (dispatch) => {
     auth().signOut();
+    LoginManager.logOut();
     dispatch({ type: ActionTypes.CLEAR_USER });
     dispatch({ type: ActionTypes.DEAUTH_USER });
     dispatch({ type: ActionTypes.APP_LOADED });
-
-    SecureStore.deleteItemAsync('idToken');
-    SecureStore.deleteItemAsync('accessToken');
-    SecureStore.deleteItemAsync('refreshToken');
   };
 }
