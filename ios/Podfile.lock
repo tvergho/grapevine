@@ -1,6 +1,4 @@
 PODS:
-  - A0Auth0 (2.5.0):
-    - React
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.6):
     - React
@@ -464,7 +462,6 @@ PODS:
     - Yoga (~> 1.14)
 
 DEPENDENCIES:
-  - A0Auth0 (from `../node_modules/react-native-auth0/ios`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
@@ -588,8 +585,6 @@ SPEC REPOS:
     - YogaKit
 
 EXTERNAL SOURCES:
-  A0Auth0:
-    :path: "../node_modules/react-native-auth0/ios"
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
@@ -730,7 +725,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  A0Auth0: ee7810c19bbd3895d890e3bc1dce5d72b16d75eb
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
