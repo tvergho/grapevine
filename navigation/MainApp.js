@@ -1,22 +1,14 @@
 import React from 'react';
+import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
-  HomeScreen, FeedScreen, CreateRec, ProfileScreen, FriendsScreen, FriendRequests, Business, AddFriendScreen, DetailScreen, PaymentScreen, YourRecsScreen,
+  HomeScreen, RecsScreen, CreateRec, ProfileScreen, FriendsScreen, FriendRequests, Business, AddFriendScreen, DetailScreen, PaymentScreen, YourRecsScreen,
 } from 'screens';
 import { Icon } from 'react-native-elements';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
-
-const FeedModalNavigator = () => {
-  return (
-    <Stack.Navigator initialRouteName="FeedScreen" mode="modal">
-      <Stack.Screen name="FeedScreen" component={FeedScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="CreateRec" component={CreateRec} options={{ headerShown: false }} />
-    </Stack.Navigator>
-  );
-};
 
 const FriendNavigator = () => {
   return (
@@ -27,10 +19,10 @@ const FriendNavigator = () => {
   );
 };
 
-const FeedNavigator = () => {
+const RecsNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Feed">
-      <Stack.Screen name="Feed" component={FeedModalNavigator} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName="Recs">
+      <Stack.Screen name="Recs" component={RecsScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Business" component={Business} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
@@ -75,17 +67,36 @@ const ProfileNavigator = () => {
   );
 };
 
+const Placeholder = () => {
+  return <View style={{ display: 'flex', backgroundColor: 'white' }} />;
+};
+
 const MainApp = () => {
   return (
-    <Tab.Navigator initialRouteName="Home" tabBarOptions={{ activeTintColor: '#FFB7B2' }}>
+    <Tab.Navigator initialRouteName="Home" tabBarOptions={{ activeTintColor: '#FFB7B2', inactiveTintColor: '#979797', showLabel: false }}>
+      <Tab.Screen name="Recs"
+        component={RecsNavigator}
+        options={{ tabBarIcon: ({ color, size }) => (<Icon name="thumbs-up" type="font-awesome" color={color} size={size} />) }}
+      />
       <Tab.Screen name="Feed"
-        component={FeedNavigator}
+        component={Placeholder}
         options={{ tabBarIcon: ({ color, size }) => (<Icon name="bullhorn" type="font-awesome" color={color} size={size} />) }}
+      />
+      <Tab.Screen name="Create"
+        component={Placeholder}
+        options={{ tabBarIcon: ({ color, size }) => (<Icon name="plus-square" type="font-awesome" color={color} size={size} />) }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate('CreateRec');
+          },
+        })}
       />
       <Tab.Screen name="Home"
         component={HomeNavigator}
-        options={{ tabBarIcon: ({ color, size }) => (<Icon name="home" type="font-awesome" color={color} size={size} />) }}
+        options={{ tabBarIcon: ({ color, size }) => (<Icon name="map-marker" type="font-awesome" color={color} size={size + 3} />) }}
       />
+
       <Tab.Screen name="Profile"
         component={ProfileNavigator}
         options={{ tabBarIcon: ({ color, size }) => (<Icon name="user" type="font-awesome" color={color} size={size} />) }}
@@ -94,4 +105,13 @@ const MainApp = () => {
   );
 };
 
-export default MainApp;
+const MainAppWrapper = () => {
+  return (
+    <Stack.Navigator initialRouteName="MainApp" mode="modal">
+      <Stack.Screen name="MainApp" component={MainApp} options={{ headerShown: false }} />
+      <Stack.Screen name="CreateRec" component={CreateRec} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+
+export default MainAppWrapper;

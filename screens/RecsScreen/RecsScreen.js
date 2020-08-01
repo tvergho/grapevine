@@ -15,7 +15,7 @@ import { getRecs } from 'actions';
 import FriendsFeed from './FriendsFeed';
 import YouFeed from './YouFeed';
 
-class FeedScreen extends Component {
+class RecsScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -51,7 +51,7 @@ class FeedScreen extends Component {
 
   topSection = () => {
     return (
-      <MainHeader title="Feed">
+      <MainHeader title="Recs">
         <View style={{ flex: -1, flexDirection: 'row', alignItems: 'center' }}>
           <Button type="clear" titleStyle={this.state.active === 'You' ? styles.activeLink : styles.inactiveLink} title="You" onPress={this.onYouClick} />
           <Button type="clear" titleStyle={this.state.active === 'Friends' ? styles.activeLink : styles.inactiveLink} title="Friends" onPress={this.onFriendsClick} />
@@ -119,4 +119,4 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, { getRecs })(FeedScreen);
+export default connect(mapStateToProps, { getRecs })(RecsScreen);

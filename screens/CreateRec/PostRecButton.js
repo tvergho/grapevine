@@ -9,7 +9,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 const PostRecButton = ({ onSubmit, loading, disabled }) => {
   return (
     <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-      <TouchableOpacity style={[styles.submitButton, { backgroundColor: disabled ? 'rgba(255,183,178,0.8)' : 'rgba(255,183,178,1)' }]} onPress={onSubmit} disabled={loading || disabled}>
+      <TouchableOpacity style={[styles.submitButton, { backgroundColor: disabled ? 'rgba(255,183,178,0.7)' : 'rgba(255,183,178,1)' }]} onPress={onSubmit} disabled={loading || disabled}>
         {!loading ? (
           <>
             <Text style={styles.buttonText}>Post recommendation</Text>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   submitButton: {
-    height: hp('8%'),
+    height: hp('9%'),
     width: wp('100%'),
     backgroundColor: Colors.PRIMARY,
     flex: -1,
