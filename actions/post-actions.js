@@ -2,57 +2,56 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable import/prefer-default-export */
 import { ActionTypes } from 'actions';
-import * as SecureStore from 'expo-secure-store';
+import auth from '@react-native-firebase/auth';
 
 const API_URL = 'https://api.bobame.app';
 
 export function makeRec(business_id, message, callback) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({ type: ActionTypes.POST_LOADING });
+    const token = await auth().currentUser.getIdToken();
 
-    SecureStore.getItemAsync('accessToken').then((token) => {
-      const options = {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          message,
-          business_id,
-        }),
-      };
-      console.log(options);
+    const options = {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', Authorization: token },
+      body: JSON.stringify({
+        message,
+        business_id,
+      }),
+    };
+    console.log(options);
 
-      fetch(`${API_URL}/recommendation`, options)
-        .then((response) => { callback(); })
-        .catch((error) => { console.log(error); })
-        .finally(() => { dispatch({ type: ActionTypes.POST_LOADING_STOP }); });
-    });
+    fetch(`${API_URL}/recommendation`, options)
+      .then((response) => { callback(); })
+      .catch((error) => { console.log(error); })
+      .finally(() => { dispatch({ type: ActionTypes.POST_LOADING_STOP }); });
   };
 }
 
-export function makeFriendRequest(userId) {
-  SecureStore.getItemAsync('accessToken').then((token) => {
-    const requestOptions = {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify({
-        ToUserID: userId,
-      }),
-    };
+export async function makeFriendRequest(userId) {
+  const token = await auth().currentUser.getIdToken();
 
-    fetch(`${API_URL}/users/request`, requestOptions);
-  });
+  const requestOptions = {
+    method: 'POST',
+    headers: { Authorization: token },
+    body: JSON.stringify({
+      ToUserID: userId,
+    }),
+  };
+
+  fetch(`${API_URL}/users/request`, requestOptions);
 }
 
-export function deleteFriendRequest(userId) {
-  SecureStore.getItemAsync('accessToken').then((token) => {
-    const requestOptions = {
-      method: 'DELETE',
-      headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify({
-        toUserId: userId,
-      }),
-    };
+export async function deleteFriendRequest(userId) {
+  const token = await auth().currentUser.getIdToken();
 
-    fetch(`${API_URL}/users/request`, requestOptions);
-  });
+  const requestOptions = {
+    method: 'DELETE',
+    headers: { 'content-type': 'application/json', Authorization: token },
+    body: JSON.stringify({
+      toUserId: userId,
+    }),
+  };
+
+  fetch(`${API_URL}/users/request`, requestOptions);
 }

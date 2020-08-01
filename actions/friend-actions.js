@@ -1,70 +1,66 @@
 /* eslint-disable import/no-cycle */
 import { ActionTypes } from 'actions';
-import * as SecureStore from 'expo-secure-store';
+import auth from '@react-native-firebase/auth';
 
 const API_URL = 'https://api.bobame.app';
 
 export function getFriends() {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({ type: ActionTypes.FRIENDS_LOADING, payload: true });
 
-    SecureStore.getItemAsync('accessToken').then((token) => {
-      console.log(token);
-      fetch(`${API_URL}/users/friends`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
-        .then((response) => response.json())
-        .then((json) => {
-          console.log(json);
-          dispatch({ type: ActionTypes.SET_FRIENDS, payload: json.friends });
-        })
-        .catch((error) => { console.log(error); })
-        .finally(() => { dispatch({ type: ActionTypes.FRIENDS_LOADING, payload: false }); });
-    });
+    const token = await auth().currentUser.getIdToken();
+    fetch(`${API_URL}/users/friends`, { method: 'GET', headers: { Authorization: token } })
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch({ type: ActionTypes.SET_FRIENDS, payload: json.friends });
+      })
+      .catch((error) => { console.log(error); })
+      .finally(() => { dispatch({ type: ActionTypes.FRIENDS_LOADING, payload: false }); });
   };
 }
 
 export function getFriendRequests() {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({ type: ActionTypes.REQUESTS_LOADING, payload: true });
+    const token = await auth().currentUser.getIdToken();
 
-    SecureStore.getItemAsync('accessToken').then((token) => {
-      fetch(`${API_URL}/users/request`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
-        .then((response) => response.json())
-        .then((json) => {
-          dispatch({ type: ActionTypes.SET_REQUESTS, payload: json.friend_requests });
-        })
-        .catch((error) => { console.log(error); })
-        .finally(() => { dispatch({ type: ActionTypes.REQUESTS_LOADING, payload: false }); });
-    });
+    fetch(`${API_URL}/users/request`, { method: 'GET', headers: { Authorization: token } })
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch({ type: ActionTypes.SET_REQUESTS, payload: json.friend_requests });
+      })
+      .catch((error) => { console.log(error); })
+      .finally(() => { dispatch({ type: ActionTypes.REQUESTS_LOADING, payload: false }); });
   };
 }
 
 export function deleteFriend(friendId) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({ type: ActionTypes.DELETE_FRIEND, payload: friendId });
-    SecureStore.getItemAsync('accessToken').then((token) => {
-      const options = {
-        method: 'DELETE',
-        headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          to: friendId,
-        }),
-      };
+    const token = await auth().currentUser.getIdToken();
 
-      fetch(`${API_URL}/users/friends`, options);
-    });
-  };
-}
-
-export function addFriend(friendId) {
-  SecureStore.getItemAsync('accessToken').then((token) => {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}` },
+    const options = {
+      method: 'DELETE',
+      headers: { 'content-type': 'application/json', Authorization: token },
       body: JSON.stringify({
         to: friendId,
       }),
     };
 
-    fetch(`${API_URL}/users/friends`, requestOptions);
-  });
+    fetch(`${API_URL}/users/friends`, options);
+  };
+}
+
+export async function addFriend(friendId) {
+  const token = await auth().currentUser.getIdToken();
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({
+      to: friendId,
+    }),
+  };
+
+  fetch(`${API_URL}/users/friends`, requestOptions);
 }

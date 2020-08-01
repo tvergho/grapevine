@@ -11,7 +11,7 @@ import SearchBar from 'components/SearchBar';
 import {
   businessNameSearch, businessLocationScroll, clearNameSearch, setSearchLoad,
 } from 'actions';
-import _ from 'lodash';
+import { debounce } from 'lodash';
 import { withLocation } from 'utils/withLocation';
 
 const UpdateBusinessCard = React.memo(({
@@ -47,7 +47,7 @@ const DetailScreen = (props) => {
     }
   };
 
-  const searchDelayed = useRef(_.debounce(execSearch, 300)).current;
+  const searchDelayed = useRef(debounce(execSearch, 300)).current;
 
   const searchChange = (term) => {
     if (term.length > 0) {

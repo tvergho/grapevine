@@ -77,6 +77,7 @@ const cardStyles = StyleSheet.create({
     color: 'black',
     fontSize: 12,
     marginLeft: hp('4%') + 10,
+    paddingBottom: 5,
   },
   subTitle: {
     fontFamily: 'Hiragino W5',
@@ -84,6 +85,7 @@ const cardStyles = StyleSheet.create({
     fontSize: 12,
     marginLeft: hp('4%') + 10,
     marginTop: hp('0.7%'),
+    paddingBottom: 5,
   },
   icon: {
     position: 'absolute',

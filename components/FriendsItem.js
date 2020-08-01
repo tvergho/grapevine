@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#6D7278',
     alignSelf: 'center',
+    paddingBottom: 5,
   },
   usernameText: {
     fontFamily: 'Hiragino W4',

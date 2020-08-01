@@ -2,7 +2,7 @@
 /* eslint-disable import/no-cycle */
 import { ActionTypes } from 'actions';
 import { SearchTypes } from 'reducers/search-reducer';
-import * as SecureStore from 'expo-secure-store';
+import auth from '@react-native-firebase/auth';
 
 const API_URL = 'https://api.bobame.app';
 
@@ -141,28 +141,27 @@ export function allBusinessSearch(lat, long) {
 }
 
 export function usernameSearch(username) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch({ type: ActionTypes.SEARCH_LOADING, payload: true });
+    const token = await auth().currentUser.getIdToken();
 
-    SecureStore.getItemAsync('accessToken').then((token) => {
-      fetch(`${API_URL}/users/username?username=${username.replace('@', '')}`, { method: 'GET', headers: { Authorization: `Bearer ${token}` } })
-        .then((response) => response.json())
-        .then((json) => {
-          dispatch({
-            type: ActionTypes.SET_SEARCH,
-            payload: {
-              searchResults: json.response,
-              type: SearchTypes.USERNAME,
-            },
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          dispatch({ type: ActionTypes.SEARCH_ERROR, payload: error.message });
-        })
-        .finally(() => {
-          dispatch({ type: ActionTypes.SEARCH_LOADING, payload: false });
+    fetch(`${API_URL}/users/username?username=${username.replace('@', '')}`, { method: 'GET', headers: { Authorization: token } })
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch({
+          type: ActionTypes.SET_SEARCH,
+          payload: {
+            searchResults: json.response,
+            type: SearchTypes.USERNAME,
+          },
         });
-    });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({ type: ActionTypes.SEARCH_ERROR, payload: error.message });
+      })
+      .finally(() => {
+        dispatch({ type: ActionTypes.SEARCH_LOADING, payload: false });
+      });
   };
 }
