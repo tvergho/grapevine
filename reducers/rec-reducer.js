@@ -5,6 +5,7 @@ const initialState = {
   bizLoading: true,
   myRecs: [],
   recs: [],
+  acceptedRecs: [],
   business: {},
 };
 
@@ -24,6 +25,11 @@ const RecReducer = (state = initialState, action) => {
     return {
       ...state,
       recs: action.payload,
+    };
+  case ActionTypes.SET_ACCEPTED_RECS:
+    return {
+      ...state,
+      acceptedRecs: action.payload,
     };
   case ActionTypes.SET_MY_RECS:
     return {

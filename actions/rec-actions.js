@@ -36,6 +36,21 @@ export function getRecs() {
   };
 }
 
+export function getAcceptedRecs() {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.RECS_LOADING, payload: true });
+    const token = await auth().currentUser.getIdToken();
+
+    fetch(`${API_URL}/recommendation?status=accepted`, { method: 'GET', headers: { Authorization: token } })
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch({ type: ActionTypes.SET_ACCEPTED_RECS, payload: json.recommendations });
+      })
+      .catch((error) => { console.log(error); })
+      .finally(() => { dispatch({ type: ActionTypes.RECS_LOADING, payload: false }); });
+  };
+}
+
 export function deleteRec(recId) {
   return async (dispatch) => {
     const token = await auth().currentUser.getIdToken();

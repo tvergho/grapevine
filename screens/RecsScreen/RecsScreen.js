@@ -3,24 +3,23 @@ import React, { Component } from 'react';
 import {
   View, StyleSheet,
 } from 'react-native';
-import { Button } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
-import * as Data from 'data';
 import MainHeader from 'components/MainHeader';
 import AppButton from 'components/AppButton';
+import HeaderSwitch from 'components/HeaderSwitch';
 import { Colors } from 'res';
 import { getRecs } from 'actions';
-import FriendsFeed from './FriendsFeed';
-import YouFeed from './YouFeed';
+import NewFeed from './NewFeed';
+import AcceptedFeed from './AcceptedFeed';
 
 class RecsScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      active: 'Friends',
+      active: 'New',
       search: '',
     };
   }
@@ -29,12 +28,9 @@ class RecsScreen extends Component {
     this.props.getRecs();
   }
 
-  onYouClick = () => {
-    this.setState({ active: 'You' });
-  }
-
-  onFriendsClick = () => {
-    this.setState({ active: 'Friends' });
+  onClick = (label) => {
+    if (label === 'New') this.setState({ active: 'New' });
+    else if (label === 'Accepted') this.setState({ active: 'Accepted' });
   }
 
   onSearchChange = (text) => {
@@ -52,10 +48,7 @@ class RecsScreen extends Component {
   topSection = () => {
     return (
       <MainHeader title="Recs">
-        <View style={{ flex: -1, flexDirection: 'row', alignItems: 'center' }}>
-          <Button type="clear" titleStyle={this.state.active === 'You' ? styles.activeLink : styles.inactiveLink} title="You" onPress={this.onYouClick} />
-          <Button type="clear" titleStyle={this.state.active === 'Friends' ? styles.activeLink : styles.inactiveLink} title="Friends" onPress={this.onFriendsClick} />
-        </View>
+        <HeaderSwitch labels={['New', 'Accepted']} start="New" onSwitch={this.onClick} />
 
         <AppButton
           onPress={this.createRec}
@@ -75,8 +68,8 @@ class RecsScreen extends Component {
     return (
       <View style={styles.background}>
         {this.topSection()}
-        <FriendsFeed
-          display={this.state.active === 'Friends'}
+        <NewFeed
+          display={this.state.active === 'New'}
           recommendations={this.props.rec.recs}
           searchQuery={this.state.search}
           onChange={this.onSearchChange}
@@ -84,10 +77,9 @@ class RecsScreen extends Component {
           loading={this.props.rec.loading}
           refresh={this.refresh}
         />
-        <YouFeed
-          display={this.state.active === 'You'}
-          balance={this.props.user.balance}
-          transactions={Data.TRANSACTIONS}
+        <AcceptedFeed
+          display={this.state.active === 'Accepted'}
+          navigation={this.props.navigation}
         />
       </View>
     );

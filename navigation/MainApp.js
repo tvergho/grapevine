@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
-  HomeScreen, RecsScreen, CreateRec, ProfileScreen, FriendsScreen, FriendRequests, Business, AddFriendScreen, DetailScreen, PaymentScreen, YourRecsScreen,
+  HomeScreen, RecsScreen, CreateRec, ProfileScreen, FriendsScreen, FriendRequests, Business, AddFriendScreen, DetailScreen, PaymentScreen, YourRecsScreen, FeedScreen,
 } from 'screens';
 import { Icon } from 'react-native-elements';
 
@@ -23,6 +23,15 @@ const RecsNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Recs">
       <Stack.Screen name="Recs" component={RecsScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Business" component={Business} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+
+const FeedNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName="Feed">
+      <Stack.Screen name="Feed" component={FeedScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Business" component={Business} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
@@ -79,7 +88,7 @@ const MainApp = () => {
         options={{ tabBarIcon: ({ color, size }) => (<Icon name="thumbs-up" type="font-awesome" color={color} size={size} />) }}
       />
       <Tab.Screen name="Feed"
-        component={Placeholder}
+        component={FeedNavigator}
         options={{ tabBarIcon: ({ color, size }) => (<Icon name="bullhorn" type="font-awesome" color={color} size={size} />) }}
       />
       <Tab.Screen name="Create"

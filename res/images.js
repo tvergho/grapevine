@@ -9,3 +9,4 @@ export const sendPink = require('assets/images/send_pink.png');
 export const send = require('assets/images/send.png');
 export const splash = require('assets/images/splash.png');
 export const venmoLogo = require('assets/images/venmo_logo.png');
+export const likePink = require('assets/images/like_pink.png');

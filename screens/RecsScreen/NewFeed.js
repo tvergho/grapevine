@@ -6,7 +6,7 @@ import RecCard from 'components/RecCard';
 import SearchBar from 'components/SearchBar';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-const FriendsFeed = ({
+const NewFeed = ({
   display, recommendations, searchQuery, onChange, navigation, loading, refresh,
 }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -56,4 +56,4 @@ const FriendsFeed = ({
   );
 };
 
-export default FriendsFeed;
+export default NewFeed;

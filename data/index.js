@@ -342,3 +342,182 @@ export const BOBA_BUSINESSES = [
     commission: '3% back',
   },
 ];
+
+export const ALL_FEED = [
+  {
+    recommendationID: 'jacyw44vnwc',
+    from_user: {
+      name: 'Tyler',
+    },
+    timestamp: '1596006000000',
+    business: {
+      name: 'TP Tea',
+      street_address: '10787 S Blaney Ave',
+      city: 'Cupertino',
+      state: 'CA',
+      zip: '95014',
+    },
+    likes: '2',
+  },
+  {
+    recommendationID: 'kvby454dsas',
+    from_user: {
+      name: 'Kevin',
+    },
+    timestamp: '1596021050000',
+    business: {
+      name: 'OMG Tea',
+      street_address: '1171 Homestead Rd, Ste 115',
+      city: 'Santa Clara',
+      state: 'CA',
+      zip: '95050',
+    },
+    likes: '18',
+  },
+  {
+    recommendationID: 'dnv3jnvb26',
+    from_user: {
+      name: 'Rishab',
+    },
+    timestamp: '1596193850000',
+    business: {
+      name: 'Happy Lemon',
+      street_address: '520 Lawrence Expy, Ste 301',
+      city: 'Sunnyvale',
+      state: 'CA',
+      zip: '94085',
+    },
+    likes: '49',
+  },
+  {
+    recommendationID: 'hfyt6bvnd3',
+    from_user: {
+      name: 'Rishi',
+    },
+    timestamp: '1596209450000',
+    business: {
+      name: 'O2 Valley',
+      street_address: '19058 Stevens Creek Blvd',
+      city: 'Cupertino',
+      state: 'CA',
+      zip: '95014',
+    },
+    likes: '24',
+  },
+  {
+    recommendationID: 'ghjt6fed28',
+    from_user: {
+      name: 'Abhi',
+    },
+    timestamp: '1596274250000',
+    business: {
+      name: 'Tan Cha',
+      street_address: '19600 Vallco Pkwy, Ste 100',
+      city: 'Cupertino',
+      state: 'CA',
+      zip: '95014',
+    },
+    likes: '145',
+  },
+  {
+    recommendationID: 'nvby6dajdh',
+    from_user: {
+      name: 'Jason',
+    },
+    timestamp: '1596285050000',
+    business: {
+      name: 'Rare Tea',
+      street_address: '20956 Homestead Rd, Ste D',
+      city: 'Cupertino',
+      state: 'CA',
+      zip: '95014',
+    },
+    likes: '37',
+  },
+  {
+    recommendationID: 'bvtd5mandb',
+    from_user: {
+      name: 'Ashwin',
+    },
+    timestamp: '1596324650000',
+    business: {
+      name: 'Teaspoon',
+      street_address: '4328 Moorpark Ave',
+      city: 'San Jose',
+      state: 'CA',
+      zip: '95129',
+    },
+    likes: '227',
+  },
+];
+
+export const YOU_FEED = [
+  {
+    recommendationID: 'jacyw44vnwd',
+    from_user: {
+      name: 'Rishi',
+    },
+    timestamp: '1596006000000',
+    business: {
+      name: 'TP Tea',
+    },
+    points: '230',
+  },
+  {
+    recommendationID: 'adcbd3jfnc',
+    from_user: {
+      name: 'Kevin',
+    },
+    timestamp: '1596227450000',
+    business: {
+      name: 'OMG Tea',
+    },
+    points: '140',
+  },
+  {
+    recommendationID: 'cbdgf38f7db',
+    from_user: {
+      name: 'Abhi',
+    },
+    timestamp: '1596327710000',
+    business: {
+      name: 'Gong cha',
+    },
+    points: '320',
+  },
+  {
+    recommendationID: 'kvby454dsa',
+    timestamp: '1596305990000',
+    business: {
+      name: 'Teaspoon',
+    },
+    points: '140',
+  },
+  {
+    recommendationID: 'ddnca3kf32',
+    timestamp: '1596046790000',
+    business: {
+      name: 'Pekoe',
+    },
+    points: '220',
+  },
+  {
+    recommendationID: 'ccaj2ndsja',
+    timestamp: '1596133190000',
+    business: {
+      name: 'Tea Society',
+    },
+    points: '180',
+  },
+  {
+    recommendationID: 'djadn2mdlaj',
+    from_user: {
+      name: 'Jay',
+    },
+    timestamp: '1596324650000',
+    business: {
+      name: 'Milk Tea Lab',
+    },
+    points: '230',
+  },
+];
