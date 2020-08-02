@@ -10,16 +10,20 @@ const AcceptedFeed = (props) => {
   } = props;
 
   const [refreshing, setRefreshing] = useState(false);
+  const [shouldRefresh, setShouldRefresh] = useState(true);
 
   useEffect(() => {
-    if (display && (!recommendations || recommendations?.length === 0)) {
+    if (display && (!recommendations || recommendations?.length === 0 || shouldRefresh)) {
       props.getAcceptedRecs();
+      setShouldRefresh(false);
     }
   }, [display]);
 
   useEffect(() => {
     if (!loading) setRefreshing(false);
   }, [loading]);
+
+  console.log(recommendations);
 
   return (
     <View style={{ display: display ? '' : 'none' }}>

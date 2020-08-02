@@ -135,8 +135,8 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   like: {
-    width: 15,
-    height: 15,
+    width: 18,
+    height: 16,
     marginLeft: 10,
   },
   likeText: {

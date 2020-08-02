@@ -58,6 +58,22 @@ const RecReducer = (state = initialState, action) => {
       myRecs: updatedRecs,
     };
   }
+  case ActionTypes.ACCEPT_REC: {
+    const updatedRecs = [];
+    const updatedAcceptedRecs = [...state.acceptedRecs];
+    for (const rec of state.recs) {
+      if (rec.recommendationID !== action.payload) {
+        updatedRecs.push(rec);
+      } else {
+        updatedAcceptedRecs.push(rec);
+      }
+    }
+    return {
+      ...state,
+      recs: updatedRecs,
+      acceptedRecs: updatedAcceptedRecs,
+    };
+  }
   default:
     return state;
   }

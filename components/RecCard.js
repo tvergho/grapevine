@@ -9,6 +9,11 @@ import TextBubble from 'components/TextBubble';
 import { Colors, Images } from 'res';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import convertMillesecondsToTime from 'utils/convertMillesecondsToTime';
+import DeleteSwipeable from 'components/DeleteSwipeable';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
+import { acceptRec } from 'actions';
 
 const LoadingCard = ({ width, height, feed }) => {
   return (
@@ -53,14 +58,28 @@ const HomeCard = ({
 };
 
 const FeedCard = ({
-  width, height, rec, navigation, user,
+  width, height, rec, navigation, user, accept,
 }) => {
   const {
-    commission, business, message, likes, timestamp, personal,
+    commission, business, message, likes, timestamp, personal, recommendationID,
   } = rec;
 
+  const leftContent = (
+    <View style={{
+      backgroundColor: '#9EBF68', flex: 1, alignItems: 'flex-end', justifyContent: 'center', marginBottom: 20,
+    }}
+    >
+      <FontAwesomeIcon icon={faCheck} size={40} color="white" style={{ marginRight: 15 }} />
+    </View>
+  );
+
   return (
-    <View style={[recCardStyles.container, { width, height, marginBottom: 20 }]}>
+    <DeleteSwipeable
+      leftContent={leftContent}
+      backgroundStyle={[recCardStyles.container, { width, height, marginBottom: 20 }]}
+      remove={() => { accept(recommendationID); }}
+      enabled={accept}
+    >
       <TouchableOpacity activeOpacity={0.5} onPress={() => { navigation.navigate('Business', { ...rec, back: 'Feed' }); }}>
         <Image source={{ uri: business.imageURL }} style={[recCardStyles.image, { width, height }]} />
 
@@ -105,12 +124,12 @@ const FeedCard = ({
           paddingRight={8}
         />
       </TouchableOpacity>
-    </View>
+    </DeleteSwipeable>
   );
 };
 
 const RecCard = ({
-  rec, feed, navigation, loading,
+  rec, feed, navigation, loading, acceptable, acceptRec: accept,
 }) => {
   // Gets bigger if it's a feed card.
   const width = feed ? wp('90%') : 250;
@@ -143,6 +162,7 @@ const RecCard = ({
       navigation={navigation}
       user={user}
       rec={rec}
+      accept={acceptable ? accept : null}
     />
   );
 };
@@ -240,4 +260,4 @@ const recCardStyles = StyleSheet.create({
   },
 });
 
-export default RecCard;
+export default connect(null, { acceptRec })(RecCard);

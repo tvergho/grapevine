@@ -20,12 +20,28 @@ export function makeRec(business_id, business_name, message, callback) {
         business_name,
       }),
     };
-    console.log(options);
 
     fetch(`${API_URL}/recommendation`, options)
       .then((response) => { callback(); })
       .catch((error) => { console.log(error); })
       .finally(() => { dispatch({ type: ActionTypes.POST_LOADING_STOP }); });
+  };
+}
+
+export function acceptRec(recommendationID) {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.ACCEPT_REC, payload: recommendationID });
+    const token = await auth().currentUser.getIdToken();
+
+    const options = {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', Authorization: token },
+      body: JSON.stringify({
+        recommendationID,
+      }),
+    };
+
+    fetch(`${API_URL}/recommendation/accept`, options);
   };
 }
 

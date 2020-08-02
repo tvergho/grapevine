@@ -7,7 +7,7 @@ import HomeSection from './HomeSection';
 const RecSection = ({
   openFeed, navigation, recs, loading,
 }) => {
-  if (!loading && !recs) return null;
+  if (!loading && (!recs || recs.length === 0)) return null;
   return (
     <HomeSection onPress={openFeed} title="Recommended to you">
       <ScrollView
@@ -22,7 +22,7 @@ const RecSection = ({
         }) : <></>}
         {!loading && recs ? recs.sort((a, b) => (parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10))).slice(0, 3).map((rec) => { // Limits to the three most recent recs.
           return (
-            <RecCard rec={rec} key={rec.id} navigation={navigation} loading={loading} />
+            <RecCard rec={rec} key={rec.recommendationID} navigation={navigation} loading={loading} />
           );
         }) : <></>}
       </ScrollView>

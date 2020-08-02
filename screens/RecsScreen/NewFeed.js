@@ -39,7 +39,7 @@ const NewFeed = ({
 
       <FlatList
         data={loading ? Array.from(Array(5).keys()) : recommendations?.filter(searchFilter).sort((a, b) => (parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10)))}
-        renderItem={({ item, index }) => (<RecCard rec={item} feed navigation={navigation} loading={loading || !recommendations} />)}
+        renderItem={({ item, index }) => (<RecCard rec={item} feed navigation={navigation} loading={loading || !recommendations} acceptable />)}
         keyExtractor={(item, index) => item?.recommendationID || `${index}`}
         contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
