@@ -6,7 +6,7 @@ import auth from '@react-native-firebase/auth';
 
 const API_URL = 'https://api.bobame.app';
 
-export function makeRec(business_id, message, callback) {
+export function makeRec(business_id, business_name, message, callback) {
   return async (dispatch) => {
     dispatch({ type: ActionTypes.POST_LOADING });
     const token = await auth().currentUser.getIdToken();
@@ -17,6 +17,7 @@ export function makeRec(business_id, message, callback) {
       body: JSON.stringify({
         message,
         business_id,
+        business_name,
       }),
     };
     console.log(options);

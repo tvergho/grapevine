@@ -89,7 +89,8 @@ class CreateRec extends Component {
 
   onSubmit = () => {
     if (!this.validateInput()) {
-      this.props.makeRec(this.state.selectedBusiness.businessId, this.state.rec, this.props.navigation.goBack);
+      const { businessId, name } = this.state.selectedBusiness;
+      this.props.makeRec(businessId, name, this.state.rec, this.props.navigation.goBack);
     }
   }
 
