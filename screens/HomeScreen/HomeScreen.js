@@ -120,7 +120,7 @@ class HomeScreen extends Component {
   }
 
   openFeed = () => {
-    this.props.navigation.jumpTo('Feed');
+    this.props.navigation.jumpTo('Recs');
   }
 
   scroll = () => {

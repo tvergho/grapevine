@@ -17,6 +17,7 @@ const PaymentScreen = ({ navigation }) => {
           publicKey="2664ac1ba958fb3db7f51f0e0bb265"
           clientName="BobaMe"
           env="development"
+          webhook="https://api.bobame.app/recommendation/plaidWebhook"
           product={['transactions']}
           onSuccess={(data) => addAccountToken(data.public_token)}
           onExit={(data) => console.log('exit: ', data)}
