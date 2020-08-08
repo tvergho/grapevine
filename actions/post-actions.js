@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/no-cycle */
 /* eslint-disable import/prefer-default-export */
-import { ActionTypes } from 'actions';
+import { ActionTypes, getMyRecs } from 'actions';
 import auth from '@react-native-firebase/auth';
 
 const API_URL = 'https://api.bobame.app';
@@ -24,7 +24,10 @@ export function makeRec(business_id, business_name, message, callback) {
     fetch(`${API_URL}/recommendation`, options)
       .then((response) => { callback(); })
       .catch((error) => { console.log(error); })
-      .finally(() => { dispatch({ type: ActionTypes.POST_LOADING_STOP }); });
+      .finally(() => {
+        dispatch({ type: ActionTypes.POST_LOADING_STOP });
+        setTimeout(() => { dispatch(getMyRecs()); }, 500);
+      });
   };
 }
 

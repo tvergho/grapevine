@@ -5,15 +5,17 @@ import { View, StyleSheet, FlatList } from 'react-native';
 import { Colors } from 'res';
 import FriendsItem from 'components/FriendsItem';
 import { connect } from 'react-redux';
-import { usernameSearch, clearUsernameSearch } from 'actions';
-import _ from 'lodash';
+import {
+  usernameSearch, clearUsernameSearch, getFriends, getFriendRequests,
+} from 'actions';
+import { debounce } from 'lodash';
 import AddFriendHeader from './AddFriendHeader';
 
 class AddFriendScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.searchDelayed = _.debounce(this.search, 300);
+    this.searchDelayed = debounce(this.search, 300);
 
     this.state = {
       username: '',
@@ -37,6 +39,13 @@ class AddFriendScreen extends Component {
     }
   }
 
+  reloadFriendCache = () => {
+    setTimeout(() => {
+      this.props.getFriends();
+      this.props.getFriendRequests();
+    }, 500);
+  }
+
   render() {
     const { username, loading } = this.props.search;
     return (
@@ -44,7 +53,12 @@ class AddFriendScreen extends Component {
         <AddFriendHeader navigation={this.props.navigation} value={this.state.username} onChange={this.onChangeUsername} loading={loading} />
         <FlatList
           data={this.state.username.length > 0 ? username.searchResults : []}
-          renderItem={({ item }) => (<FriendsItem user={item} type="add" />)}
+          renderItem={({ item }) => (
+            <FriendsItem user={item}
+              type="add"
+              shouldRefresh={this.reloadFriendCache}
+            />
+          )}
           keyExtractor={(friend) => friend.username}
           keyboardShouldPersistTaps="always"
         />
@@ -73,4 +87,6 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, { usernameSearch, clearUsernameSearch })(AddFriendScreen);
+export default connect(mapStateToProps, {
+  usernameSearch, clearUsernameSearch, getFriendRequests, getFriends,
+})(AddFriendScreen);

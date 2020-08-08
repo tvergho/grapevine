@@ -23,8 +23,6 @@ const AcceptedFeed = (props) => {
     if (!loading) setRefreshing(false);
   }, [loading]);
 
-  console.log(recommendations);
-
   return (
     <View style={{ display: display ? '' : 'none' }}>
       <FlatList

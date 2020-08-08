@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  View, StyleSheet, FlatList,
+  View, StyleSheet, FlatList, RefreshControl,
 } from 'react-native';
 import ModalHeader from 'components/ModalHeader';
 import FriendsItem from 'components/FriendsItem';
@@ -11,14 +11,21 @@ import FriendRequestsCard from './FriendRequestsCard';
 
 const FriendsScreen = (props) => {
   const { navigation } = props;
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    props.getFriendRequests();
-    props.getFriends();
+    if (props?.friends?.friends && props.friends.friends.length === 0) {
+      props.getFriendRequests();
+      props.getFriends();
+    }
   }, []);
 
   const { requestsLoading, friendsLoading } = props.friends;
   const loading = requestsLoading || friendsLoading;
+
+  useEffect(() => {
+    setRefreshing(false);
+  }, [loading]);
 
   return (
     <View style={styles.background}>
@@ -30,6 +37,14 @@ const FriendsScreen = (props) => {
           <FriendsItem loading={loading} user={item} type="send" swipeable onRemove={props.deleteFriend} />
         )}
         keyExtractor={(friend) => friend.username}
+        refreshControl={(
+          <RefreshControl refreshing={refreshing}
+            onRefresh={() => {
+              props.getFriendRequests();
+              props.getFriends();
+            }}
+          />
+        )}
       />
     </View>
   );

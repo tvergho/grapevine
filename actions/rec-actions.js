@@ -10,6 +10,7 @@ export function getMyRecs() {
   return async (dispatch) => {
     dispatch({ type: ActionTypes.RECS_LOADING, payload: true });
     const token = await auth().currentUser.getIdToken();
+    console.log(token);
 
     fetch(`${API_URL}/recommendation/me?status=${STATUS}`, { method: 'GET', headers: { Authorization: token } })
       .then((response) => response.json())
