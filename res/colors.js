@@ -3,4 +3,4 @@ export const SECONDARY = '#B5EAD7';
 export const TERTIARY = '#E2F0CB';
 export const WHITE = '#FFFFFF';
 export const BLACK = '#000000';
-export const GRAYA = '#6D7278';
+export const GRAY = '#6D7278';

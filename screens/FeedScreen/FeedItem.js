@@ -8,6 +8,24 @@ import TextBubble from 'components/TextBubble';
 import AppButton from 'components/AppButton';
 import convertMillesecondsToTime from 'utils/convertMillesecondsToTime';
 import { createOpenLink } from 'react-native-open-maps';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+
+const Loading = () => {
+  return (
+    <View style={styles.background}>
+      <SkeletonPlaceholder>
+        <View>
+          <SkeletonPlaceholder.Item width={130} height={20} borderRadius={15} />
+          <SkeletonPlaceholder.Item width={100} height={20} borderRadius={15} marginTop={10} />
+        </View>
+        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+          <SkeletonPlaceholder.Item width={100} height={15} borderRadius={15} />
+          <SkeletonPlaceholder.Item width={80} height={25} borderRadius={15} marginTop={10} />
+        </View>
+      </SkeletonPlaceholder>
+    </View>
+  );
+};
 
 const LeftSection = ({ rec, active }) => {
   let verbText = '';
@@ -88,7 +106,8 @@ const RightSection = ({ active, rec }) => {
   );
 };
 
-const FeedItem = ({ active, rec }) => {
+const FeedItem = ({ active, rec, loading }) => {
+  if (loading) return <Loading />;
   return (
     <View style={styles.background}>
       <LeftSection rec={rec} active={active} />

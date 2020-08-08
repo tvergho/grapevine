@@ -6,6 +6,7 @@ export const SearchTypes = {
   BUSINESS_NAME: 'BUSINESS_NAME',
   BUSINESS_ALL: 'BUSINESS_ALL',
   USERNAME: 'USERNAME',
+  GLOBAL_FEED: 'GLOBAL_FEED',
 };
 
 const initialState = {
@@ -20,6 +21,10 @@ const initialState = {
     searchResults: [],
   },
   username: {
+    searchResults: [],
+  },
+  globalFeed: {
+    scrollId: '',
     searchResults: [],
   },
   error: '',
@@ -63,6 +68,14 @@ const SearchReducer = (state = initialState, action) => {
           searchResults,
         },
       };
+    case SearchTypes.GLOBAL_FEED:
+      return {
+        ...state,
+        globalFeed: {
+          scrollId,
+          searchResults,
+        },
+      };
     default:
       return {
         ...state,
@@ -79,6 +92,14 @@ const SearchReducer = (state = initialState, action) => {
         businessLoc: {
           scrollId,
           searchResults: state.businessLoc.searchResults.concat(searchResults),
+        },
+      };
+    case SearchTypes.GLOBAL_FEED:
+      return {
+        ...state,
+        globalFeed: {
+          scrollId,
+          searchResults: state.globalFeed.searchResults.concat(searchResults),
         },
       };
     default:

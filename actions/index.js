@@ -1,27 +1,42 @@
 /* eslint-disable import/no-cycle */
-export const ActionTypes = {
+const authActions = {
   AUTH_USER: 'AUTH_USER',
+  SET_SIGNUP_STEP: 'SET_SIGNUP_STEP',
+  USER_SIGN_IN: 'USER_SIGN_IN',
+  CLEAR_USER: 'CLEAR_USER',
+  DEAUTH_USER: 'DEAUTH_USER',
+};
+
+const lifecycleActions = {
   ERROR: 'ERROR',
   RESET_ERROR: 'RESET_ERROR',
   APP_LOADED: 'APP_LOADED',
   LOADING: 'LOADING',
   RESET_LOADING: 'RESET_LOADING',
-  SET_SIGNUP_STEP: 'SET_SIGNUP_STEP',
-  USER_SIGN_IN: 'USER_SIGN_IN',
-  CLEAR_USER: 'CLEAR_USER',
-  DEAUTH_USER: 'DEAUTH_USER',
+};
+
+const searchActions = {
   SET_SEARCH: 'SET_SEARCH',
   SEARCH_ERROR: 'SEARCH_ERROR',
   UPDATE_SEARCH: 'UPDATE_SEARCH',
   CAN_LOAD_SEARCH: 'CAN_LOAD_SEARCH',
   SEARCH_LOADING: 'SEARCH_LOADING',
+};
+
+const postActions = {
   POST_LOADING: 'POST_LOADING',
   POST_LOADING_STOP: 'POST_LOADING_STOP',
+};
+
+const friendActions = {
   SET_FRIENDS: 'SET_FRIENDS',
   SET_REQUESTS: 'SET_REQUESTS',
   FRIENDS_LOADING: 'FRIENDS_LOADING',
   REQUESTS_LOADING: 'REQUESTS_LOADING',
   DELETE_FRIEND: 'DELETE_FRIEND',
+};
+
+const recActions = {
   RECS_LOADING: 'RECS_LOADING',
   SET_MY_RECS: 'SET_MY_RECS',
   DELETE_MY_RECS: 'DELETE_MY_RECS',
@@ -31,6 +46,15 @@ export const ActionTypes = {
   SET_BUSINESS: 'SET_BUSINESS',
   CLEAR_BUSINESS: 'CLEAR_BUSINESS',
   BUSINESS_LOADING: 'BUSINESS_LOADING',
+};
+
+export const ActionTypes = {
+  ...authActions,
+  ...lifecycleActions,
+  ...searchActions,
+  ...postActions,
+  ...friendActions,
+  ...recActions,
 };
 
 export * from './auth-actions';

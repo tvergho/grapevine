@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-use-before-define */
 /* eslint-disable import/no-cycle */
 import { ActionTypes } from 'actions';
@@ -31,6 +32,71 @@ export function clearUsernameSearch() {
       searchResults: [],
       type: SearchTypes.USERNAME,
     },
+  };
+}
+
+export function getGlobalFeed() {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.SEARCH_LOADING, payload: true });
+
+    const token = await auth().currentUser.getIdToken();
+    fetch(`${API_URL}/recommendation/feed`, { method: 'GET', headers: { Authorization: token } })
+      .then((response) => response.json())
+      .then((json) => {
+        const { searchResult, _scroll_id } = json;
+
+        if (searchResult.length > 0) {
+          dispatch({
+            type: ActionTypes.SET_SEARCH,
+            payload: {
+              scrollId: _scroll_id,
+              searchResults: searchResult,
+              type: SearchTypes.GLOBAL_FEED,
+            },
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({ type: ActionTypes.SEARCH_ERROR, payload: error.message });
+      })
+      .finally(() => {
+        dispatch({ type: ActionTypes.SEARCH_LOADING, payload: false });
+      });
+  };
+}
+
+export function globalFeedScroll(scrollId) {
+  console.log(scrollId);
+  return async (dispatch, getState) => {
+    if (getState().search.canLoad) {
+      dispatch(setCanLoad(false));
+
+      const token = await auth().currentUser.getIdToken();
+      fetch(`${API_URL}/recommendation/feed?scroll_id=${scrollId}`, { method: 'GET', headers: { Authorization: token } })
+        .then((response) => response.json())
+        .then((json) => {
+          const { searchResult, _scroll_id } = json;
+
+          if (searchResult.length > 0) {
+            dispatch({
+              type: ActionTypes.UPDATE_SEARCH,
+              payload: {
+                scrollId: _scroll_id,
+                searchResults: searchResult,
+                type: SearchTypes.GLOBAL_FEED,
+              },
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch({ type: ActionTypes.SEARCH_ERROR, payload: error.message });
+        })
+        .finally(() => {
+          dispatch({ type: ActionTypes.SEARCH_LOADING, payload: false });
+        });
+    }
   };
 }
 
