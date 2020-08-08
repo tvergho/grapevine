@@ -37,11 +37,11 @@ class Business extends Component {
 
     return (
       <>
-        <AnimatedHeader scrollY={this.state.scrollY} navigation={this.props.navigation} rec={rec} />
+        <AnimatedHeader scrollY={this.state.scrollY} navigation={this.props.navigation} rec={rec} business={business} />
         <HeaderImageScrollView
           minHeight={60}
           maxHeight={hp('40%')}
-          headerImage={{ uri: rec.business.imageURL || (rec.photos && rec.photos[0]) || '' }}
+          headerImage={{ uri: rec.business.imageURL || (rec.photos && rec.photos[0]) || business.imageURL || '' }}
           minOverlayOpacity={0.3}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],

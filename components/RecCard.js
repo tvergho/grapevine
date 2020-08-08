@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable global-require */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
@@ -14,6 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { acceptRec } from 'actions';
+import PropTypes from 'prop-types';
 
 const LoadingCard = ({ width, height, feed }) => {
   return (
@@ -165,6 +167,31 @@ const RecCard = ({
       accept={acceptable ? accept : null}
     />
   );
+};
+
+RecCard.propTypes = {
+  rec: PropTypes.oneOfType([PropTypes.number, PropTypes.shape({
+    business: PropTypes.shape({
+      id: PropTypes.string,
+      imageURL: PropTypes.string,
+      name: PropTypes.string,
+    }),
+    commission: PropTypes.string,
+    from_user: PropTypes.shape({
+      color: PropTypes.string,
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+    likes: PropTypes.string,
+    message: PropTypes.string,
+    recommendationID: PropTypes.string,
+    timestamp: PropTypes.string,
+  })]),
+  feed: PropTypes.bool,
+  navigation: PropTypes.object,
+  loading: PropTypes.bool,
+  acceptable: PropTypes.bool,
+  acceptRec: PropTypes.func,
 };
 
 const recCardStyles = StyleSheet.create({

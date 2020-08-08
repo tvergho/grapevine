@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import {
-  View, StyleSheet, Text, Image,
+  View, StyleSheet, Text, Image, TouchableOpacity,
 } from 'react-native';
 import { Colors, Images } from 'res';
 import TextBubble from 'components/TextBubble';
@@ -9,6 +9,8 @@ import AppButton from 'components/AppButton';
 import convertMillesecondsToTime from 'utils/convertMillesecondsToTime';
 import { createOpenLink } from 'react-native-open-maps';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import { useNavigation } from '@react-navigation/native';
+import PropTypes from 'prop-types';
 
 const Loading = () => {
   return (
@@ -28,6 +30,8 @@ const Loading = () => {
 };
 
 const LeftSection = ({ rec, active }) => {
+  const navigation = useNavigation();
+
   let verbText = '';
   if (active === 'All') verbText = 'recommended';
   else if (active === 'You') {
@@ -47,22 +51,24 @@ const LeftSection = ({ rec, active }) => {
         <Text style={styles.normalText}>{verbText}</Text>
       </View>
 
-      <View style={styles.row}>
-        <TextBubble
-          text={rec?.business?.name}
-          shadowWidth={2}
-          shadowHeight={1}
-          textStyle={styles.businessText}
-        />
+      <TouchableOpacity onPress={() => { navigation.navigate('Business', { ...rec, back: 'Feed' }); }}>
+        <View style={styles.row}>
+          <TextBubble
+            text={rec?.business?.name}
+            shadowWidth={2}
+            shadowHeight={1}
+            textStyle={styles.businessText}
+          />
 
-        {rec.likes
+          {rec.likes
         && (
           <>
             <Image source={Images.likePink} style={styles.like} />
             <Text style={styles.likeText}>{rec.likes}</Text>
           </>
         )}
-      </View>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -106,7 +112,9 @@ const RightSection = ({ active, rec }) => {
   );
 };
 
-const FeedItem = ({ active, rec, loading }) => {
+const FeedItem = ({
+  active, rec, loading,
+}) => {
   if (loading) return <Loading />;
   return (
     <View style={styles.background}>
@@ -114,6 +122,27 @@ const FeedItem = ({ active, rec, loading }) => {
       <RightSection active={active} rec={rec} />
     </View>
   );
+};
+
+FeedItem.propTypes = {
+  active: PropTypes.string,
+  loading: PropTypes.bool,
+  rec: PropTypes.shape({
+    business: PropTypes.shape({
+      city: PropTypes.string,
+      name: PropTypes.string,
+      state: PropTypes.string,
+      street_address: PropTypes.string,
+      zip: PropTypes.string,
+      businessId: PropTypes.string,
+    }),
+    from_user: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+    likes: PropTypes.number,
+    recommendationID: PropTypes.string,
+    timestamp: PropTypes.string,
+  }),
 };
 
 const styles = StyleSheet.create({

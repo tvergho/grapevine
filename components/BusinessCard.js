@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable camelcase */
 import React from 'react';
 import {
@@ -6,6 +7,7 @@ import {
 import { Colors } from 'res';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import PropTypes from 'prop-types';
 import TextBubble from './TextBubble';
 
 const LoadingCard = ({ full }) => {
@@ -61,6 +63,28 @@ const BusinessCard = (props) => {
       </TouchableOpacity>
     </View>
   );
+};
+
+BusinessCard.propTypes = {
+  index: PropTypes.number,
+  business: PropTypes.shape({
+    businessId: PropTypes.string,
+    category: PropTypes.arrayOf(PropTypes.string),
+    city: PropTypes.string,
+    commission: PropTypes.number,
+    dist: PropTypes.number,
+    location: PropTypes.string,
+    name: PropTypes.string,
+    photos: PropTypes.arrayOf(PropTypes.string),
+    state: PropTypes.string,
+    street_address: PropTypes.string,
+    website: PropTypes.string,
+    zip: PropTypes.string,
+  }),
+  loading: PropTypes.bool,
+  navigation: PropTypes.object,
+  full: PropTypes.bool,
+  backText: PropTypes.string,
 };
 
 const styles = StyleSheet.create({

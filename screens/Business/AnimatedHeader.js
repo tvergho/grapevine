@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import {
   View, StyleSheet, Animated, TouchableOpacity, Dimensions,
@@ -8,7 +9,9 @@ import { Icon } from 'react-native-elements';
 const window = Dimensions.get('window');
 const small = window.width <= 350;
 
-const AnimatedHeader = ({ scrollY, rec, navigation }) => {
+const AnimatedHeader = ({
+  scrollY, rec, business, navigation,
+}) => {
   // This is the distance the user needs to scroll for the image to disappear completely.
   const HEADER_SCROLL_DISTANCE = hp('40%') - 60;
 
@@ -40,6 +43,9 @@ const AnimatedHeader = ({ scrollY, rec, navigation }) => {
   });
   const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
+  let commission = rec.commission || business.commission;
+  if (commission && commission.toString().length === 1) commission = `${commission}% back`;
+
   return (
     <Animated.View style={[styles.header, { backgroundColor: background, borderBottomWidth: 1, borderBottomColor: bottomBorder }]}>
       {/* Back button navigation. */}
@@ -61,8 +67,8 @@ const AnimatedHeader = ({ scrollY, rec, navigation }) => {
       <Animated.Text style={[styles.headerBusinessName, { color: bizName }]} numberOfLines={1}>{rec.business.name}</Animated.Text>
 
       {/* Commission bubble (upper right corner). */}
-      <View style={[styles.commissionBubble, { backgroundColor: rec.from_user ? rec.from_user.color : '#B5EAD7' }]}>
-        <Animated.Text style={[styles.commissionText, { fontSize: commissionSize }]}>{rec.commission.toString().length > 1 ? rec.commission : `${rec.commission}% back`}</Animated.Text>
+      <View style={[styles.commissionBubble, { backgroundColor: rec?.from_user?.color || '#B5EAD7' }]}>
+        <Animated.Text style={[styles.commissionText, { fontSize: commissionSize }]}>{commission || ''}</Animated.Text>
       </View>
     </Animated.View>
   );
