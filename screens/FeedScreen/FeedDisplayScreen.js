@@ -1,10 +1,15 @@
-import React from 'react';
-import { View, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, RefreshControl } from 'react-native';
 import FeedItem from './FeedItem';
 
 const FeedDisplayScreen = ({
-  display, recommendations, active, loading, scroll,
+  display, recommendations, active, loading, scroll, refresh,
 }) => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    if (!loading) setRefreshing(false);
+  }, [loading]);
   return (
     <View style={{ display: display ? '' : 'none' }}>
       <FlatList
@@ -14,6 +19,14 @@ const FeedDisplayScreen = ({
         keyExtractor={(item, index) => item?.recommendationID || `${index}`}
         contentContainerStyle={{ paddingBottom: 100 }}
         onEndReached={scroll}
+        refreshControl={(
+          <RefreshControl refreshing={refreshing}
+            onRefresh={() => {
+              setRefreshing(true);
+              if (refresh) refresh();
+            }}
+          />
+        )}
       />
     </View>
   );

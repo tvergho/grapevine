@@ -61,6 +61,7 @@ const FeedScreen = (props) => {
         active={active}
         loading={loading}
         scroll={scroll}
+        refresh={() => { props.getGlobalFeed(); }}
       />
       <FeedDisplayScreen display={active === HEADER_OPTIONS[1]} recommendations={data.YOU_FEED} active={active} />
     </View>
