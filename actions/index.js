@@ -13,6 +13,7 @@ const lifecycleActions = {
   APP_LOADED: 'APP_LOADED',
   LOADING: 'LOADING',
   RESET_LOADING: 'RESET_LOADING',
+  CLEAR_ALL: 'CLEAR_ALL',
 };
 
 const searchActions = {

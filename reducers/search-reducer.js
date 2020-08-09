@@ -76,6 +76,8 @@ const SearchReducer = (state = initialState, action) => {
           searchResults,
         },
       };
+    case ActionTypes.CLEAR_ALL:
+      return { ...initialState };
     default:
       return {
         ...state,

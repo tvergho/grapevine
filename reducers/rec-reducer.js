@@ -74,6 +74,8 @@ const RecReducer = (state = initialState, action) => {
       acceptedRecs: updatedAcceptedRecs,
     };
   }
+  case ActionTypes.CLEAR_ALL:
+    return { ...initialState };
   default:
     return state;
   }

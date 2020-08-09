@@ -41,6 +41,8 @@ const FriendReducer = (state = initialState, action) => {
       friends: updatedFriends,
     };
   }
+  case ActionTypes.CLEAR_ALL:
+    return { ...initialState };
   default:
     return state;
   }

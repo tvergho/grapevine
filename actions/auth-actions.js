@@ -210,5 +210,6 @@ export function signOut() {
     dispatch({ type: ActionTypes.CLEAR_USER });
     dispatch({ type: ActionTypes.DEAUTH_USER });
     dispatch({ type: ActionTypes.APP_LOADED });
+    dispatch({ type: ActionTypes.CLEAR_ALL });
   };
 }
