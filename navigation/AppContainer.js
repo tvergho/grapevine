@@ -9,7 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import * as SplashScreen from 'expo-splash-screen';
+import SplashScreen from 'react-native-splash-screen';
 import {
   SignUp, SignIn, SignUpStep,
 } from 'screens';
@@ -40,7 +40,7 @@ class AppContainer extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.appLoaded !== prevProps.appLoaded && this.props.appLoaded) {
-      setTimeout(() => { SplashScreen.hideAsync(); }, 400);
+      setTimeout(() => { SplashScreen.hide(); }, 400);
     }
   }
 
@@ -122,7 +122,7 @@ class AppContainer extends Component {
 
 const styles = StyleSheet.create({
   splash: {
-    backgroundColor: '#FFB7B2',
+    backgroundColor: 'blue',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
