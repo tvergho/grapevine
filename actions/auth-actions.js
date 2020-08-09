@@ -11,8 +11,6 @@ import {
 
 const API_URL = 'https://api.bobame.app';
 
-// Todo: Confirm phone number, update server authorizer.
-
 // Called to derive an error message from various error objects.
 function getError(error) {
   if (!error || error === undefined) return 'There was an error.';
@@ -31,6 +29,12 @@ function handleFirebaseError({ code }) {
     return 'Email is already in use by another user.';
   case 'auth/invalid-email':
     return 'Invalid email.';
+  case 'auth/wrong-password':
+    return 'Incorrect email or password.';
+  case 'auth/user-not-found':
+    return 'Incorrect email or password.';
+  case 'auth/user-disabled':
+    return 'This user has been disabled.';
   default:
     return 'There was an error completing this request.';
   }
