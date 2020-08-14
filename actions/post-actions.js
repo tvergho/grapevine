@@ -26,7 +26,7 @@ export function makeRec(business_id, business_name, message, callback) {
       .catch((error) => { console.log(error); })
       .finally(() => {
         dispatch({ type: ActionTypes.POST_LOADING_STOP });
-        setTimeout(() => { dispatch(getMyRecs()); }, 500);
+        setTimeout(() => { dispatch(getMyRecs()); }, 1000);
       });
   };
 }

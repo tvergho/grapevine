@@ -47,7 +47,7 @@ class AddFriendScreen extends Component {
     setTimeout(() => {
       this.props.getFriends();
       this.props.getFriendRequests();
-    }, 500);
+    }, 1000);
   }
 
   render() {
