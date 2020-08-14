@@ -6,6 +6,7 @@ export const SearchTypes = {
   BUSINESS_NAME: 'BUSINESS_NAME',
   BUSINESS_ALL: 'BUSINESS_ALL',
   USERNAME: 'USERNAME',
+  FB_FRIENDS: 'FB_FRIENDS',
   GLOBAL_FEED: 'GLOBAL_FEED',
 };
 
@@ -18,6 +19,9 @@ const initialState = {
     searchResults: [],
   },
   businessAll: {
+    searchResults: [],
+  },
+  fbFriends: {
     searchResults: [],
   },
   username: {
@@ -65,6 +69,13 @@ const SearchReducer = (state = initialState, action) => {
       return {
         ...state,
         username: {
+          searchResults,
+        },
+      };
+    case SearchTypes.FB_FRIENDS:
+      return {
+        ...state,
+        fbFriends: {
           searchResults,
         },
       };

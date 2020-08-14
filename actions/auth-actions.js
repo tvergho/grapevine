@@ -43,7 +43,7 @@ function handleFirebaseError({ code }) {
 // Upon user registration, adds the user's info to the BobaMe database.
 function addToDatabase(token, user) {
   const {
-    firstName, lastName, phone, photoURL,
+    firstName, lastName, phone, photoURL, fbId
   } = user;
   const options = {
     method: 'POST',
@@ -53,6 +53,7 @@ function addToDatabase(token, user) {
       lastName,
       phone,
       picture: photoURL,
+      fbId
     }),
   };
 
@@ -71,7 +72,6 @@ function addFacebookUser(error, result, navigation) {
     } else {
       try {
         const tokenData = await AccessToken.getCurrentAccessToken();
-        console.log(tokenData);
         const facebookCredential = auth.FacebookAuthProvider.credential(tokenData.accessToken);
         const { user } = await auth().signInWithCredential(facebookCredential);
         const { first_name, last_name, id } = result;
@@ -85,7 +85,7 @@ function addFacebookUser(error, result, navigation) {
         await user.updateProfile(profile);
 
         const token = await user.getIdToken(true);
-        addToDatabase(token, { firstName: first_name, lastName: last_name, photoURL });
+        addToDatabase(token, { firstName: first_name, lastName: last_name, photoURL, fbId: id });
       } catch (e) {
         // Handle linking.
         if (e.code === 'auth/account-exists-with-different-credential') {
@@ -118,6 +118,8 @@ export function linkFacebookUser(email, password) {
       dispatch({ type: ActionTypes.USER_SIGN_IN, payload: profile });
       await user.updateProfile(profile);
 
+      const token = await user.getIdToken(true);
+      addToDatabase(token, { fbId: userID });
       user.reload();
     } catch (e) {
       dispatch({ type: ActionTypes.SET_SIGNUP_STEP, payload: 'link' });

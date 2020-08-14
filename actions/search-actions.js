@@ -4,6 +4,7 @@
 import { ActionTypes } from 'actions';
 import { SearchTypes } from 'reducers/search-reducer';
 import auth from '@react-native-firebase/auth';
+import { AccessToken } from 'react-native-fbsdk';
 
 const API_URL = 'https://api.bobame.app';
 
@@ -228,6 +229,29 @@ export function usernameSearch(username) {
       })
       .finally(() => {
         dispatch({ type: ActionTypes.SEARCH_LOADING, payload: false });
+      });
+  };
+}
+
+export function fbFriendsSearch() {
+  return async (dispatch) => {
+    const token = await auth().currentUser.getIdToken();
+    const { accessToken } = await AccessToken.getCurrentAccessToken();
+
+    fetch(`${API_URL}/users/facebook?fbToken=${accessToken}`, { method: 'GET', headers: { Authorization: token } })
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch({
+          type: ActionTypes.SET_SEARCH,
+          payload: {
+            searchResults: json.response,
+            type: SearchTypes.FB_FRIENDS,
+          },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({ type: ActionTypes.SEARCH_ERROR, payload: error.message });
       });
   };
 }

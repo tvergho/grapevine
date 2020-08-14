@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import BottomSheet from 'components/ReanimatedBottomSheet_patched';
 import {
-  businessLocationSearch, businessLocationScroll, setCanLoad, getRecs,
+  businessLocationSearch, businessLocationScroll, setCanLoad, getRecs, fbFriendsSearch,
 } from 'actions';
 import Constants from 'expo-constants';
 import { withLocation, DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from 'utils/withLocation';
@@ -54,6 +54,7 @@ class HomeScreen extends Component {
 
     this.setLocation(this.props.location);
     this.props.getRecs();
+    this.props.fbFriendsSearch();
   }
 
   componentDidUpdate(prevProps) {
@@ -205,5 +206,5 @@ const mapStateToProps = (reduxState) => (
 );
 
 export default withLocation(connect(mapStateToProps, {
-  businessLocationScroll, businessLocationSearch, setCanLoad, getRecs,
+  businessLocationScroll, businessLocationSearch, setCanLoad, getRecs, fbFriendsSearch,
 })(HomeScreen));

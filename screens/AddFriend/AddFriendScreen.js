@@ -6,7 +6,7 @@ import { Colors } from 'res';
 import FriendsItem from 'components/FriendsItem';
 import { connect } from 'react-redux';
 import {
-  usernameSearch, clearUsernameSearch, getFriends, getFriendRequests,
+  usernameSearch, clearUsernameSearch, getFriends, getFriendRequests, fbFriendsSearch,
 } from 'actions';
 import { debounce } from 'lodash';
 import AddFriendHeader from './AddFriendHeader';
@@ -20,6 +20,10 @@ class AddFriendScreen extends Component {
     this.state = {
       username: '',
     };
+  }
+
+  componentDidMount() {
+    this.props.fbFriendsSearch();
   }
 
   componentWillUnmount() {
@@ -47,12 +51,12 @@ class AddFriendScreen extends Component {
   }
 
   render() {
-    const { username, loading } = this.props.search;
+    const { username, fbFriends, loading } = this.props.search;
     return (
       <View style={styles.background}>
         <AddFriendHeader navigation={this.props.navigation} value={this.state.username} onChange={this.onChangeUsername} loading={loading} />
         <FlatList
-          data={this.state.username.length > 0 ? username.searchResults : []}
+          data={this.state.username.length > 0 ? username.searchResults : fbFriends.searchResults}
           renderItem={({ item }) => (
             <FriendsItem user={item}
               type="add"
@@ -88,5 +92,5 @@ const mapStateToProps = (reduxState) => (
 );
 
 export default connect(mapStateToProps, {
-  usernameSearch, clearUsernameSearch, getFriendRequests, getFriends,
+  usernameSearch, clearUsernameSearch, getFriendRequests, getFriends, fbFriendsSearch,
 })(AddFriendScreen);

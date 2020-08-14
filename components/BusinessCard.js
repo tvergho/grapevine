@@ -67,7 +67,7 @@ const BusinessCard = (props) => {
 
 BusinessCard.propTypes = {
   index: PropTypes.number,
-  business: PropTypes.shape({
+  business: PropTypes.oneOfType([PropTypes.number, PropTypes.shape({
     businessId: PropTypes.string,
     category: PropTypes.arrayOf(PropTypes.string),
     city: PropTypes.string,
@@ -80,7 +80,7 @@ BusinessCard.propTypes = {
     street_address: PropTypes.string,
     website: PropTypes.string,
     zip: PropTypes.string,
-  }),
+  })]),
   loading: PropTypes.bool,
   navigation: PropTypes.object,
   full: PropTypes.bool,
