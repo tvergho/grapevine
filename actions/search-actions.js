@@ -5,6 +5,7 @@ import { ActionTypes } from 'actions';
 import { SearchTypes } from 'reducers/search-reducer';
 import auth from '@react-native-firebase/auth';
 import { AccessToken } from 'react-native-fbsdk';
+import { stripPhone } from 'utils/formatPhone';
 
 const API_URL = 'https://api.bobame.app';
 
@@ -213,6 +214,32 @@ export function usernameSearch(username) {
     const token = await auth().currentUser.getIdToken();
 
     fetch(`${API_URL}/users/username?username=${username.replace('@', '')}`, { method: 'GET', headers: { Authorization: token } })
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch({
+          type: ActionTypes.SET_SEARCH,
+          payload: {
+            searchResults: json.response,
+            type: SearchTypes.USERNAME,
+          },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({ type: ActionTypes.SEARCH_ERROR, payload: error.message });
+      })
+      .finally(() => {
+        dispatch({ type: ActionTypes.SEARCH_LOADING, payload: false });
+      });
+  };
+}
+
+export function phoneSearch(phone) {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.SEARCH_LOADING, payload: true });
+    const token = await auth().currentUser.getIdToken();
+
+    fetch(`${API_URL}/users/phone/search?phone=${stripPhone(phone)}`, { method: 'GET', headers: { Authorization: token } })
       .then((response) => response.json())
       .then((json) => {
         dispatch({

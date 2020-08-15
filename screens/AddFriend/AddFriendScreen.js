@@ -6,7 +6,7 @@ import { Colors } from 'res';
 import FriendsItem from 'components/FriendsItem';
 import { connect } from 'react-redux';
 import {
-  usernameSearch, clearUsernameSearch, getFriends, getFriendRequests, fbFriendsSearch,
+  usernameSearch, phoneSearch, clearUsernameSearch, getFriends, getFriendRequests, fbFriendsSearch,
 } from 'actions';
 import { debounce } from 'lodash';
 import AddFriendHeader from './AddFriendHeader';
@@ -35,9 +35,13 @@ class AddFriendScreen extends Component {
     this.searchDelayed(username);
   }
 
-  search = (username) => {
-    if (username.length > 0) {
-      this.props.usernameSearch(username);
+  search = (searchTerm) => {
+    if (searchTerm.length > 0) {
+      if (searchTerm.match(/^[A-Za-z]+$/) || searchTerm.length < 10) {
+        this.props.usernameSearch(searchTerm);
+      } else {
+        this.props.phoneSearch(searchTerm);
+      }
     } else {
       this.props.clearUsernameSearch();
     }
@@ -92,5 +96,5 @@ const mapStateToProps = (reduxState) => (
 );
 
 export default connect(mapStateToProps, {
-  usernameSearch, clearUsernameSearch, getFriendRequests, getFriends, fbFriendsSearch,
+  usernameSearch, phoneSearch, clearUsernameSearch, getFriendRequests, getFriends, fbFriendsSearch,
 })(AddFriendScreen);

@@ -12,7 +12,7 @@ const AddFriendHeader = ({
     <>
       <ModalHeader navigation={navigation}>
         <View style={styles.searchBarContainer}>
-          <SearchBar placeholder="Search by username..." value={value} onChange={onChange} width={wp('70%')} loading={loading} />
+          <SearchBar placeholder="Search by username or phone..." value={value} onChange={onChange} width={wp('70%')} loading={loading} />
         </View>
 
       </ModalHeader>

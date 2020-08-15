@@ -212,6 +212,8 @@ export function authUser(user, forceAuth) {
       if (user) dispatch({ type: ActionTypes.USER_SIGN_IN, payload: user });
       dispatch({ type: ActionTypes.SET_SIGNUP, payload: false });
       AccessToken.refreshCurrentAccessTokenAsync();
+
+      user.getIdToken().then((token) => { console.log(token); });
     };
 
     if (!getState().lifecycle.signingUp || forceAuth) {
