@@ -12,7 +12,7 @@ export function getMyRecs() {
     const token = await auth().currentUser.getIdToken();
     console.log(token);
 
-    fetch(`${API_URL}/recommendation/me?status=${STATUS}`, { method: 'GET', headers: { Authorization: token } })
+    fetch(`${API_URL}/recommendation/me`, { method: 'GET', headers: { Authorization: token } })
       .then((response) => response.json())
       .then((json) => {
         dispatch({ type: ActionTypes.SET_MY_RECS, payload: json.recommendations });
