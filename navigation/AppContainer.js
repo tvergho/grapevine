@@ -4,7 +4,9 @@
 /* eslint-disable global-require */
 import React, { Component } from 'react';
 import * as Font from 'expo-font';
-import { View, StyleSheet, Image } from 'react-native';
+import {
+  View, StyleSheet, Image, StatusBar,
+} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -36,6 +38,7 @@ class AppContainer extends Component {
 
   componentDidMount() {
     this.onMount();
+    StatusBar.setBarStyle('dark-content', true);
   }
 
   componentDidUpdate(prevProps) {
