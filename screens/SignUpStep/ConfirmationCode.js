@@ -8,9 +8,9 @@ import {
 } from 'react-native-confirmation-code-field';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-const ConfirmationCode = (props) => {
+const ConfirmationCode = ({ confirm, onChange, cellCount }) => {
   const [value, setValue] = useState('');
-  const CELL_COUNT = 6;
+  const CELL_COUNT = cellCount || 6;
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [cellProps, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
@@ -21,12 +21,12 @@ const ConfirmationCode = (props) => {
     ref.current.focus();
 
     if (value.length >= CELL_COUNT) {
-      props.confirm(props.username, value, props.onFulfill);
+      confirm(value);
       setValue('');
     }
 
     if (value.length > 0) {
-      props.resetError();
+      if (onChange) onChange(value);
     }
   }, [value]);
 

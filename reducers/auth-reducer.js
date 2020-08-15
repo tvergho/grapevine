@@ -2,6 +2,8 @@ import { ActionTypes } from '../actions';
 
 const initialState = {
   authenticated: false,
+  verificationId: '',
+  verificationError: false,
 };
 
 const AuthReducer = (state = initialState, action) => {
@@ -10,6 +12,10 @@ const AuthReducer = (state = initialState, action) => {
     return { ...state, authenticated: true };
   case ActionTypes.DEAUTH_USER:
     return { ...state, authenticated: false };
+  case ActionTypes.SET_VERIFICATION_ID:
+    return { ...state, verificationId: action.payload };
+  case ActionTypes.SET_VERIFICATION_ERROR:
+    return { ...state, verificationError: action.payload };
   default:
     return state;
   }

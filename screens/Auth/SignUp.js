@@ -13,6 +13,7 @@ import {
 import AlertDialog from 'components/AlertDialog';
 import AppButton from 'components/AppButton';
 import { Colors, Images } from 'res';
+import { formatPhone } from 'utils/formatPhone';
 import LogoHeader from './LogoHeader';
 import SignUpForm from './SignUpForm';
 
@@ -52,6 +53,7 @@ class SignUp extends Component {
     const newErrors = { ...this.state.errors };
 
     newUser[id] = text;
+    if (id === 'phone') newUser.phone = formatPhone(text, this.state.user.phone);
     newErrors[id] = false;
     this.setState(() => { return ({ user: newUser, errors: newErrors }); });
   }

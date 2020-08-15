@@ -6,12 +6,18 @@ import { MaterialIndicator } from 'react-native-indicators';
 import AlertDialog from 'components/AlertDialog';
 import { connect } from 'react-redux';
 import LinkScreen from './LinkScreen';
+import PhoneScreen from './PhoneScreen';
+import VerifyScreen from './VerifyScreen';
 
 const SignUpStep = ({ step }) => {
   const renderContent = () => {
     switch (step) {
     case 'link':
       return <LinkScreen />;
+    case 'phone':
+      return <PhoneScreen />;
+    case 'verify':
+      return <VerifyScreen />;
     default:
       return <MaterialIndicator color="white" size={100} />;
     }

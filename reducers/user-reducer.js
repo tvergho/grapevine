@@ -4,6 +4,7 @@ const initialState = {
   userId: '',
   firstName: '',
   profilePic: '',
+  phone: '',
   balance: 0,
 };
 
@@ -16,6 +17,7 @@ const UserReducer = (state = initialState, action) => {
       userId: user.uid || state.userId,
       firstName: user.displayName || state.firstName,
       profilePic: user.photoURL || state.profilePic,
+      phone: user.phone || state.phone,
     };
   }
   case ActionTypes.CLEAR_USER:

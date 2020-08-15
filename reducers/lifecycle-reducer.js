@@ -6,6 +6,7 @@ const initialState = {
   errorMessage: '',
   codeError: false,
   signUpStep: '',
+  signingUp: false,
 };
 
 const LifecycleReducer = (state = initialState, action) => {
@@ -22,6 +23,8 @@ const LifecycleReducer = (state = initialState, action) => {
     return { ...state, loading: false };
   case ActionTypes.SET_SIGNUP_STEP:
     return { ...state, signUpStep: action.payload };
+  case ActionTypes.SET_SIGNUP:
+    return { ...state, signingUp: action.payload };
   default:
     return state;
   }
