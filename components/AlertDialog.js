@@ -9,33 +9,33 @@ class AlertDialog extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      message: '',
-    };
+    this.alertPresent = false;
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.message !== prevProps.message) {
-      if (this.props.message && this.props.message !== undefined && this.props.message.length > 0 && this.state.message !== this.props.message) {
-        this.setState({ message: this.props.message }, () => { this.createDialog(); });
-      } else if (this.props.message.length === 0) {
-        this.setState({ message: '' });
+      if (this.props.message && this.props.message.length > 0) {
+        this.createDialog();
       }
     }
   }
 
   reset = () => {
+    this.alertPresent = false;
     this.props.resetError();
   };
 
   createDialog = () => {
-    Alert.alert('Error', this.props.message, [{ text: 'OK', onPress: this.reset }]);
+    console.log(this.alertPresent);
+    if (!this.alertPresent) {
+      this.alertPresent = true;
+      Alert.alert('Error', this.props.message, [{ text: 'OK', onPress: this.reset }]);
+    }
   };
 
   render() {
     return (
       <View />
-
     );
   }
 }
