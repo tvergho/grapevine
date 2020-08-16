@@ -59,7 +59,6 @@ function addToDatabase(token, user) {
     };
 
     fetch(`${API_URL}/users`, options)
-      .then(() => { console.log('wrote to database'); })
       .catch((error) => { console.log(error); });
   };
 }

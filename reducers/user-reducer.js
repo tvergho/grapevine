@@ -6,6 +6,8 @@ const initialState = {
   profilePic: '',
   phone: '',
   balance: 0,
+  paymentLoading: true,
+  accounts: [],
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -22,6 +24,10 @@ const UserReducer = (state = initialState, action) => {
   }
   case ActionTypes.CLEAR_USER:
     return initialState;
+  case ActionTypes.SET_PAYMENT_LOADING:
+    return { ...state, paymentLoading: action.payload };
+  case ActionTypes.SET_ACCOUNTS:
+    return { ...state, accounts: action.payload };
   default:
     return state;
   }

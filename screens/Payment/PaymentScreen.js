@@ -1,39 +1,39 @@
-import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { Colors } from 'res';
 import ModalHeader from 'components/ModalHeader';
-import PlaidLink from 'react-native-plaid-link-sdk';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
-import { addAccountToken } from 'actions';
+import { addAccountToken, getAccounts, setPaymentLoading } from 'actions';
+import { connect } from 'react-redux';
+import FullLink from './FullLink';
+import PaymentLoading from './PaymentLoading';
+import Accounts from './Accounts';
+import HeaderLink from './HeaderLink';
 
-const PaymentScreen = ({ navigation }) => {
+const IS_SANDBOX = true;
+
+const PaymentScreen = (props) => {
+  const { navigation, loading, accounts } = props;
+
+  useEffect(() => {
+    if (!accounts || accounts.length === 0) props.getAccounts(IS_SANDBOX);
+  }, []);
+
+  const submit = (token) => {
+    props.setPaymentLoading();
+    addAccountToken(token, () => {
+      props.getAccounts(IS_SANDBOX);
+    }, IS_SANDBOX);
+  };
+
   return (
     <View style={styles.background}>
-      <ModalHeader navigation={navigation} title="Accounts" />
+      <ModalHeader navigation={navigation} title="Accounts">
+        <HeaderLink submit={submit} isSandbox={IS_SANDBOX} />
+      </ModalHeader>
 
-      <View style={styles.linkButton}>
-        <PlaidLink
-          publicKey="2664ac1ba958fb3db7f51f0e0bb265"
-          clientName="BobaMe"
-          env="development"
-          webhook="https://api.bobame.app/recommendation/plaidWebhook"
-          product={['transactions']}
-          onSuccess={(data) => addAccountToken(data.public_token)}
-          onExit={(data) => console.log('exit: ', data)}
-          componentProps={{
-            hitSlop: {
-              top: 20, left: 20, bottom: 20, right: 20,
-            },
-          }}
-        >
-          <View style={styles.linkButton}>
-            <FontAwesomeIcon icon={faPlusSquare} size={45} color={Colors.PRIMARY} />
-            <Text style={styles.linkText}>Add Bank Account or Credit Card</Text>
-            <Text style={styles.linkSubText}>BobaMe will never charge you.</Text>
-          </View>
-        </PlaidLink>
-      </View>
+      {loading && <PaymentLoading />}
+      {!loading && accounts?.length === 0 && <FullLink submit={submit} isSandbox={IS_SANDBOX} />}
+      {!loading && accounts?.length > 0 && <Accounts accounts={accounts} />}
 
     </View>
   );
@@ -61,4 +61,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PaymentScreen;
+const mapStateToProps = (reduxState) => (
+  {
+    loading: reduxState.user.paymentLoading,
+    accounts: reduxState.user.accounts,
+  }
+);
+
+export default connect(mapStateToProps, { getAccounts, setPaymentLoading })(PaymentScreen);

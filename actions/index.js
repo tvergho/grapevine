@@ -52,6 +52,11 @@ const recActions = {
   BUSINESS_LOADING: 'BUSINESS_LOADING',
 };
 
+const paymentActions = {
+  SET_PAYMENT_LOADING: 'SET_PAYMENT_LOADING',
+  SET_ACCOUNTS: 'SET_ACCOUNTS',
+};
+
 export const ActionTypes = {
   ...authActions,
   ...lifecycleActions,
@@ -59,6 +64,7 @@ export const ActionTypes = {
   ...postActions,
   ...friendActions,
   ...recActions,
+  ...paymentActions,
 };
 
 export * from './auth-actions';
