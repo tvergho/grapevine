@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Colors } from 'res';
 import ModalHeader from 'components/ModalHeader';
@@ -9,17 +9,23 @@ import PaymentLoading from './PaymentLoading';
 import Accounts from './Accounts';
 import HeaderLink from './HeaderLink';
 
-const IS_SANDBOX = true;
+const IS_SANDBOX = false;
 
 const PaymentScreen = (props) => {
+  const [fullLoading, setFullLoading] = useState(false);
   const { navigation, loading, accounts } = props;
 
   useEffect(() => {
     if (!accounts || accounts.length === 0) props.getAccounts(IS_SANDBOX);
   }, []);
 
+  useEffect(() => {
+    setFullLoading(false);
+  }, [accounts]);
+
   const submit = (token) => {
     props.setPaymentLoading();
+    setFullLoading(true);
     addAccountToken(token, () => {
       props.getAccounts(IS_SANDBOX);
     }, IS_SANDBOX);
@@ -31,9 +37,9 @@ const PaymentScreen = (props) => {
         <HeaderLink submit={submit} isSandbox={IS_SANDBOX} />
       </ModalHeader>
 
-      {loading && <PaymentLoading />}
-      {!loading && accounts?.length === 0 && <FullLink submit={submit} isSandbox={IS_SANDBOX} />}
-      {!loading && accounts?.length > 0 && <Accounts accounts={accounts} />}
+      {(fullLoading || (loading && accounts?.length === 0)) && <PaymentLoading />}
+      {!loading && !fullLoading && accounts?.length === 0 && <FullLink submit={submit} isSandbox={IS_SANDBOX} />}
+      {!fullLoading && accounts?.length > 0 && <Accounts accounts={accounts} refresh={() => { props.getAccounts(IS_SANDBOX); }} loading={loading} />}
 
     </View>
   );

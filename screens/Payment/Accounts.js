@@ -1,12 +1,13 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, RefreshControl } from 'react-native';
 import AccountItem from './AccountItem';
 
-const Accounts = ({ accounts }) => {
+const Accounts = ({ accounts, refresh, loading }) => {
   return (
     <ScrollView
       decelerationRate="fast"
       scrollEventThrottle={200}
+      refreshControl={<RefreshControl onRefresh={refresh} refreshing={loading} />}
     >
       {accounts.map((account) => {
         return (
