@@ -31,6 +31,17 @@ const UserReducer = (state = initialState, action) => {
     return { ...state, accounts: action.payload };
   case ActionTypes.SET_LINK_TOKEN:
     return { ...state, paymentLinkToken: action.payload };
+  case ActionTypes.DELETE_ACCOUNT: {
+    const newAccounts = [];
+    const accountId = action.payload;
+    for (const account of state.accounts) {
+      if (account.accountId !== accountId) {
+        console.log('add', account.accountId, accountId);
+        newAccounts.push(account);
+      }
+    }
+    return { ...state, accounts: newAccounts };
+  }
   default:
     return state;
   }

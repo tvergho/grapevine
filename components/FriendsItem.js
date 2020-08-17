@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
     height: 30,
   },
   acceptButton: {
-    backgroundColor: '#9EBF68',
+    backgroundColor: Colors.ACCEPT,
     padding: 5,
     paddingTop: 10,
     minWidth: 75,
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   cancelButton: {
-    backgroundColor: '#EB6660',
+    backgroundColor: Colors.DELETE,
     borderRadius: 100,
     width: 32,
     height: 32,

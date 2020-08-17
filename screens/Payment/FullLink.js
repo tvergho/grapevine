@@ -11,7 +11,7 @@ const FullLink = ({ submit, isSandbox, token }) => {
       <PlaidLink
         token={token}
         env={isSandbox ? 'sandbox' : 'development'}
-        onSuccess={(data) => submit(data.public_token)}
+        onSuccess={(data) => submit(data)}
         onExit={(data) => console.log('exit: ', data)}
         componentProps={{
           hitSlop: {

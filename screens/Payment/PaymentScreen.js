@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Colors } from 'res';
@@ -11,7 +12,7 @@ import PaymentLoading from './PaymentLoading';
 import Accounts from './Accounts';
 import HeaderLink from './HeaderLink';
 
-const IS_SANDBOX = false;
+const IS_SANDBOX = true;
 
 const PaymentScreen = (props) => {
   const [fullLoading, setFullLoading] = useState(false);
@@ -28,10 +29,16 @@ const PaymentScreen = (props) => {
     setFullLoading(false);
   }, [accounts]);
 
-  const submit = (token) => {
+  const submit = (data) => {
+    const { public_token } = data;
+    const last4 = data.accounts[0].mask;
+    const bankName = data.institution.name;
+
+    const fields = { public_token, last4, bankName };
+
     props.setPaymentLoading();
     setFullLoading(true);
-    addAccountToken(token, () => {
+    addAccountToken(fields, () => {
       props.getAccounts(IS_SANDBOX);
     }, IS_SANDBOX);
   };
@@ -44,7 +51,14 @@ const PaymentScreen = (props) => {
 
       {(fullLoading || (loading && accounts?.length === 0) || !paymentToken) && <PaymentLoading />}
       {!loading && !fullLoading && !!paymentToken && accounts?.length === 0 && <FullLink submit={submit} isSandbox={IS_SANDBOX} token={paymentToken} />}
-      {!fullLoading && accounts?.length > 0 && !!paymentToken && <Accounts accounts={accounts} refresh={() => { props.getAccounts(IS_SANDBOX); }} loading={loading} />}
+      {!fullLoading && accounts?.length > 0 && !!paymentToken && (
+        <Accounts
+          accounts={accounts}
+          refresh={() => { props.getAccounts(IS_SANDBOX); }}
+          loading={loading}
+          isSandbox={IS_SANDBOX}
+        />
+      )}
 
     </View>
   );

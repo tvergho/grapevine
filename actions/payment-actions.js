@@ -6,7 +6,7 @@ import { ActionTypes } from 'actions';
 
 const API_URL = 'https://api.bobame.app';
 
-export async function addAccountToken(public_token, callback, isSandbox) {
+export async function addAccountToken({ public_token, last4, bankName }, callback, isSandbox) {
   const token = await auth().currentUser.getIdToken();
 
   const requestOptions = {
@@ -14,6 +14,8 @@ export async function addAccountToken(public_token, callback, isSandbox) {
     headers: { 'content-type': 'application/json', Authorization: token },
     body: JSON.stringify({
       public_token,
+      last4,
+      bankName,
     }),
   };
 
@@ -62,5 +64,20 @@ export function getLinkToken(isSandbox) {
         dispatch({ type: ActionTypes.SET_LINK_TOKEN, payload: json.link_token });
       })
       .catch((error) => { console.log(error); });
+  };
+}
+
+export function deleteAccount(accountId, isSandbox) {
+  return async (dispatch) => {
+    const token = await auth().currentUser.getIdToken();
+
+    const requestOptions = {
+      method: 'DELETE',
+      headers: { 'content-type': 'application/json', Authorization: token },
+    };
+
+    fetch(`${API_URL}/users/payment/?sandbox=${isSandbox ? 'true' : 'false'}&accountId=${accountId}`, requestOptions);
+
+    dispatch({ type: ActionTypes.DELETE_ACCOUNT, payload: accountId });
   };
 }

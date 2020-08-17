@@ -1,20 +1,43 @@
 import React from 'react';
 import {
-  View, StyleSheet, Text, Image,
+  View, StyleSheet, Text, Image, TouchableOpacity, Animated,
 } from 'react-native';
 import { Colors } from 'res';
+import Swipeable from 'react-native-swipeable-row';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import useDeleteStyles from 'utils/useDeleteStyles';
+import { deleteAccount } from 'actions';
+import { connect } from 'react-redux';
 
-const AccountItem = ({ account }) => {
-  const { last4, bankName, logo } = account;
+const AccountItem = ({ account, isSandbox, ...props }) => {
+  const {
+    last4, bankName, logo, accountId,
+  } = account;
+
+  const deleteItem = () => {
+    props.deleteAccount(accountId, isSandbox);
+  };
+
+  const { deleteStyles, onRemove } = useDeleteStyles({}, deleteItem);
+
+  const leftButtons = [
+    <TouchableOpacity style={styles.deleteButton} onPress={onRemove}><FontAwesomeIcon icon={faTrash} size={30} color="white" /></TouchableOpacity>,
+  ];
 
   return (
-    <View style={styles.background}>
-      <Image source={{ uri: `data:image/png;base64,${logo}` }} style={styles.bankLogo} />
-      <View>
-        <Text style={styles.accountText}>{bankName}</Text>
-        <Text style={styles.accountText}>{`xxxxxxxx${last4}`}</Text>
-      </View>
-    </View>
+    <Animated.View style={deleteStyles}>
+      <Swipeable leftButtons={leftButtons}>
+        <View style={styles.background}>
+          <Image source={{ uri: `data:image/png;base64,${logo}` }} style={styles.bankLogo} />
+          <View>
+            <Text style={styles.accountText}>{bankName}</Text>
+            <Text style={styles.accountText}>{`xxxxxxxx${last4}`}</Text>
+          </View>
+        </View>
+      </Swipeable>
+    </Animated.View>
+
   );
 };
 
@@ -40,6 +63,15 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
     paddingTop: 3,
   },
+  deleteButton: {
+    backgroundColor: Colors.DELETE,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    alignSelf: 'flex-end',
+    width: '100%',
+    paddingRight: 25,
+  },
 });
 
-export default AccountItem;
+export default connect(null, { deleteAccount })(AccountItem);

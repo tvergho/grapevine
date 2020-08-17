@@ -2,7 +2,9 @@ import React from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
 import AccountItem from './AccountItem';
 
-const Accounts = ({ accounts, refresh, loading }) => {
+const Accounts = ({
+  accounts, refresh, loading, isSandbox,
+}) => {
   return (
     <ScrollView
       decelerationRate="fast"
@@ -11,7 +13,7 @@ const Accounts = ({ accounts, refresh, loading }) => {
     >
       {accounts.map((account) => {
         return (
-          <AccountItem key={`${account.last4}-${account.bankName}`} account={account} />
+          <AccountItem key={`${account.last4}-${account.bankName}`} account={account} isSandbox={isSandbox} />
         );
       })}
     </ScrollView>

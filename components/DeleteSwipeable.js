@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Animated, View } from 'react-native';
 import Swipeable from 'react-native-swipeable-row';
+import useDeleteStyles from 'utils/useDeleteStyles';
 
 const DeleteSwipeable = ({
   leftContent, remove, children, backgroundStyle, enabled,
@@ -13,24 +14,7 @@ const DeleteSwipeable = ({
     );
   }
 
-  const deleteValue = useRef(new Animated.Value(1)).current;
-
-  const deleteStyles = [
-    backgroundStyle,
-    { opacity: deleteValue },
-    {
-      transform: [
-        { scale: deleteValue },
-      ],
-    },
-  ];
-
-  const onRemove = () => {
-    Animated.timing(deleteValue, {
-      toValue: 0,
-      duration: 400,
-    }).start(() => remove());
-  };
+  const { deleteStyles, onRemove } = useDeleteStyles(backgroundStyle, remove);
 
   return (
     <Swipeable leftContent={leftContent} onLeftActionRelease={onRemove}>

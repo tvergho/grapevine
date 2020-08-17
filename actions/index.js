@@ -56,6 +56,7 @@ const paymentActions = {
   SET_PAYMENT_LOADING: 'SET_PAYMENT_LOADING',
   SET_ACCOUNTS: 'SET_ACCOUNTS',
   SET_LINK_TOKEN: 'SET_LINK_TOKEN',
+  DELETE_ACCOUNT: 'DELETE_ACCOUNT',
 };
 
 export const ActionTypes = {

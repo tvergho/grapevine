@@ -13,7 +13,7 @@ const HeaderLink = ({ submit, isSandbox, token }) => {
         token={token}
         env={isSandbox ? 'sandbox' : 'development'}
         componentProps={{ disabled: !token }}
-        onSuccess={(data) => submit(data.public_token)}
+        onSuccess={(data) => submit(data)}
         onExit={(data) => console.log('exit: ', data)}
       >
         <FontAwesomeIcon icon={faPlus} size={24} color={Colors.PRIMARY} />
