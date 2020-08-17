@@ -13,7 +13,7 @@ target 'BobaMe' do
 
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
-  pod 'Plaid', '~> 1.1.33'
+  pod 'Plaid', '~> 1.1.34'
   pod 'flipper-plugin-react-native-performance', :path => "../node_modules/flipper-plugin-react-native-performance/ios", :configuration => 'Debug'
   use_unimodules!
   use_native_modules!

@@ -11,7 +11,7 @@ const Accounts = ({ accounts, refresh, loading }) => {
     >
       {accounts.map((account) => {
         return (
-          <AccountItem key={account.last4} account={account} />
+          <AccountItem key={`${account.last4}-${account.bankName}`} account={account} />
         );
       })}
     </ScrollView>

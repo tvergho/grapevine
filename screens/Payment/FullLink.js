@@ -5,15 +5,12 @@ import PlaidLink from 'react-native-plaid-link-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 
-const FullLink = ({ submit, isSandbox }) => {
+const FullLink = ({ submit, isSandbox, token }) => {
   return (
     <View style={styles.linkButton}>
       <PlaidLink
-        publicKey="2664ac1ba958fb3db7f51f0e0bb265"
-        clientName="BobaMe"
+        token={token}
         env={isSandbox ? 'sandbox' : 'development'}
-        webhook="https://api.bobame.app/recommendation/plaidWebhook"
-        product={['transactions']}
         onSuccess={(data) => submit(data.public_token)}
         onExit={(data) => console.log('exit: ', data)}
         componentProps={{

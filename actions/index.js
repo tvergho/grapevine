@@ -55,6 +55,7 @@ const recActions = {
 const paymentActions = {
   SET_PAYMENT_LOADING: 'SET_PAYMENT_LOADING',
   SET_ACCOUNTS: 'SET_ACCOUNTS',
+  SET_LINK_TOKEN: 'SET_LINK_TOKEN',
 };
 
 export const ActionTypes = {

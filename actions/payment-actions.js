@@ -46,3 +46,21 @@ export function getAccounts(isSandbox) {
       });
   };
 }
+
+export function getLinkToken(isSandbox) {
+  return async (dispatch) => {
+    const token = await auth().currentUser.getIdToken();
+
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'content-type': 'application/json', Authorization: token },
+    };
+
+    fetch(`${API_URL}/users/payment/link?sandbox=${isSandbox ? 'true' : 'false'}`, requestOptions)
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch({ type: ActionTypes.SET_LINK_TOKEN, payload: json.link_token });
+      })
+      .catch((error) => { console.log(error); });
+  };
+}

@@ -44,7 +44,7 @@
     "react-native-linear-gradient": "^2.5.6",
     "react-native-maps": "0.27.1",
     "react-native-open-maps": "^0.3.5",
-    "react-native-plaid-link-sdk": "^4.0.1",
+    "react-native-plaid-link-sdk": "^5.0.0",
     "react-native-reanimated": "~1.7.0",
     "react-native-responsive-screen": "^1.4.1",
     "react-native-safe-area-context": "^3.1.1",

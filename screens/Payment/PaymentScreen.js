@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Colors } from 'res';
 import ModalHeader from 'components/ModalHeader';
-import { addAccountToken, getAccounts, setPaymentLoading } from 'actions';
+import {
+  addAccountToken, getAccounts, getLinkToken, setPaymentLoading,
+} from 'actions';
 import { connect } from 'react-redux';
 import FullLink from './FullLink';
 import PaymentLoading from './PaymentLoading';
@@ -13,9 +15,12 @@ const IS_SANDBOX = false;
 
 const PaymentScreen = (props) => {
   const [fullLoading, setFullLoading] = useState(false);
-  const { navigation, loading, accounts } = props;
+  const {
+    navigation, loading, accounts, paymentToken,
+  } = props;
 
   useEffect(() => {
+    props.getLinkToken(IS_SANDBOX);
     if (!accounts || accounts.length === 0) props.getAccounts(IS_SANDBOX);
   }, []);
 
@@ -34,12 +39,12 @@ const PaymentScreen = (props) => {
   return (
     <View style={styles.background}>
       <ModalHeader navigation={navigation} title="Accounts">
-        <HeaderLink submit={submit} isSandbox={IS_SANDBOX} />
+        <HeaderLink submit={submit} isSandbox={IS_SANDBOX} token={paymentToken} />
       </ModalHeader>
 
-      {(fullLoading || (loading && accounts?.length === 0)) && <PaymentLoading />}
-      {!loading && !fullLoading && accounts?.length === 0 && <FullLink submit={submit} isSandbox={IS_SANDBOX} />}
-      {!fullLoading && accounts?.length > 0 && <Accounts accounts={accounts} refresh={() => { props.getAccounts(IS_SANDBOX); }} loading={loading} />}
+      {(fullLoading || (loading && accounts?.length === 0) || !paymentToken) && <PaymentLoading />}
+      {!loading && !fullLoading && !!paymentToken && accounts?.length === 0 && <FullLink submit={submit} isSandbox={IS_SANDBOX} token={paymentToken} />}
+      {!fullLoading && accounts?.length > 0 && !!paymentToken && <Accounts accounts={accounts} refresh={() => { props.getAccounts(IS_SANDBOX); }} loading={loading} />}
 
     </View>
   );
@@ -71,7 +76,8 @@ const mapStateToProps = (reduxState) => (
   {
     loading: reduxState.user.paymentLoading,
     accounts: reduxState.user.accounts,
+    paymentToken: reduxState.user.paymentLinkToken,
   }
 );
 
-export default connect(mapStateToProps, { getAccounts, setPaymentLoading })(PaymentScreen);
+export default connect(mapStateToProps, { getAccounts, getLinkToken, setPaymentLoading })(PaymentScreen);

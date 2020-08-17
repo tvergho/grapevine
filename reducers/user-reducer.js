@@ -8,6 +8,7 @@ const initialState = {
   balance: 0,
   paymentLoading: true,
   accounts: [],
+  paymentLinkToken: '',
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -28,6 +29,8 @@ const UserReducer = (state = initialState, action) => {
     return { ...state, paymentLoading: action.payload };
   case ActionTypes.SET_ACCOUNTS:
     return { ...state, accounts: action.payload };
+  case ActionTypes.SET_LINK_TOKEN:
+    return { ...state, paymentLinkToken: action.payload };
   default:
     return state;
   }

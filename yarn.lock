@@ -7536,10 +7536,10 @@ react-native-open-maps@^0.3.5:
   dependencies:
     query-string "^6.1.0"
 
-react-native-plaid-link-sdk@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-plaid-link-sdk/-/react-native-plaid-link-sdk-4.0.1.tgz#a1799c7b401d479698530c4263ef67bf0a1c3b3e"
-  integrity sha512-m5fo6Js4glTejdslW9tBjFipiSdRZDIepNQXWmUbwfTV5ubztBgd5bw0UAqU8Cz9leGFkIPdF6GePsZPjnOT6Q==
+react-native-plaid-link-sdk@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-plaid-link-sdk/-/react-native-plaid-link-sdk-5.0.0.tgz#909fbf31fa68a866eeaae796faf4ce23ba7a55ee"
+  integrity sha512-8DdcA8rqF8hi0rk0IQzRWm/w/SsTnT6DP4z8cz0Kxfslb4lRxiJThNiLB8ICM3K0OdIvIrNwXpjaAoePnnpQMw==
   dependencies:
     prop-types "^15.7.2"
 
