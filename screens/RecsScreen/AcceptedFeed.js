@@ -14,6 +14,7 @@ const AcceptedFeed = (props) => {
 
   useEffect(() => {
     if (display && (!recommendations || recommendations?.length === 0 || shouldRefresh)) {
+      console.log('load');
       props.getAcceptedRecs();
       setShouldRefresh(false);
     }
@@ -24,7 +25,7 @@ const AcceptedFeed = (props) => {
   }, [loading]);
 
   return (
-    <View style={{ display: display ? '' : 'none' }}>
+    <View style={{ display: display ? '' : 'none', alignSelf: 'center' }}>
       <FlatList
         data={loading ? Array.from(Array(5).keys()) : recommendations?.sort((a, b) => (parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10)))}
         renderItem={({ item, index }) => (<RecCard rec={item} feed navigation={navigation} loading={loading || !recommendations} />)}

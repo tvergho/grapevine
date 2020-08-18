@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable no-return-assign */
+import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Colors } from 'res';
 import MainHeader from 'components/MainHeader';
@@ -9,14 +10,15 @@ import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import * as data from 'data';
 import { connect } from 'react-redux';
 import { getGlobalFeed, globalFeedScroll, setCanLoad } from 'actions';
+import Swiper from 'react-native-swiper';
 import FeedDisplayScreen from './FeedDisplayScreen';
 
 export const HEADER_OPTIONS = ['All', 'You'];
 
-const TopSection = ({ setActive, navigation }) => {
+const TopSection = ({ setActive, navigation, active }) => {
   return (
     <MainHeader title="Feed" border>
-      <HeaderSwitch labels={HEADER_OPTIONS} start="All" onSwitch={(label) => { setActive(label); }} />
+      <HeaderSwitch labels={HEADER_OPTIONS} start="All" onSwitch={(label) => { setActive(label); }} active={active} />
 
       <AppButton
         onPress={() => { navigation.navigate('CreateRec'); }}
@@ -35,6 +37,7 @@ const TopSection = ({ setActive, navigation }) => {
 const FeedScreen = (props) => {
   const { navigation, feed, loading } = props;
   const [active, setActive] = useState('All');
+  let swiper = useRef();
 
   useEffect(() => {
     if (feed.searchResults.length === 0) {
@@ -52,18 +55,39 @@ const FeedScreen = (props) => {
     }
   };
 
+  const onClick = (label) => {
+    setActive(label);
+    if (label === HEADER_OPTIONS[0]) {
+      swiper.scrollBy(-1, true);
+    } else if (label === HEADER_OPTIONS[1]) {
+      swiper.scrollBy(1, true);
+    }
+  };
+
+  const onSwipe = (index) => {
+    setActive(HEADER_OPTIONS[index]);
+  };
+
   return (
     <View style={styles.background}>
-      <TopSection navigation={navigation} setActive={setActive} />
-      <FeedDisplayScreen
-        display={active === HEADER_OPTIONS[0]}
-        recommendations={feed.searchResults}
-        active={active}
-        loading={loading}
-        scroll={scroll}
-        refresh={() => { props.getGlobalFeed(); }}
-      />
-      <FeedDisplayScreen display={active === HEADER_OPTIONS[1]} recommendations={data.YOU_FEED} active={active} />
+      <TopSection navigation={navigation} setActive={onClick} active={active} />
+      <Swiper
+        showsButtons={false}
+        loop={false}
+        onIndexChanged={onSwipe}
+        showsPagination={false}
+        ref={(ref) => swiper = ref}
+      >
+        <FeedDisplayScreen
+          display
+          recommendations={feed.searchResults}
+          screenName={HEADER_OPTIONS[0]}
+          loading={loading}
+          scroll={scroll}
+          refresh={() => { props.getGlobalFeed(); }}
+        />
+        <FeedDisplayScreen display recommendations={data.YOU_FEED} screenName={HEADER_OPTIONS[1]} />
+      </Swiper>
     </View>
   );
 };

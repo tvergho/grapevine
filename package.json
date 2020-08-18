@@ -4,7 +4,8 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "web": "expo start --web",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "expo-publish": "expo publish --release-channel v1.1.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
@@ -53,6 +54,7 @@
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^12.1.0",
     "react-native-swipeable-row": "^0.8.1",
+    "react-native-swiper": "^1.6.0-rc.3",
     "react-native-unimodules": "^0.9.1",
     "react-native-vector-icons": "^6.6.0",
     "react-native-web": "~0.11.7",

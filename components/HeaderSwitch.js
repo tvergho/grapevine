@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 
-const HeaderSwitch = ({ labels, start, onSwitch }) => {
-  const [active, setActive] = useState(start || labels[0]);
+const HeaderSwitch = ({
+  labels, start, onSwitch, active,
+}) => {
+  const [internalActive, setInternalActive] = useState(start || labels[0]);
 
   const handlePress = (label) => {
-    setActive(label);
+    setInternalActive(label);
     onSwitch(label);
   };
+
+  const activeLink = active || internalActive;
 
   return (
     <View style={{ flex: -1, flexDirection: 'row', alignItems: 'center' }}>
@@ -17,7 +21,7 @@ const HeaderSwitch = ({ labels, start, onSwitch }) => {
           <Button
             type="clear"
             key={label}
-            titleStyle={active === label ? styles.activeLink : styles.inactiveLink}
+            titleStyle={activeLink === label ? styles.activeLink : styles.inactiveLink}
             title={label}
             onPress={() => { handlePress(label); }}
           />

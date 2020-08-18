@@ -34,7 +34,10 @@ const NewFeed = ({
   };
 
   return (
-    <View style={{ display: display ? '' : 'none' }}>
+    <View style={{
+      display: display ? '' : 'none', alignSelf: 'center',
+    }}
+    >
       <SearchBar placeholder="Search businesses..." value={searchQuery} onChange={onChange} width={wp('85%')} />
 
       <FlatList

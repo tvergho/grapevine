@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
@@ -11,6 +12,7 @@ import AppButton from 'components/AppButton';
 import HeaderSwitch from 'components/HeaderSwitch';
 import { Colors } from 'res';
 import { getRecs } from 'actions';
+import Swiper from 'react-native-swiper';
 import NewFeed from './NewFeed';
 import AcceptedFeed from './AcceptedFeed';
 
@@ -29,8 +31,18 @@ class RecsScreen extends Component {
   }
 
   onClick = (label) => {
-    if (label === 'New') this.setState({ active: 'New' });
-    else if (label === 'Accepted') this.setState({ active: 'Accepted' });
+    if (label === 'New') {
+      this.setState({ active: 'New' });
+      this.swiper.scrollBy(-1, true);
+    } else if (label === 'Accepted') {
+      this.setState({ active: 'Accepted' });
+      this.swiper.scrollBy(1, true);
+    }
+  }
+
+  onSwipe = (index) => {
+    if (index === 0) this.setState({ active: 'New' });
+    else if (index === 1) this.setState({ active: 'Accepted' });
   }
 
   onSearchChange = (text) => {
@@ -48,7 +60,7 @@ class RecsScreen extends Component {
   topSection = () => {
     return (
       <MainHeader title="Recs">
-        <HeaderSwitch labels={['New', 'Accepted']} start="New" onSwitch={this.onClick} />
+        <HeaderSwitch labels={['New', 'Accepted']} start="New" onSwitch={this.onClick} active={this.state.active} />
 
         <AppButton
           onPress={this.createRec}
@@ -68,19 +80,27 @@ class RecsScreen extends Component {
     return (
       <View style={styles.background}>
         {this.topSection()}
-        <NewFeed
-          display={this.state.active === 'New'}
-          recommendations={this.props.rec.recs}
-          searchQuery={this.state.search}
-          onChange={this.onSearchChange}
-          navigation={this.props.navigation}
-          loading={this.props.rec.loading}
-          refresh={this.refresh}
-        />
-        <AcceptedFeed
-          display={this.state.active === 'Accepted'}
-          navigation={this.props.navigation}
-        />
+        <Swiper
+          showsButtons={false}
+          loop={false}
+          onIndexChanged={this.onSwipe}
+          showsPagination={false}
+          ref={(ref) => this.swiper = ref}
+        >
+          <NewFeed
+            display
+            recommendations={this.props.rec.recs}
+            searchQuery={this.state.search}
+            onChange={this.onSearchChange}
+            navigation={this.props.navigation}
+            loading={this.props.rec.loading}
+            refresh={this.refresh}
+          />
+          <AcceptedFeed
+            display
+            navigation={this.props.navigation}
+          />
+        </Swiper>
       </View>
     );
   }
