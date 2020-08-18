@@ -56,7 +56,7 @@ export async function addFriend(friendId) {
 
   const requestOptions = {
     method: 'POST',
-    headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}` },
+    headers: { 'content-type': 'application/json', Authorization: token },
     body: JSON.stringify({
       to: friendId,
     }),

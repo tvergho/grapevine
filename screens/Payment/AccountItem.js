@@ -37,7 +37,6 @@ const AccountItem = ({ account, isSandbox, ...props }) => {
         </View>
       </Swipeable>
     </Animated.View>
-
   );
 };
 

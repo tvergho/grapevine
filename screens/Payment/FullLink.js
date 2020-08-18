@@ -5,7 +5,9 @@ import PlaidLink from 'react-native-plaid-link-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 
-const FullLink = ({ submit, isSandbox, token }) => {
+const FullLink = ({
+  submit, isSandbox, token, disabled,
+}) => {
   return (
     <View style={styles.linkButton}>
       <PlaidLink
@@ -17,6 +19,7 @@ const FullLink = ({ submit, isSandbox, token }) => {
           hitSlop: {
             top: 20, left: 20, bottom: 20, right: 20,
           },
+          disabled,
         }}
       >
         <View style={styles.linkButton}>

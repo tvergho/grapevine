@@ -12,7 +12,8 @@ import PaymentLoading from './PaymentLoading';
 import Accounts from './Accounts';
 import HeaderLink from './HeaderLink';
 
-const IS_SANDBOX = true;
+const IS_SANDBOX = false;
+const MAX_SOURCES = 6;
 
 const PaymentScreen = (props) => {
   const [fullLoading, setFullLoading] = useState(false);
@@ -46,11 +47,18 @@ const PaymentScreen = (props) => {
   return (
     <View style={styles.background}>
       <ModalHeader navigation={navigation} title="Accounts">
-        <HeaderLink submit={submit} isSandbox={IS_SANDBOX} token={paymentToken} />
+        <HeaderLink submit={submit} isSandbox={IS_SANDBOX} token={paymentToken} disabled={accounts.length >= MAX_SOURCES} />
       </ModalHeader>
 
       {(fullLoading || (loading && accounts?.length === 0) || !paymentToken) && <PaymentLoading />}
-      {!loading && !fullLoading && !!paymentToken && accounts?.length === 0 && <FullLink submit={submit} isSandbox={IS_SANDBOX} token={paymentToken} />}
+      {!loading && !fullLoading && !!paymentToken && accounts?.length === 0 && (
+        <FullLink
+          submit={submit}
+          isSandbox={IS_SANDBOX}
+          token={paymentToken}
+          disabled={accounts.length >= MAX_SOURCES}
+        />
+      )}
       {!fullLoading && accounts?.length > 0 && !!paymentToken && (
         <Accounts
           accounts={accounts}

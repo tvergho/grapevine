@@ -243,8 +243,6 @@ export function addPhone(phone) {
     dispatch({ type: ActionTypes.USER_SIGN_IN, payload: { phone } });
 
     auth().verifyPhoneNumber(phone).on('state_changed', (phoneAuthSnapshot) => {
-      console.log(phoneAuthSnapshot);
-
       const { verificationId, error } = phoneAuthSnapshot;
       dispatch({ type: ActionTypes.SET_VERIFICATION_ID, payload: verificationId });
       dispatch({ type: ActionTypes.SET_SIGNUP_STEP, payload: 'verify' });
@@ -257,6 +255,7 @@ export function addPhone(phone) {
 }
 
 // Verify confirmation code and upload to database.
+// End the signup cycle when the phone number has been successfully verified.
 export function verifyPhoneCode(code) {
   return async (dispatch, getState) => {
     dispatch({ type: ActionTypes.SET_SIGNUP_STEP, payload: '' });
@@ -275,8 +274,6 @@ export function verifyPhoneCode(code) {
 
       fetch(`${API_URL}/users/phone`, options)
         .then((response) => {
-          console.log(response);
-          console.log('added phone number', getState().user.phone);
           dispatch({ type: ActionTypes.SET_SIGNUP, payload: false });
           dispatch(authUser(auth().currentUser, true));
         });
@@ -286,7 +283,6 @@ export function verifyPhoneCode(code) {
       await auth().currentUser.linkWithCredential(phoneCredential);
       await uploadToDatabase();
     } catch (e) {
-      console.log(e.code);
       if (e.code === 'auth/provider-already-linked') {
         try {
           await auth().signInWithCredential(phoneCredential);
