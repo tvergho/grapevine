@@ -12,8 +12,8 @@ const LogoHeader = (props) => {
     <View style={styles.background}>
       <Image source={Images.recroomLogo} style={styles.imageLogo} />
       <View style={styles.appTextContainer}>
-        <Text key="boba" style={styles.appText}>boba</Text>
-        <Text key="me" style={styles.appText}>me</Text>
+        <Text key="rec" style={styles.appText}>rec</Text>
+        <Text key="tree" style={styles.appText}>tree</Text>
       </View>
     </View>
   );

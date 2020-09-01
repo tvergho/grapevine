@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     alignSelf: 'center',
     textAlign: 'center',
-    paddingBottom: large ? 5 : 0,
+    paddingBottom: large ? 10 : 0,
   },
 });
 

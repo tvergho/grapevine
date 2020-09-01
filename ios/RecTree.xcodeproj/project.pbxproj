@@ -8,34 +8,34 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		520B42CA24D22D790081029C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 520B42C924D22D790081029C /* GoogleService-Info.plist */; };
+		52185F0524FDF7AD00FE3E34 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52185F0324FDF7AD00FE3E34 /* LaunchScreen.xib */; };
 		52678E2524B2A4C900900474 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52678E2424B2A4C800900474 /* Expo.plist */; };
 		52DB4E0C24987DD0006623C9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB4E0B24987DD0006623C9 /* File.swift */; };
-		5B3BF4434F0C431E059B644A /* libPods-BobaMe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C6BD788DFA34BB828972B0AF /* libPods-BobaMe.a */; };
+		578BDB402632090F63C49BFD /* libPods-RecTree.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE84370DF24180587C8EED7C /* libPods-RecTree.a */; };
 		99EC63CFB4B549BBAF093D10 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3ABB89D1E68496EB7D95742 /* SplashScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* BobaMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BobaMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = BobaMe/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = BobaMe/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = BobaMe/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BobaMe/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = BobaMe/main.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* RecTree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecTree.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = RecTree/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = RecTree/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RecTree/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RecTree/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RecTree/main.m; sourceTree = "<group>"; };
+		29A66912992084E72D5D535B /* Pods-RecTree.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecTree.debug.xcconfig"; path = "Target Support Files/Pods-RecTree/Pods-RecTree.debug.xcconfig"; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		520B42C924D22D790081029C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		52678E2424B2A4C800900474 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Expo.plist; path = BobaMe/Supporting/Expo.plist; sourceTree = "<group>"; };
+		52185F0424FDF7AD00FE3E34 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = RecTree/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		52678E2424B2A4C800900474 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Expo.plist; path = RecTree/Supporting/Expo.plist; sourceTree = "<group>"; };
 		52DB4E0A24987DCF006623C9 /* RecRoom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RecRoom-Bridging-Header.h"; sourceTree = "<group>"; };
 		52DB4E0B24987DD0006623C9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
-		6E8DA2006727E19610E7A812 /* Pods-BobaMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BobaMe.debug.xcconfig"; path = "Target Support Files/Pods-BobaMe/Pods-BobaMe.debug.xcconfig"; sourceTree = "<group>"; };
-		AB435F542AABE0CE07A98EDA /* Pods-BobaMe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BobaMe.release.xcconfig"; path = "Target Support Files/Pods-BobaMe/Pods-BobaMe.release.xcconfig"; sourceTree = "<group>"; };
-		C6BD788DFA34BB828972B0AF /* libPods-BobaMe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BobaMe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E3ABB89D1E68496EB7D95742 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = BobaMe/SplashScreen.storyboard; sourceTree = "<group>"; };
+		BE84370DF24180587C8EED7C /* libPods-RecTree.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RecTree.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3ABB89D1E68496EB7D95742 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = RecTree/SplashScreen.storyboard; sourceTree = "<group>"; };
+		E8E4DB6E304B6880D499E067 /* Pods-RecTree.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecTree.release.xcconfig"; path = "Target Support Files/Pods-RecTree/Pods-RecTree.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -45,16 +45,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B3BF4434F0C431E059B644A /* libPods-BobaMe.a in Frameworks */,
+				578BDB402632090F63C49BFD /* libPods-RecTree.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13B07FAE1A68108700A75B9A /* BobaMe */ = {
+		13B07FAE1A68108700A75B9A /* RecTree */ = {
 			isa = PBXGroup;
 			children = (
+				52185F0324FDF7AD00FE3E34 /* LaunchScreen.xib */,
 				520B42C924D22D790081029C /* GoogleService-Info.plist */,
 				52678E2424B2A4C800900474 /* Expo.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -62,13 +63,12 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				E3ABB89D1E68496EB7D95742 /* SplashScreen.storyboard */,
 				52DB4E0B24987DD0006623C9 /* File.swift */,
 				52DB4E0A24987DCF006623C9 /* RecRoom-Bridging-Header.h */,
 			);
-			name = BobaMe;
+			name = RecTree;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -77,7 +77,7 @@
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				C6BD788DFA34BB828972B0AF /* libPods-BobaMe.a */,
+				BE84370DF24180587C8EED7C /* libPods-RecTree.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -85,8 +85,8 @@
 		72E5486571395D51695C2A02 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6E8DA2006727E19610E7A812 /* Pods-BobaMe.debug.xcconfig */,
-				AB435F542AABE0CE07A98EDA /* Pods-BobaMe.release.xcconfig */,
+				29A66912992084E72D5D535B /* Pods-RecTree.debug.xcconfig */,
+				E8E4DB6E304B6880D499E067 /* Pods-RecTree.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -101,7 +101,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* BobaMe */,
+				13B07FAE1A68108700A75B9A /* RecTree */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -115,7 +115,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* BobaMe.app */,
+				13B07F961A680F5B00A75B9A /* RecTree.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -123,9 +123,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* BobaMe */ = {
+		13B07F861A680F5B00A75B9A /* RecTree */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "BobaMe" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RecTree" */;
 			buildPhases = (
 				E1F12E00DC6EC831EDFF6F9A /* [CP] Check Pods Manifest.lock */,
 				FD4C38642228810C00325AF5 /* Start Packager */,
@@ -142,9 +142,9 @@
 			);
 			dependencies = (
 			);
-			name = BobaMe;
+			name = RecTree;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* BobaMe.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* RecTree.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -163,7 +163,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "BobaMe" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "RecTree" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -176,7 +176,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* BobaMe */,
+				13B07F861A680F5B00A75B9A /* RecTree */,
 			);
 		};
 /* End PBXProject section */
@@ -186,10 +186,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52185F0524FDF7AD00FE3E34 /* LaunchScreen.xib in Resources */,
 				52678E2524B2A4C900900474 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				520B42CA24D22D790081029C /* GoogleService-Info.plist in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				99EC63CFB4B549BBAF093D10 /* SplashScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -235,7 +235,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BobaMe/Pods-BobaMe-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-RecTree/Pods-RecTree-frameworks.sh",
 				"${PODS_ROOT}/Plaid/LinkKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -244,7 +244,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BobaMe/Pods-BobaMe-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RecTree/Pods-RecTree-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A1358A0D969A457A0BD64D16 /* [CP-User] [RNFB] Core Configuration */ = {
@@ -272,7 +272,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BobaMe-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-RecTree-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -285,7 +285,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BobaMe/Pods-BobaMe-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-RecTree/Pods-RecTree-resources.sh",
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
@@ -328,7 +328,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BobaMe/Pods-BobaMe-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RecTree/Pods-RecTree-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD4C38642228810C00325AF5 /* Start Packager */ = {
@@ -366,13 +366,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
+		52185F0324FDF7AD00FE3E34 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				13B07FB21A68108700A75B9A /* Base */,
+				52185F0424FDF7AD00FE3E34 /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = BobaMe;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -380,14 +379,14 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E8DA2006727E19610E7A812 /* Pods-BobaMe.debug.xcconfig */;
+			baseConfigurationReference = 29A66912992084E72D5D535B /* Pods-RecTree.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = BobaMe/recroom.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RecTree/recroom.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.0;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = A8566N6JEE;
 				ENABLE_BITCODE = NO;
@@ -430,8 +429,8 @@
 					"\"${PODS_ROOT}/Headers/Public/React-RCTBlob\"",
 					"\"$(PODS_ROOT)/Headers/Public/React-RCTLinking \"${PODS_ROOT}/Headers/Public/React-RCTText\" \"${PODS_ROOT}/Headers/Public/React-cxxreact\" \"${PODS_ROOT}/Headers/Public/React-jsi\" \"${PODS_ROOT}/Headers/Public/React-jsiexecutor\" \"${PODS_ROOT}/Headers/Public/React-jsinspector\" \"${PODS_ROOT}/Headers/Public/ReactCommon\" \"${PODS_ROOT}/Headers/Public/UMAppLoader\" \"${PODS_ROOT}/Headers/Public/UMBarCodeScannerInterface\" \"${PODS_ROOT}/Headers/Public/UMCameraInterface\" \"${PODS_ROOT}/Headers/Public/UMConstantsInterface\" \"${PODS_ROOT}/Headers/Public/UMCore\" \"${PODS_ROOT}/Headers/Public/UMFaceDetectorInterface\" \"${PODS_ROOT}/Headers/Public/UMFileSystemInterface\" \"${PODS_ROOT}/Headers/Public/UMFontInterface\" \"${PODS_ROOT}/Headers/Public/UMImageLoaderInterface\" \"${PODS_ROOT}/Headers/Public/UMPermissionsInterface\" \"${PODS_ROOT}/Headers/Public/UMReactNativeAdapter\" \"${PODS_ROOT}/Headers/Public/UMSensorsInterface\" \"${PODS_ROOT}/Headers/Public/UMTaskManagerInterface\" \"${PODS_ROOT}/Headers/Public/Yoga\" \"${PODS_ROOT}/Headers/Public/glog\" \"${PODS_ROOT}/Headers/Public/react-native-fbsdk\" \"${PODS_ROOT}/Headers/Public/react-native-maps\" \"${PODS_ROOT}/Headers/Public/react-native-netinfo\" \"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\" \"$(PODS_ROOT)/Headers/Private/React-Core\"",
 				);
-				INFOPLIST_FILE = BobaMe/Info.plist;
-				"INFOPLIST_FILE[sdk=*]" = BobaMe/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/RecTree/Info.plist";
+				"INFOPLIST_FILE[sdk=*]" = RecTree/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -491,14 +490,14 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-netinfo\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-safe-area-context\"",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = me.boba;
-				PRODUCT_NAME = BobaMe;
+				PRODUCT_BUNDLE_IDENTIFIER = app.rectree;
+				PRODUCT_NAME = RecTree;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "RecRoom-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -509,14 +508,14 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB435F542AABE0CE07A98EDA /* Pods-BobaMe.release.xcconfig */;
+			baseConfigurationReference = E8E4DB6E304B6880D499E067 /* Pods-RecTree.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = BobaMe/recroom.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RecTree/recroom.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.0;
+				CURRENT_PROJECT_VERSION = 1.0.0;
 				DEVELOPMENT_TEAM = A8566N6JEE;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -557,16 +556,16 @@
 					"\"${PODS_ROOT}/Headers/Public/React-RCTBlob\"",
 					"\"$(PODS_ROOT)/Headers/Public/React-RCTLinking \"${PODS_ROOT}/Headers/Public/React-RCTText\" \"${PODS_ROOT}/Headers/Public/React-cxxreact\" \"${PODS_ROOT}/Headers/Public/React-jsi\" \"${PODS_ROOT}/Headers/Public/React-jsiexecutor\" \"${PODS_ROOT}/Headers/Public/React-jsinspector\" \"${PODS_ROOT}/Headers/Public/ReactCommon\" \"${PODS_ROOT}/Headers/Public/UMAppLoader\" \"${PODS_ROOT}/Headers/Public/UMBarCodeScannerInterface\" \"${PODS_ROOT}/Headers/Public/UMCameraInterface\" \"${PODS_ROOT}/Headers/Public/UMConstantsInterface\" \"${PODS_ROOT}/Headers/Public/UMCore\" \"${PODS_ROOT}/Headers/Public/UMFaceDetectorInterface\" \"${PODS_ROOT}/Headers/Public/UMFileSystemInterface\" \"${PODS_ROOT}/Headers/Public/UMFontInterface\" \"${PODS_ROOT}/Headers/Public/UMImageLoaderInterface\" \"${PODS_ROOT}/Headers/Public/UMPermissionsInterface\" \"${PODS_ROOT}/Headers/Public/UMReactNativeAdapter\" \"${PODS_ROOT}/Headers/Public/UMSensorsInterface\" \"${PODS_ROOT}/Headers/Public/UMTaskManagerInterface\" \"${PODS_ROOT}/Headers/Public/Yoga\" \"${PODS_ROOT}/Headers/Public/glog\" \"${PODS_ROOT}/Headers/Public/react-native-fbsdk\" \"${PODS_ROOT}/Headers/Public/react-native-maps\" \"${PODS_ROOT}/Headers/Public/react-native-netinfo\" \"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\" \"$(PODS_ROOT)/Headers/Private/React-Core\"",
 				);
-				INFOPLIST_FILE = BobaMe/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/RecTree/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = me.boba;
-				PRODUCT_NAME = BobaMe;
+				PRODUCT_BUNDLE_IDENTIFIER = app.rectree;
+				PRODUCT_NAME = RecTree;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "RecRoom-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -602,7 +601,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = RecRoom/recroom.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RecTree/recroom.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -630,8 +629,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.recroom;
-				PRODUCT_NAME = recroom;
+				PRODUCT_BUNDLE_IDENTIFIER = app.rectree;
+				PRODUCT_NAME = rectree;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -664,7 +663,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = RecRoom/recroom.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RecTree/recroom.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -684,8 +683,8 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.recroom;
-				PRODUCT_NAME = recroom;
+				PRODUCT_BUNDLE_IDENTIFIER = app.rectree;
+				PRODUCT_NAME = rectree;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
@@ -695,7 +694,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "BobaMe" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RecTree" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -704,7 +703,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "BobaMe" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "RecTree" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "Boba Me",
-    "slug": "rec-room",
-    "scheme": "recroom",
+    "name": "RecTree",
+    "slug": "rectree",
+    "scheme": "rectree",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
-    "version": "1.1.0",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -23,8 +23,8 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "me.boba",
-      "buildNumber": "1.1.0",
+      "bundleIdentifier": "app.rectree",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "packagerOpts": {
@@ -45,9 +45,9 @@
     },
     "facebookScheme": "fb291040482030117",
     "facebookAppId": "291040482030117",
-    "facebookDisplayName": "Rec Room",
+    "facebookDisplayName": "RecTree",
     "android": {
-      "package": "me.boba"
+      "package": "app.rectree"
     },
     "entryPoint": "node_modules/expo/AppEntry.js"
   }

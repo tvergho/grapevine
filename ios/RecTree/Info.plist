@@ -53,7 +53,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.723059767047-ngh9548brdf314dhfkme280su1737nqo</string>
+				<string>com.googleusercontent.apps.723059767047-o6jpfnt98mqv8r6mvu8rhfq1j41d08fm</string>
 			</array>
 		</dict>
 	</array>
@@ -62,7 +62,7 @@
 	<key>FacebookAppID</key>
 	<string>291040482030117</string>
 	<key>FacebookDisplayName</key>
-	<string>BobaMe</string>
+	<string>RecTree</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -103,9 +103,9 @@
 	<key>NSContactsUsageDescription</key>
 	<string>Allow Rec Room experiences to access your contacts</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Allow BobaMe to use your location</string>
+	<string>Allow RecTree to use your location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow BobaMe to use your location</string>
+	<string>Allow RecTree to use your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow Rec Room to use your location</string>
 	<key>NSMicrophoneUsageDescription</key>

@@ -25,7 +25,7 @@ const FullLink = ({
         <View style={styles.linkButton}>
           <FontAwesomeIcon icon={faPlusSquare} size={45} color={Colors.PRIMARY} />
           <Text style={styles.linkText}>Add Bank Account or Credit Card</Text>
-          <Text style={styles.linkSubText}>BobaMe will never charge you.</Text>
+          <Text style={styles.linkSubText}>RecTree will never charge you.</Text>
         </View>
       </PlaidLink>
     </View>

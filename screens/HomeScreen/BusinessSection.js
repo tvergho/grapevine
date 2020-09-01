@@ -12,15 +12,18 @@ import HomeSection from './HomeSection';
 const BusinessSection = ({
   searchResults, navigation, loading, searchError, refresh, location,
 }) => {
-  console.log(searchError);
+  let error = '';
+  if (searchError.includes('undefined')) error = 'There was an error with the search results.';
+  else error = searchError;
+
   return (
     <HomeSection
-      title="Boba Discounts"
+      title="Business Discounts"
       onPress={!loading && searchResults.length === 0
         ? () => {}
         : () => {
           navigation.navigate('Detail', {
-            title: 'Boba Discounts', refresh, placeholder: 'Search for a boba shop...', location,
+            title: 'Business Discounts', refresh, placeholder: 'Search for a shop...', location,
           });
         }}
     >
@@ -33,7 +36,7 @@ const BusinessSection = ({
 
       {!loading && searchResults.length === 0 ? (
         <View style={styles.loadingContainer}>
-          <Text style={styles.loadingTitle}>{searchError || 'No BobaMe locations were found near you.'}</Text>
+          <Text style={styles.loadingTitle}>{error || 'No RecTree locations were found near you.'}</Text>
           <AppButton
             title="Refresh"
             textStyle={styles.refreshText}

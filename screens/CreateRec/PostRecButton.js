@@ -1,10 +1,13 @@
 import React from 'react';
 import {
-  View, StyleSheet, TouchableOpacity, Text, Image,
+  View, StyleSheet, TouchableOpacity, Text, Image, Dimensions,
 } from 'react-native';
 import { Images, Colors } from 'res';
 import { DotIndicator } from 'react-native-indicators';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
+const window = Dimensions.get('window');
+const large = window.height >= 800;
 
 const PostRecButton = ({ onSubmit, loading, disabled }) => {
   return (
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   submitButton: {
-    height: hp('9%'),
+    height: large ? hp('8%') : hp('9%'),
     width: wp('100%'),
     backgroundColor: Colors.PRIMARY,
     flex: -1,

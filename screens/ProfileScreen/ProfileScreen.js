@@ -15,6 +15,7 @@ import { signOut, refreshUserInfo } from 'actions';
 import MainHeader from 'components/MainHeader';
 import AppButton from 'components/AppButton';
 import { Colors, Images } from 'res';
+import SettingsPane from '../Settings/SettingsPane';
 import BalanceSection from './BalanceSection';
 import ProfileListItem from './ProfileListItem';
 
@@ -24,10 +25,22 @@ const small = window.width <= 350;
 class ProfileScreen extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      settingsOpen: false,
+    };
   }
 
   componentDidMount() {
     refreshUserInfo();
+  }
+
+  toggleSettings = () => {
+    this.setState((prevState) => {
+      return {
+        settingsOpen: !prevState.settingsOpen,
+      };
+    });
   }
 
   topSection = () => {
@@ -49,7 +62,7 @@ class ProfileScreen extends Component {
             }}
           />
 
-          <TouchableOpacity style={{ paddingTop: 5 }}>
+          <TouchableOpacity style={{ paddingTop: 5 }} onPress={this.toggleSettings}>
             <Icon name="gear" type="font-awesome" size={45} color="rgba(0,0,0,0.7)" />
             <View style={{ minHeight: 15 }} />
           </TouchableOpacity>
@@ -90,18 +103,22 @@ class ProfileScreen extends Component {
 
   render() {
     return (
-      <View style={styles.background}>
-        {this.topSection()}
-        <Image source={this.props.user.profilePic ? { uri: this.props.user.profilePic } : Images.blankProfile} style={styles.profilePic} />
-        <BalanceSection balance={this.props.user.balance} />
+      <>
+        <View style={styles.background}>
+          {this.topSection()}
+          <Image source={this.props.user.profilePic ? { uri: this.props.user.profilePic } : Images.blankProfile} style={styles.profilePic} />
+          <BalanceSection balance={this.props.user.balance} />
 
-        <TouchableOpacity style={styles.venmoButton}>
-          <Text style={styles.venmoButtonText}>Transfer to</Text>
-          <Image source={Images.venmoLogo} style={{ maxWidth: 80, maxHeight: 15 }} />
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.venmoButton}>
+            <Text style={styles.venmoButtonText}>Transfer to</Text>
+            <Image source={Images.venmoLogo} style={{ maxWidth: 80, maxHeight: 15 }} />
+          </TouchableOpacity>
 
-        {this.listSection()}
-      </View>
+          {this.listSection()}
+
+        </View>
+        <SettingsPane isVisible={this.state.settingsOpen} close={this.toggleSettings} />
+      </>
     );
   }
 }

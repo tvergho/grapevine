@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:/Users/tylervergho/Documents/RecRoom/rec-room/ios/RecTree.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/tylervergho/Documents/Grapevine/grapevine/ios/RecTree.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:RecTree.xcodeproj">
+   </FileRef>
+</Workspace>

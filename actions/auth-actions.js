@@ -41,11 +41,11 @@ function handleFirebaseError({ code }) {
   }
 }
 
-// Upon user registration, adds the user's info to the BobaMe database.
+// Upon user registration, adds the user's info to the RecTree database.
 function addToDatabase(token, user) {
   return (dispatch) => {
     const {
-      firstName, lastName, phone, photoURL, fbId,
+      firstName, lastName, photoURL, fbId,
     } = user;
     const options = {
       method: 'POST',
@@ -241,6 +241,7 @@ export function addPhone(phone) {
   return async (dispatch) => {
     dispatch({ type: ActionTypes.SET_SIGNUP_STEP, payload: '' });
     dispatch({ type: ActionTypes.USER_SIGN_IN, payload: { phone } });
+    dispatch({ type: ActionTypes.SET_SIGNUP_STEP, payload: 'verify' });
 
     auth().verifyPhoneNumber(phone).on('state_changed', (phoneAuthSnapshot) => {
       const { verificationId, error } = phoneAuthSnapshot;

@@ -5,7 +5,7 @@ require_relative '../node_modules/react-native-unimodules/cocoapods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 
-target 'BobaMe' do
+target 'RecTree' do
   config = use_native_modules!
   use_modular_headers!
 

@@ -13,7 +13,7 @@ const TitleSection = ({ business, rec }) => {
         {/* rec.personal ? <Image source={Images.personal} style={{ width: 25, height: 25, marginLeft: 3 }} /> : <></> */}
       </View>
 
-      <Text style={styles.businessCategory} numberOfLines={1}>{business?.category || 'Boba'}</Text>
+      <Text style={styles.businessCategory} numberOfLines={1}>{business?.category}</Text>
 
       <View>
         <Image source={Images.like} style={styles.likeImage} />

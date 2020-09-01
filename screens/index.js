@@ -13,7 +13,8 @@ import DetailScreen from './HomeScreen/DetailScreen';
 import PaymentScreen from './Payment/PaymentScreen';
 import YourRecsScreen from './YourRecs/YourRecsScreen';
 import FeedScreen from './FeedScreen/FeedScreen';
+import SettingsPane from './Settings/SettingsPane';
 
 export {
-  CreateRec, SignIn, SignUp, RecsScreen, HomeScreen, SignUpStep, ProfileScreen, FriendRequests, FriendsScreen, Business, AddFriendScreen, DetailScreen, PaymentScreen, YourRecsScreen, FeedScreen,
+  CreateRec, SignIn, SignUp, RecsScreen, HomeScreen, SignUpStep, ProfileScreen, FriendRequests, FriendsScreen, Business, AddFriendScreen, DetailScreen, PaymentScreen, YourRecsScreen, FeedScreen, SettingsPane,
 };

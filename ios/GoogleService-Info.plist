@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>723059767047-ngh9548brdf314dhfkme280su1737nqo.apps.googleusercontent.com</string>
+	<string>723059767047-o6jpfnt98mqv8r6mvu8rhfq1j41d08fm.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.723059767047-ngh9548brdf314dhfkme280su1737nqo</string>
+	<string>com.googleusercontent.apps.723059767047-o6jpfnt98mqv8r6mvu8rhfq1j41d08fm</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCh3PqDKPZWdg5INfinl7NQrzQbrKSmMK0</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>me.boba</string>
+	<string>app.rectree</string>
 	<key>PROJECT_ID</key>
 	<string>bobame-fe94d</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:723059767047:ios:fed75c95c6d31c0cc177a2</string>
+	<string>1:723059767047:ios:655aea355a601e6fc177a2</string>
 	<key>DATABASE_URL</key>
 	<string>https://bobame-fe94d.firebaseio.com</string>
 </dict>
