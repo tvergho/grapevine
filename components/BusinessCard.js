@@ -54,7 +54,7 @@ const BusinessCard = (props) => {
           }}
           >
             <Text style={styles.nameText}>{`${index + 1}. ${name}`}</Text>
-            <TextBubble style={styles.commissionBubble} width={80} backgroundColor={Colors.SECONDARY} textStyle={styles.commissionText} text={`${commission}% back`} borderRadius={12} />
+            <TextBubble style={styles.commissionBubble} width={90} backgroundColor={Colors.SECONDARY} textStyle={styles.commissionText} text={`${commission}% back`} borderRadius={12} />
           </View>
 
           <Text style={styles.addressText}>{`${street_address}, ${city}`}</Text>

@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../../Ithaca Businesses/Ithaca.gpx">
+   </FileRef>
+   <FileRef
       location = "group:/Users/tylervergho/Documents/RecRoom/rec-room/ios/RecTree.xcodeproj">
    </FileRef>
    <FileRef

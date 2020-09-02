@@ -44,7 +44,7 @@ const AnimatedHeader = ({
   const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
   let commission = rec.commission || business.commission;
-  if (commission && commission.toString().length === 1) commission = `${commission}% back`;
+  if (commission && !commission.toString().includes('%')) commission = `${commission}% back`;
 
   return (
     <Animated.View style={[styles.header, { backgroundColor: background, borderBottomWidth: 1, borderBottomColor: bottomBorder }]}>
