@@ -5,7 +5,7 @@
     "ios": "react-native run-ios",
     "web": "expo start --web",
     "postinstall": "patch-package",
-    "expo-publish": "expo publish --release-channel rt1.0.0"
+    "expo-publish": "expo publish --release-channel rt1.0.1"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
