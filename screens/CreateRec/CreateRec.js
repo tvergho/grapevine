@@ -20,7 +20,7 @@ class CreateRec extends Component {
   constructor(props) {
     super(props);
 
-    this.onSearchChangeDelayed = debounce(this.search, 300);
+    this.onSearchChangeDelayed = debounce(this.search, 100);
 
     this.state = {
       selectedBusiness: {},

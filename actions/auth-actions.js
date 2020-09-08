@@ -207,12 +207,9 @@ export function logInUserFirebase(userData, navigation) {
 export function authUser(user, forceAuth) {
   return async (dispatch, getState) => {
     const signInUser = () => {
-      dispatch({ type: ActionTypes.AUTH_USER });
       if (user) dispatch({ type: ActionTypes.USER_SIGN_IN, payload: user });
       dispatch({ type: ActionTypes.SET_SIGNUP, payload: false });
       AccessToken.refreshCurrentAccessTokenAsync();
-
-      user.getIdToken().then((token) => { console.log(token); });
     };
 
     if (!getState().lifecycle.signingUp || forceAuth) {
@@ -233,6 +230,24 @@ export function authUser(user, forceAuth) {
           }
         });
     }
+  };
+}
+
+// Retrieves the most recent version of the user's info from the database.
+export function getUserInfo(user) {
+  return async (dispatch) => {
+    user.getIdToken().then((token) => {
+      console.log(token);
+      fetch(`${API_URL}/users`, { method: 'GET', headers: { Authorization: token } })
+        .then((response) => response.json())
+        .then((json) => {
+          dispatch({ type: ActionTypes.USER_SIGN_IN, payload: json });
+        })
+        .finally(() => {
+          dispatch({ type: ActionTypes.AUTH_USER });
+          dispatch({ type: ActionTypes.APP_LOADED });
+        });
+    });
   };
 }
 
@@ -317,10 +332,10 @@ export function setVerificationError(error) {
 
 export function signOut() {
   return (dispatch) => {
+    dispatch({ type: ActionTypes.DEAUTH_USER });
     auth().signOut();
     LoginManager.logOut();
-    dispatch({ type: ActionTypes.CLEAR_USER });
-    dispatch({ type: ActionTypes.DEAUTH_USER });
+    setTimeout(() => { dispatch({ type: ActionTypes.CLEAR_USER }); }, 500);
     dispatch({ type: ActionTypes.APP_LOADED });
     dispatch({ type: ActionTypes.CLEAR_ALL });
   };

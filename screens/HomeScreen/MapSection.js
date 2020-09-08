@@ -6,7 +6,6 @@ import { Colors } from 'res';
 import MapView, { Marker } from 'react-native-maps';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMapMarker } from '@fortawesome/free-solid-svg-icons';
-import NumberFormat from 'react-number-format';
 import AppButton from 'components/AppButton';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -73,11 +72,10 @@ const MapSection = ({
       <AppButton
         dark
         containerStyle={styles.moneyContainer}
-        width={90}
         height={35}
         backgroundColor={Colors.PRIMARY}
         borderRadius={25}
-        icon={(<NumberFormat value={balance} displayType="text" thousandSeparator prefix="$" renderText={(value) => <Text style={styles.moneyText}>{value}</Text>} />)}
+        icon={(<Text style={styles.moneyText}>{`${balance} points`}</Text>)}
         activeOpacity={0.6}
         shadowHeight={2}
         shadowWidth={1}
@@ -106,6 +104,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.WHITE,
     paddingTop: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   addFriendText: {
     fontFamily: 'Hiragino W7',

@@ -16,7 +16,7 @@ import {
   SignUp, SignIn, SignUpStep,
 } from 'screens';
 import {
-  setAppLoaded, signOut, authUser,
+  setAppLoaded, signOut, authUser, getUserInfo,
 } from 'actions';
 import { Images } from 'res';
 import auth from '@react-native-firebase/auth';
@@ -64,8 +64,10 @@ class AppContainer extends Component {
   handleAuthStateChange = (user) => {
     if (user) {
       this.props.authUser(user);
+      this.props.getUserInfo(user);
+    } else {
+      this.props.setAppLoaded();
     }
-    this.props.setAppLoaded();
   }
 
   loading = () => {
@@ -140,5 +142,5 @@ const mapStateToProps = (reduxState) => (
 );
 
 export default connect(mapStateToProps, {
-  setAppLoaded, signOut, authUser,
+  setAppLoaded, signOut, authUser, getUserInfo,
 })(AppContainer);

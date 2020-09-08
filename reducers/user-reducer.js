@@ -17,10 +17,11 @@ const UserReducer = (state = initialState, action) => {
     const user = action.payload;
     return {
       ...state,
-      userId: user.uid || state.userId,
-      firstName: user.displayName || state.firstName,
+      userId: user.uid || user.userId || state.userId,
+      firstName: user.displayName || user.firstName || state.firstName,
       profilePic: user.photoURL || state.profilePic,
       phone: user.phone || state.phone,
+      balance: user.balance || state.balance,
     };
   }
   case ActionTypes.CLEAR_USER:

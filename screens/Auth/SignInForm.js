@@ -11,8 +11,25 @@ const small = window.width <= 350;
 const SignInForm = ({ user, onChange, errors }) => {
   return (
     <View style={{ marginTop: small ? 20 : hp('5%') }}>
-      <TextInput key="email" value={user.email} placeholder="Email" placeholderTextColor="#FFFFFF" onChangeText={(text) => onChange(text, 'email')} style={[styles.signUpInput, errors.email ? { borderBottomColor: 'red' } : {}]} />
-      <TextInput key="password" value={user.password} placeholder="Password" placeholderTextColor="#FFFFFF" onChangeText={(text) => onChange(text, 'password')} style={[styles.signUpInput, errors.password ? { borderBottomColor: 'red' } : {}]} secureTextEntry />
+      <TextInput
+        key="email"
+        value={user.email}
+        placeholder="Email"
+        placeholderTextColor="#FFFFFF"
+        onChangeText={(text) => onChange(text, 'email')}
+        style={[styles.signUpInput, errors.email ? { borderBottomColor: 'red' } : {}]}
+        keyboardType="email-address"
+        autoCompleteType="email"
+      />
+      <TextInput
+        key="password"
+        value={user.password}
+        placeholder="Password"
+        placeholderTextColor="#FFFFFF"
+        onChangeText={(text) => onChange(text, 'password')}
+        style={[styles.signUpInput, errors.password ? { borderBottomColor: 'red' } : {}]}
+        secureTextEntry
+      />
     </View>
   );
 };

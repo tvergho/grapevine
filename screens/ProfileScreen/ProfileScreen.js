@@ -110,8 +110,7 @@ class ProfileScreen extends Component {
           <BalanceSection balance={this.props.user.balance} />
 
           <TouchableOpacity style={styles.venmoButton}>
-            <Text style={styles.venmoButtonText}>Transfer to</Text>
-            <Image source={Images.venmoLogo} style={{ maxWidth: 80, maxHeight: 15 }} />
+            <Text style={styles.venmoButtonText}>Withdraw funds</Text>
           </TouchableOpacity>
 
           {this.listSection()}

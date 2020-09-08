@@ -11,11 +11,50 @@ const small = window.width <= 350;
 const SignUpForm = ({ user, onChange, errors }) => {
   return (
     <View style={{ marginTop: small ? 10 : hp('3%') }}>
-      <TextInput key="firstName" value={user.firstName} placeholder="First name" placeholderTextColor="#FFFFFF" onChangeText={(text) => onChange(text, 'firstName')} style={[styles.signUpInput, errors.firstName ? { borderBottomColor: 'red' } : {}]} />
-      <TextInput key="lastName" value={user.lastName} placeholder="Last name" placeholderTextColor="#FFFFFF" onChangeText={(text) => onChange(text, 'lastName')} style={[styles.signUpInput, errors.lastName ? { borderBottomColor: 'red' } : {}]} />
-      <TextInput key="email" value={user.email} keyboardType="email-address" placeholder="Email" placeholderTextColor="#FFFFFF" onChangeText={(text) => onChange(text, 'email')} style={[styles.signUpInput, errors.email ? { borderBottomColor: 'red' } : {}]} />
-      <TextInput key="phone" value={user.phone} keyboardType="phone-pad" placeholder="Phone" placeholderTextColor="#FFFFFF" onChangeText={(text) => onChange(text, 'phone')} style={[styles.signUpInput, errors.phone ? { borderBottomColor: 'red' } : {}]} />
-      <TextInput key="password" value={user.password} placeholder="Password" placeholderTextColor="#FFFFFF" onChangeText={(text) => onChange(text, 'password')} style={[styles.signUpInput, errors.password ? { borderBottomColor: 'red' } : {}]} secureTextEntry />
+      <TextInput
+        key="firstName"
+        value={user.firstName}
+        placeholder="First name"
+        placeholderTextColor="#FFFFFF"
+        onChangeText={(text) => onChange(text, 'firstName')}
+        style={[styles.signUpInput, errors.firstName ? { borderBottomColor: 'red' } : {}]}
+      />
+      <TextInput
+        key="lastName"
+        value={user.lastName}
+        placeholder="Last name"
+        placeholderTextColor="#FFFFFF"
+        onChangeText={(text) => onChange(text, 'lastName')}
+        style={[styles.signUpInput, errors.lastName ? { borderBottomColor: 'red' } : {}]}
+      />
+      <TextInput
+        key="email"
+        value={user.email}
+        keyboardType="email-address"
+        placeholder="Email"
+        placeholderTextColor="#FFFFFF"
+        onChangeText={(text) => onChange(text, 'email')}
+        style={[styles.signUpInput, errors.email ? { borderBottomColor: 'red' } : {}]}
+        autoCompleteType="email"
+      />
+      <TextInput
+        key="phone"
+        value={user.phone}
+        keyboardType="phone-pad"
+        placeholder="Phone"
+        placeholderTextColor="#FFFFFF"
+        onChangeText={(text) => onChange(text, 'phone')}
+        style={[styles.signUpInput, errors.phone ? { borderBottomColor: 'red' } : {}]}
+      />
+      <TextInput
+        key="password"
+        value={user.password}
+        placeholder="Password"
+        placeholderTextColor="#FFFFFF"
+        onChangeText={(text) => onChange(text, 'password')}
+        style={[styles.signUpInput, errors.password ? { borderBottomColor: 'red' } : {}]}
+        secureTextEntry
+      />
     </View>
   );
 };

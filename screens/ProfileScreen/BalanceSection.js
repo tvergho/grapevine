@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Colors } from 'res';
-import NumberFormat from 'react-number-format';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const BalanceSection = ({ balance }) => {
@@ -9,12 +8,12 @@ const BalanceSection = ({ balance }) => {
     <View style={styles.balanceSection}>
       <View style={styles.balanceHalf}>
         <Text style={styles.balanceHeader}>Current Balance</Text>
-        <NumberFormat value={balance} displayType="text" thousandSeparator prefix="$" renderText={(value) => <Text style={styles.balanceTotal}>{value}</Text>} />
+        <Text style={styles.balanceTotal}>{`${balance} points`}</Text>
       </View>
       <View style={{ width: 1, minHeight: 60, backgroundColor: '#FFB7B2' }} />
       <View style={styles.balanceHalf}>
         <Text style={styles.balanceHeader}>Lifetime Balance</Text>
-        <NumberFormat value={balance} displayType="text" thousandSeparator prefix="$" renderText={(value) => <Text style={styles.balanceTotal}>{value}</Text>} />
+        <Text style={styles.balanceTotal}>{`${balance} points`}</Text>
       </View>
     </View>
   );
@@ -45,6 +44,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Hiragino W7',
     fontSize: 14,
     marginTop: 12,
+    paddingBottom: 5,
   },
 });
 
