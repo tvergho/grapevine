@@ -11,7 +11,7 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-import { displayError, updateUserInfo } from 'actions';
+import { displayError, updateUserInfo, updatePhoto } from 'actions';
 import EditProfileForm from './EditProfileForm';
 
 const EditProfileScreen = ({
@@ -22,6 +22,7 @@ const EditProfileScreen = ({
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [image, setImage] = useState('');
+  const [imageChanged, setImageChanged] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -58,6 +59,7 @@ const EditProfileScreen = ({
         });
         if (!result.cancelled) {
           setImage(result.uri);
+          setImageChanged(true);
         }
 
         console.log(result);
@@ -69,13 +71,23 @@ const EditProfileScreen = ({
 
   const save = () => {
     setLoading(true);
-    const userInfo = {
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      username,
+
+    const updateInfo = (url) => {
+      const userInfo = {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        username,
+      };
+      if (url) userInfo.picture = url;
+      props.updateUserInfo(userInfo, onSaveComplete);
     };
-    props.updateUserInfo(userInfo, onSaveComplete);
+
+    if (imageChanged) {
+      props.updatePhoto(image, updateInfo);
+    } else {
+      updateInfo();
+    }
   };
 
   const onSaveComplete = () => {
@@ -128,4 +140,4 @@ const mapStateToProps = (reduxState) => (
   }
 );
 
-export default connect(mapStateToProps, { displayError, updateUserInfo })(EditProfileScreen);
+export default connect(mapStateToProps, { displayError, updateUserInfo, updatePhoto })(EditProfileScreen);

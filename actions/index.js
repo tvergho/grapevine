@@ -69,6 +69,33 @@ export const ActionTypes = {
   ...paymentActions,
 };
 
+function handleFirebaseError({ code }) {
+  switch (code) {
+  case 'auth/weak-password':
+    return 'Password is too weak.';
+  case 'auth/email-already-in-use':
+    return 'Email is already in use by another user.';
+  case 'auth/invalid-email':
+    return 'Invalid email.';
+  case 'auth/wrong-password':
+    return 'Incorrect email or password.';
+  case 'auth/user-not-found':
+    return 'Incorrect email or password.';
+  case 'auth/user-disabled':
+    return 'This user has been disabled.';
+  default:
+    return 'There was an error completing this request.';
+  }
+}
+
+export function getError(error) {
+  if (!error || error === undefined) return 'There was an error.';
+  else if (error.code) return handleFirebaseError(error);
+  else if (error.message) return error.message;
+  else if (error.json && error.json.error_description) return error.json.error_description;
+  else return error;
+}
+
 export * from './auth-actions';
 export * from './lifecycle-actions';
 export * from './search-actions';
@@ -76,3 +103,4 @@ export * from './post-actions';
 export * from './friend-actions';
 export * from './rec-actions';
 export * from './payment-actions';
+export * from './user-actions';

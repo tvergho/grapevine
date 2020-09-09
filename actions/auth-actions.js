@@ -3,44 +3,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
 /* eslint-disable import/no-cycle */
-import { ActionTypes } from 'actions';
+import { ActionTypes, getError } from 'actions';
 import auth from '@react-native-firebase/auth';
 import {
   LoginManager, AccessToken, GraphRequest, GraphRequestManager,
 } from 'react-native-fbsdk';
 import { stripPhone } from 'utils/formatPhone';
-import { call } from 'react-native-reanimated';
 
 const API_URL = 'https://api.bobame.app';
-
-// Called to derive an error message from various error objects.
-function getError(error) {
-  if (!error || error === undefined) return 'There was an error.';
-  else if (error.code) return handleFirebaseError(error);
-  else if (error.message) return error.message;
-  else if (error.json && error.json.error_description) return error.json.error_description;
-  else return error;
-}
-
-// Returns an error message for common Firebase errors.
-function handleFirebaseError({ code }) {
-  switch (code) {
-  case 'auth/weak-password':
-    return 'Password is too weak.';
-  case 'auth/email-already-in-use':
-    return 'Email is already in use by another user.';
-  case 'auth/invalid-email':
-    return 'Invalid email.';
-  case 'auth/wrong-password':
-    return 'Incorrect email or password.';
-  case 'auth/user-not-found':
-    return 'Incorrect email or password.';
-  case 'auth/user-disabled':
-    return 'This user has been disabled.';
-  default:
-    return 'There was an error completing this request.';
-  }
-}
 
 // Upon user registration, adds the user's info to the RecTree database.
 function addToDatabase(token, user) {
@@ -231,57 +201,6 @@ export function authUser(user, forceAuth) {
           }
         });
     }
-  };
-}
-
-// Retrieves the most recent version of the user's info from the database.
-export function getUserInfo(user) {
-  return (dispatch) => {
-    user.getIdToken().then((token) => {
-      console.log(token);
-      fetch(`${API_URL}/users`, { method: 'GET', headers: { Authorization: token } })
-        .then((response) => response.json())
-        .then((json) => {
-          dispatch({ type: ActionTypes.USER_SIGN_IN, payload: json });
-
-          const { firstName, photoURL } = json;
-          const profile = {
-            displayName: firstName,
-            photoURL,
-          };
-
-          user.updateProfile(profile);
-        })
-        .finally(() => {
-          dispatch({ type: ActionTypes.AUTH_USER });
-          dispatch({ type: ActionTypes.APP_LOADED });
-        });
-    });
-  };
-}
-
-// Updates a user's profile information.
-export function updateUserInfo(patch, callback) {
-  return async (dispatch) => {
-    dispatch({ type: ActionTypes.USER_SIGN_IN, payload: patch });
-    const token = await auth().currentUser.getIdToken();
-
-    const params = {
-      method: 'PUT',
-      headers: { Authorization: token },
-      body: JSON.stringify(patch),
-    };
-
-    fetch(`${API_URL}/users`, params)
-      .then((response) => response.json())
-      .then((json) => {
-        if (json.error) {
-          dispatch({ type: ActionTypes.ERROR, payload: getError(json.error) });
-        } else {
-          callback();
-        }
-      })
-      .catch((error) => { dispatch({ type: ActionTypes.ERROR, payload: getError(error) }); });
   };
 }
 

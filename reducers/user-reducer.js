@@ -18,6 +18,10 @@ const UserReducer = (state = initialState, action) => {
   switch (action.type) {
   case ActionTypes.USER_SIGN_IN: {
     const user = action.payload;
+    let photoURL = '';
+    if (user.photoURL) photoURL = `${user.photoURL}?random=${Math.random()}`;
+    else if (user.picture) photoURL = `${user.picture}?random=${Math.random()}`;
+
     return {
       ...state,
       userId: user.uid || user.userId || state.userId,
@@ -25,7 +29,7 @@ const UserReducer = (state = initialState, action) => {
       lastName: user.lastName || user.last_name || state.lastName,
       email: user.email || state.email,
       username: user.username || state.username,
-      profilePic: user.photoURL || state.profilePic,
+      profilePic: photoURL || state.profilePic,
       phone: user.phone || state.phone,
       balance: user.balance || state.balance,
     };
