@@ -25,7 +25,7 @@ const SlidePane = ({ children, isVisible, close }) => {
       setDelayOpen(false);
       setTimeout(() => {
         setDelayClose(false);
-      }, 300);
+      }, 150);
     }
   }, [isVisible]);
 
@@ -57,6 +57,8 @@ const styles = StyleSheet.create({
     width: wp('70%'),
     height: hp('100%'),
     paddingRight: 30,
+    paddingLeft: 20,
+    paddingTop: 40,
   },
   backdrop: {
     position: 'absolute',

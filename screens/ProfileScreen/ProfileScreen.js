@@ -118,7 +118,7 @@ class ProfileScreen extends Component {
           {this.listSection()}
 
         </View>
-        <SettingsPane isVisible={this.state.settingsOpen} close={this.toggleSettings} />
+        <SettingsPane isVisible={this.state.settingsOpen} close={this.toggleSettings} navigation={this.props.navigation} />
       </>
     );
   }
