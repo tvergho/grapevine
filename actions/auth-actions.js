@@ -9,6 +9,7 @@ import {
   LoginManager, AccessToken, GraphRequest, GraphRequestManager,
 } from 'react-native-fbsdk';
 import { stripPhone } from 'utils/formatPhone';
+import { call } from 'react-native-reanimated';
 
 const API_URL = 'https://api.bobame.app';
 
@@ -235,7 +236,7 @@ export function authUser(user, forceAuth) {
 
 // Retrieves the most recent version of the user's info from the database.
 export function getUserInfo(user) {
-  return async (dispatch) => {
+  return (dispatch) => {
     user.getIdToken().then((token) => {
       console.log(token);
       fetch(`${API_URL}/users`, { method: 'GET', headers: { Authorization: token } })
@@ -256,6 +257,31 @@ export function getUserInfo(user) {
           dispatch({ type: ActionTypes.APP_LOADED });
         });
     });
+  };
+}
+
+// Updates a user's profile information.
+export function updateUserInfo(patch, callback) {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.USER_SIGN_IN, payload: patch });
+    const token = await auth().currentUser.getIdToken();
+
+    const params = {
+      method: 'PUT',
+      headers: { Authorization: token },
+      body: JSON.stringify(patch),
+    };
+
+    fetch(`${API_URL}/users`, params)
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.error) {
+          dispatch({ type: ActionTypes.ERROR, payload: getError(json.error) });
+        } else {
+          callback();
+        }
+      })
+      .catch((error) => { dispatch({ type: ActionTypes.ERROR, payload: getError(error) }); });
   };
 }
 

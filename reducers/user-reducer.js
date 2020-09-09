@@ -3,6 +3,9 @@ import { ActionTypes } from '../actions';
 const initialState = {
   userId: '',
   firstName: '',
+  lastName: '',
+  email: '',
+  username: '',
   profilePic: '',
   phone: '',
   balance: 0,
@@ -18,7 +21,10 @@ const UserReducer = (state = initialState, action) => {
     return {
       ...state,
       userId: user.uid || user.userId || state.userId,
-      firstName: user.displayName || user.firstName || state.firstName,
+      firstName: user.displayName || user.firstName || user.first_name || state.firstName,
+      lastName: user.lastName || user.last_name || state.lastName,
+      email: user.email || state.email,
+      username: user.username || state.username,
       profilePic: user.photoURL || state.profilePic,
       phone: user.phone || state.phone,
       balance: user.balance || state.balance,

@@ -386,7 +386,7 @@
 				CODE_SIGN_ENTITLEMENTS = RecTree/recroom.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.1;
+				CURRENT_PROJECT_VERSION = 1.0.2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = A8566N6JEE;
 				ENABLE_BITCODE = NO;
@@ -490,7 +490,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-netinfo\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-safe-area-context\"",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -515,7 +515,7 @@
 				CODE_SIGN_ENTITLEMENTS = RecTree/recroom.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.1;
+				CURRENT_PROJECT_VERSION = 1.0.2;
 				DEVELOPMENT_TEAM = A8566N6JEE;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -558,7 +558,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/RecTree/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
