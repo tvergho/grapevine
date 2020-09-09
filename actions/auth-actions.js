@@ -242,6 +242,14 @@ export function getUserInfo(user) {
         .then((response) => response.json())
         .then((json) => {
           dispatch({ type: ActionTypes.USER_SIGN_IN, payload: json });
+
+          const { firstName, photoURL } = json;
+          const profile = {
+            displayName: firstName,
+            photoURL,
+          };
+
+          user.updateProfile(profile);
         })
         .finally(() => {
           dispatch({ type: ActionTypes.AUTH_USER });

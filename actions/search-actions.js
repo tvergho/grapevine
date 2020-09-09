@@ -103,7 +103,6 @@ export function globalFeedScroll(scrollId) {
 }
 
 export function businessLocationSearch(lat, long) {
-  console.log('location');
   return (dispatch) => {
     dispatch({ type: ActionTypes.SEARCH_LOADING, payload: true });
 

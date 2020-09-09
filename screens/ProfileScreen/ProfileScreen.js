@@ -21,6 +21,7 @@ import ProfileListItem from './ProfileListItem';
 
 const window = Dimensions.get('window');
 const small = window.width <= 350;
+const MINIMUM_BALANCE = 1000;
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -102,6 +103,7 @@ class ProfileScreen extends Component {
   }
 
   render() {
+    const disabled = this.props.user.balance < MINIMUM_BALANCE;
     return (
       <>
         <View style={styles.background}>
@@ -109,8 +111,8 @@ class ProfileScreen extends Component {
           <Image source={this.props.user.profilePic ? { uri: this.props.user.profilePic } : Images.blankProfile} style={styles.profilePic} />
           <BalanceSection balance={this.props.user.balance} />
 
-          <TouchableOpacity style={styles.venmoButton}>
-            <Text style={styles.venmoButtonText}>Withdraw funds</Text>
+          <TouchableOpacity style={[styles.venmoButton, { opacity: disabled ? 0.5 : 1 }]} disabled={disabled}>
+            <Text style={styles.venmoButtonText}>{disabled ? 'Withdraw at 1,000 points' : 'Withdraw funds'}</Text>
           </TouchableOpacity>
 
           {this.listSection()}

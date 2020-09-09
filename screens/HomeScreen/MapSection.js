@@ -14,7 +14,7 @@ const small = window.width <= 350;
 
 const CustomMarker = React.memo(({ coord, index }) => {
   return (
-    <Marker coordinate={coord} key={`${coord.latitude}${coord.longitude}`} tracksViewChanges={false}>
+    <Marker coordinate={coord} key={`${coord.latitude}${coord.longitude}${index}`} tracksViewChanges={false}>
       <FontAwesomeIcon icon={faMapMarker} size={40} color="#FFB7B2" />
       <Text style={{
         fontFamily: 'Hiragino W7', color: 'white', fontSize: 14, position: 'absolute', left: index >= 10 ? 10 : 15, top: 8,
@@ -37,7 +37,7 @@ const Markers = React.memo(({ markers }) => {
       const calcIndex = index + 1;
 
       return (
-        <CustomMarker coord={coord} index={calcIndex} key={`${coord.latitude}${coord.longitude}`} />
+        <CustomMarker coord={coord} index={calcIndex} key={`${coord.latitude}${coord.longitude}${calcIndex}`} />
       );
     })
   );
