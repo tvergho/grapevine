@@ -25,6 +25,10 @@ const LifecycleReducer = (state = initialState, action) => {
     return { ...state, signUpStep: action.payload };
   case ActionTypes.SET_SIGNUP:
     return { ...state, signingUp: action.payload };
+  case ActionTypes.CLEAR_ALL:
+    return {
+      ...state, signUpStep: '', errorMessage: '', signingUp: false,
+    };
   default:
     return state;
   }

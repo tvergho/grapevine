@@ -11,7 +11,7 @@ const AuthReducer = (state = initialState, action) => {
   case ActionTypes.AUTH_USER:
     return { ...state, authenticated: true };
   case ActionTypes.DEAUTH_USER:
-    return { ...state, authenticated: false };
+    return { ...initialState };
   case ActionTypes.SET_VERIFICATION_ID:
     return { ...state, verificationId: action.payload };
   case ActionTypes.SET_VERIFICATION_ERROR:

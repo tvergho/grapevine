@@ -64,7 +64,6 @@ class AppContainer extends Component {
   handleAuthStateChange = (user) => {
     if (user) {
       this.props.authUser(user);
-      this.props.getUserInfo(user);
     } else {
       this.props.setAppLoaded();
     }

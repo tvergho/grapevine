@@ -19,8 +19,8 @@ const UserReducer = (state = initialState, action) => {
   case ActionTypes.USER_SIGN_IN: {
     const user = action.payload;
     let photoURL = '';
-    if (user.photoURL) photoURL = `${user.photoURL}?random=${Math.random()}`;
-    else if (user.picture) photoURL = `${user.picture}?random=${Math.random()}`;
+    if (user.photoURL) photoURL = user.photoURL.includes('ui-avatars') ? user.photoURL : `${user.photoURL}?random=${Math.random()}`;
+    else if (user.picture) photoURL = user.picture.includes('ui-avatars') ? user.picture : `${user.picture}?random=${Math.random()}`;
 
     return {
       ...state,
@@ -47,7 +47,6 @@ const UserReducer = (state = initialState, action) => {
     const accountId = action.payload;
     for (const account of state.accounts) {
       if (account.accountId !== accountId) {
-        console.log('add', account.accountId, accountId);
         newAccounts.push(account);
       }
     }

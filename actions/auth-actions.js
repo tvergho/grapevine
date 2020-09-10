@@ -9,6 +9,7 @@ import {
   LoginManager, AccessToken, GraphRequest, GraphRequestManager,
 } from 'react-native-fbsdk';
 import { stripPhone } from 'utils/formatPhone';
+import { getUserInfo } from './user-actions';
 
 const API_URL = 'https://api.bobame.app';
 
@@ -181,6 +182,7 @@ export function authUser(user, forceAuth) {
       if (user) dispatch({ type: ActionTypes.USER_SIGN_IN, payload: user });
       dispatch({ type: ActionTypes.SET_SIGNUP, payload: false });
       AccessToken.refreshCurrentAccessTokenAsync();
+      dispatch(getUserInfo(user));
     };
 
     if (!getState().lifecycle.signingUp || forceAuth) {
