@@ -240,6 +240,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#6D7278',
     paddingTop: 5,
+    paddingBottom: 5,
   },
   icon: {
     position: 'absolute',
