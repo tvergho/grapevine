@@ -273,6 +273,10 @@ export function verifyPhoneCode(code) {
   };
 }
 
+export async function sendResetEmail(email) {
+  await auth().sendPasswordResetEmail(email);
+}
+
 export function refreshUserInfo() {
   if (auth().currentUser) auth().currentUser.reload();
 }

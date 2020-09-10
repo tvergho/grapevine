@@ -106,7 +106,7 @@ class SignIn extends Component {
           textStyle={styles.buttonText}
           style={{ marginTop: 30 }}
         />
-
+        <Button type="clear" title="Forgot your password?" titleStyle={styles.forgotButton} onPress={() => { this.props.navigation.navigate('ForgotScreen'); }} />
         <Button type="clear" title="Sign up instead" titleStyle={styles.signedUpButton} onPress={() => { this.props.navigation.goBack(); }} />
 
       </KeyboardAvoidingView>
@@ -144,6 +144,12 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     textAlign: 'center',
     fontFamily: 'Hiragino W7',
+  },
+  forgotButton: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontFamily: 'Hiragino W4',
+    marginTop: 10,
   },
   signedUpButton: {
     color: '#FFFFFF',

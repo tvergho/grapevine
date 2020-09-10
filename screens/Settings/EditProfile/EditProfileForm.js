@@ -15,7 +15,7 @@ const EditProfileForm = ({ values, onChange }) => {
     <View style={styles.editContainer}>
       <Input label="First name" labelStyle={styles.label} value={firstName} onChangeText={setFirstName} inputContainerStyle={styles.inputContainer} />
       <Input label="Last name" labelStyle={styles.label} value={lastName} onChangeText={setLastName} inputContainerStyle={styles.inputContainer} />
-      <Input label="Email" labelStyle={styles.label} value={email} onChangeText={setEmail} inputContainerStyle={styles.inputContainer} />
+      <Input label="Email" labelStyle={styles.label} value={email} onChangeText={setEmail} inputContainerStyle={styles.inputContainer} keyboardType="email-address" autoCompleteType="email" />
       <Input label="Username" labelStyle={styles.label} value={username} onChangeText={setUsername} inputContainerStyle={styles.inputContainer} />
     </View>
   );

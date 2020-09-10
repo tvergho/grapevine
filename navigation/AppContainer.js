@@ -13,7 +13,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import SplashScreen from 'react-native-splash-screen';
 import {
-  SignUp, SignIn, SignUpStep,
+  SignUp, SignIn, SignUpStep, ForgotScreen,
 } from 'screens';
 import {
   setAppLoaded, signOut, authUser, getUserInfo,
@@ -106,6 +106,11 @@ class AppContainer extends Component {
                   <Stack.Screen
                     name="SignUpStep"
                     component={SignUpStep}
+                    options={{ headerTitle: (props) => <LogoHeader {...props} /> }}
+                  />
+                  <Stack.Screen
+                    name="ForgotScreen"
+                    component={ForgotScreen}
                     options={{ headerTitle: (props) => <LogoHeader {...props} /> }}
                   />
                 </>

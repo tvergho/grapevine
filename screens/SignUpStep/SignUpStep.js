@@ -3,7 +3,6 @@ import {
   View, StyleSheet,
 } from 'react-native';
 import { MaterialIndicator } from 'react-native-indicators';
-import AlertDialog from 'components/AlertDialog';
 import { connect } from 'react-redux';
 import LinkScreen from './LinkScreen';
 import PhoneScreen from './PhoneScreen';
@@ -24,13 +23,9 @@ const SignUpStep = ({ step }) => {
   };
 
   return (
-    <>
-      <View style={styles.background}>
-        {renderContent()}
-      </View>
-
-      <AlertDialog />
-    </>
+    <View style={styles.background}>
+      {renderContent()}
+    </View>
   );
 };
 
