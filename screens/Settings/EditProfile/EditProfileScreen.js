@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  KeyboardAvoidingView, StyleSheet, Image,
+  ScrollView, KeyboardAvoidingView, StyleSheet, Image,
 } from 'react-native';
 import { Colors, Images } from 'res';
 import ModalHeader from 'components/ModalHeader';
@@ -100,19 +100,20 @@ const EditProfileScreen = ({
       <ModalHeader navigation={navigation} title="Edit profile">
         <HeaderText text="Save" loading={loading} onPress={save} />
       </ModalHeader>
+      <ScrollView>
+        <TouchableOpacity onPress={selectImage}>
+          <Image source={image ? { uri: image } : Images.blankProfile} style={styles.profilePic} />
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={selectImage}>
-        <Image source={image ? { uri: image } : Images.blankProfile} style={styles.profilePic} />
-      </TouchableOpacity>
-
-      <EditProfileForm
-        values={{
-          firstName, lastName, email, username,
-        }}
-        onChange={{
-          setFirstName, setLastName, setEmail, setUsername,
-        }}
-      />
+        <EditProfileForm
+          values={{
+            firstName, lastName, email, username,
+          }}
+          onChange={{
+            setFirstName, setLastName, setEmail, setUsername,
+          }}
+        />
+      </ScrollView>
       <AlertDialog />
     </KeyboardAvoidingView>
   );

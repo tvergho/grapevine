@@ -40,7 +40,7 @@ export function getAccounts(isSandbox) {
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
-        dispatch({ type: ActionTypes.SET_ACCOUNTS, payload: json.accounts });
+        if (!json.error) dispatch({ type: ActionTypes.SET_ACCOUNTS, payload: json.accounts });
       })
       .catch((error) => { console.log(error); })
       .finally(() => {

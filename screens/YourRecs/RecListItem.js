@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   View, StyleSheet, Text, TouchableOpacity, Animated,
 } from 'react-native';
@@ -7,8 +7,9 @@ import { Colors } from 'res';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Swipeable from 'react-native-swipeable-row';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import useDeleteStyles from 'utils/useDeleteStyles';
 
 const dateFormat = require('dateformat');
 
@@ -41,47 +42,27 @@ const RecListItem = ({
     } = rec;
     const { name } = business;
 
-    const leftContent = (
-      <View style={{
-        backgroundColor: '#EB6660', flex: 1, alignItems: 'flex-end', justifyContent: 'center',
-      }}
-      >
-        <FontAwesomeIcon icon={faTimes} size={40} color="white" style={{ marginRight: 15 }} />
-      </View>
-    );
+    const { deleteStyles, onRemove: remove } = useDeleteStyles(styles.background, () => { onRemove(recommendationID); });
 
-    const deleteValue = useRef(new Animated.Value(1)).current;
-
-    const deleteStyles = [
-      styles.background,
-      { opacity: deleteValue },
-      {
-        transform: [
-          { scale: deleteValue },
-        ],
-      },
+    const leftButtons = [
+      <TouchableOpacity style={styles.deleteButton} onPress={remove}><FontAwesomeIcon icon={faTrash} size={30} color="white" /></TouchableOpacity>,
     ];
 
-    const remove = () => {
-      Animated.timing(deleteValue, {
-        toValue: 0,
-        duration: 400,
-      }).start(() => onRemove(recommendationID));
-    };
-
     return (
-      <Swipeable leftContent={leftContent} onLeftActionRelease={remove}>
+      <Swipeable leftButtons={leftButtons}>
         <TouchableOpacity activeOpacity={0.4} onPress={() => { navigation.navigate('Business', { ...rec, back: 'You' }); }}>
           <Animated.View style={deleteStyles}>
+
             <Text style={styles.mainText}>{convertTimestampToDate(timestamp)}</Text>
 
             <View style={{ alignItems: 'flex-end', flex: -1 }}>
-              <Text style={styles.mainText}>{name}</Text>
+              <Text style={[styles.mainText, { textAlign: 'right' }]}>{name}</Text>
               <Text style={styles.messageText} numberOfLines={1}>{`${message}`}</Text>
             </View>
           </Animated.View>
         </TouchableOpacity>
       </Swipeable>
+
     );
   } else {
     return <LoadingCard />;
@@ -113,6 +94,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Hiragino W4',
     width: wp('100%') - 30,
     paddingBottom: 5,
+  },
+  deleteButton: {
+    backgroundColor: Colors.DELETE,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    alignSelf: 'flex-end',
+    width: '100%',
+    paddingRight: 25,
   },
 });
 

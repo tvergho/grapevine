@@ -47,7 +47,7 @@ const DetailScreen = (props) => {
     }
   };
 
-  const searchDelayed = useRef(debounce(execSearch, 300)).current;
+  const searchDelayed = useRef(debounce(execSearch, 0)).current;
 
   const searchChange = (term) => {
     if (term.length > 0) {

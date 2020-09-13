@@ -8,14 +8,11 @@ import { connect } from 'react-redux';
 import {
   usernameSearch, phoneSearch, clearUsernameSearch, getFriends, getFriendRequests, fbFriendsSearch,
 } from 'actions';
-import { debounce } from 'lodash';
 import AddFriendHeader from './AddFriendHeader';
 
 class AddFriendScreen extends Component {
   constructor(props) {
     super(props);
-
-    this.searchDelayed = debounce(this.search, 300);
 
     this.state = {
       username: '',
@@ -32,7 +29,7 @@ class AddFriendScreen extends Component {
 
   onChangeUsername = (username) => {
     this.setState({ username });
-    this.searchDelayed(username);
+    this.search(username);
   }
 
   search = (searchTerm) => {

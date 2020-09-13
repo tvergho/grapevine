@@ -61,7 +61,7 @@ const DropdownSearchBar = ({
         {
           value.length > 0 ? searchResults.map((item, index) => {
             return (
-              <SearchItem key={item.name} business={item} onSelect={select} />
+              <SearchItem key={item.businessId} business={item} onSelect={select} />
             );
           }) : (<></>)
         }
