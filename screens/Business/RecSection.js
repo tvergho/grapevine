@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Colors } from 'res';
+import FillerMessage from 'components/FillerMessage';
 import BusinessRecCard from './BusinessRecCard';
 
 const RecSection = ({ recommendations, loading }) => {
@@ -17,6 +18,8 @@ const RecSection = ({ recommendations, loading }) => {
             <BusinessRecCard loading />
           );
         })}
+
+      {!loading && recommendations?.length === 0 && <FillerMessage message="No recommendations yet for this business." top={80} />}
     </View>
   );
 };

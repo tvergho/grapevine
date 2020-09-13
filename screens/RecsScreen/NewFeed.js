@@ -5,6 +5,7 @@ import {
 import RecCard from 'components/RecCard';
 import SearchBar from 'components/SearchBar';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import FillerMessage from 'components/FillerMessage';
 
 const NewFeed = ({
   display, recommendations, searchQuery, onChange, navigation, loading, refresh,
@@ -38,7 +39,12 @@ const NewFeed = ({
       display: display ? '' : 'none', alignSelf: 'center',
     }}
     >
-      <SearchBar placeholder="Search businesses..." value={searchQuery} onChange={onChange} width={wp('85%')} />
+      {
+        !loading
+        && recommendations?.length === 0
+          ? <FillerMessage message="You haven't received any recommendations yet." refresh={refresh} />
+          : <SearchBar placeholder="Search businesses..." value={searchQuery} onChange={onChange} width={wp('85%')} />
+      }
 
       <FlatList
         data={loading ? Array.from(Array(5).keys()) : recommendations?.filter(searchFilter).sort((a, b) => (parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10)))}

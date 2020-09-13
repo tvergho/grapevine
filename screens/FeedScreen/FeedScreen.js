@@ -4,10 +4,10 @@ import { View, StyleSheet } from 'react-native';
 import { Colors } from 'res';
 import MainHeader from 'components/MainHeader';
 import AppButton from 'components/AppButton';
-import HeaderSwitch from 'components/HeaderSwitch';
+// import HeaderSwitch from 'components/HeaderSwitch';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import * as data from 'data';
+// import * as data from 'data';
 import { connect } from 'react-redux';
 import { getGlobalFeed, globalFeedScroll, setCanLoad } from 'actions';
 import Swiper from 'react-native-swiper';
@@ -18,7 +18,7 @@ export const HEADER_OPTIONS = ['All', 'You'];
 const TopSection = ({ setActive, navigation, active }) => {
   return (
     <MainHeader title="Feed" border>
-      <HeaderSwitch labels={HEADER_OPTIONS} start="All" onSwitch={(label) => { setActive(label); }} active={active} />
+      {/* <HeaderSwitch labels={HEADER_OPTIONS} start="All" onSwitch={(label) => { setActive(label); }} active={active} /> */}
 
       <AppButton
         onPress={() => { navigation.navigate('CreateRec'); }}
@@ -86,7 +86,7 @@ const FeedScreen = (props) => {
           scroll={scroll}
           refresh={() => { props.getGlobalFeed(); }}
         />
-        <FeedDisplayScreen display recommendations={data.YOU_FEED} screenName={HEADER_OPTIONS[1]} />
+        {/* <FeedDisplayScreen display recommendations={data.YOU_FEED} screenName={HEADER_OPTIONS[1]} /> */}
       </Swiper>
     </View>
   );

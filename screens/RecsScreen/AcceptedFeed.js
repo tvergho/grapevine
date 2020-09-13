@@ -1,8 +1,10 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, RefreshControl } from 'react-native';
 import RecCard from 'components/RecCard';
 import { getAcceptedRecs } from 'actions';
 import { connect } from 'react-redux';
+import FillerMessage from 'components/FillerMessage';
 
 const AcceptedFeed = (props) => {
   const {
@@ -26,6 +28,12 @@ const AcceptedFeed = (props) => {
 
   return (
     <View style={{ display: display ? '' : 'none', alignSelf: 'center' }}>
+      {
+        !loading
+        && recommendations?.length === 0
+        && <FillerMessage message="You haven't accepted any recommendations yet." refresh={props.getAcceptedRecs} />
+      }
+
       <FlatList
         data={loading ? Array.from(Array(5).keys()) : recommendations?.sort((a, b) => (parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10)))}
         renderItem={({ item, index }) => (<RecCard rec={item} feed navigation={navigation} loading={loading || !recommendations} />)}
