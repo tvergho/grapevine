@@ -111,7 +111,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow Rec Room to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Allow Rec Room to access your device&apos;s accelerometer</string>
+	<string>Allow Rec Room to access your device's accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Give RecTree permission to save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
