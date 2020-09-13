@@ -31,6 +31,13 @@ class CreateRec extends Component {
     };
   }
 
+  componentDidMount() {
+    if (this.props?.route?.params?.businessId && this.props?.route?.params?.name) {
+      const { businessId, name } = this.props.route.params;
+      this.setState({ selectedBusiness: { businessId, name }, search: name });
+    }
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.search.businessName !== prevProps.search.businessName) {
       this.setState({ businesses: this.props.search.businessName.searchResults });

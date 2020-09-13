@@ -50,7 +50,7 @@ class Business extends Component {
           <View style={styles.background}>
             <TitleSection business={business} rec={rec} />
             {rec.street_address ? <InfoSection rec={rec} business={business} /> : <InfoSection rec={rec} business={business} loading={loading} />}
-            <RecSection recommendations={business.recommendations} loading={loading} />
+            <RecSection recommendations={business.recommendations} loading={loading} business={business} />
           </View>
         </HeaderImageScrollView>
       </>
