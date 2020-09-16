@@ -11,6 +11,49 @@ index 478af12..007546c 100644
          accessible={props.accessible}
          accessibilityLabel={props.accessibilityLabel}
          accessibilityRole={props.accessibilityRole}
+diff --git a/node_modules/react-native/Libraries/Image/RCTLocalAssetImageLoader.mm b/node_modules/react-native/Libraries/Image/RCTLocalAssetImageLoader.mm
+index 8669ad3..6b9f81d 100644
+--- a/node_modules/react-native/Libraries/Image/RCTLocalAssetImageLoader.mm
++++ b/node_modules/react-native/Libraries/Image/RCTLocalAssetImageLoader.mm
+@@ -49,19 +49,27 @@ - (RCTImageLoaderCancellationBlock)loadImageForURL:(NSURL *)imageURL
+                                  partialLoadHandler:(RCTImageLoaderPartialLoadBlock)partialLoadHandler
+                                   completionHandler:(RCTImageLoaderCompletionBlock)completionHandler
+ {
+-  UIImage *image = RCTImageFromLocalAssetURL(imageURL);
+-  if (image) {
+-    if (progressHandler) {
+-      progressHandler(1, 1);
++__block auto cancelled = std::make_shared<std::atomic<bool>>(false);
++  RCTExecuteOnMainQueue(^{
++    if (cancelled->load()) {
++      return;
+     }
+-    completionHandler(nil, image);
+-  } else {
+-    NSString *message = [NSString stringWithFormat:@"Could not find image %@", imageURL];
+-    RCTLogWarn(@"%@", message);
+-    completionHandler(RCTErrorWithMessage(message), nil);
+-  }
++     UIImage *image = RCTImageFromLocalAssetURL(imageURL);
++    if (image) {
++      if (progressHandler) {
++        progressHandler(1, 1);
++      }
++      completionHandler(nil, image);
++    } else {
++      NSString *message = [NSString stringWithFormat:@"Could not find image %@", imageURL];
++      RCTLogWarn(@"%@", message);
++      completionHandler(RCTErrorWithMessage(message), nil);
++    }
++  });
+ 
+-  return nil;
++  return ^{
++    cancelled->store(true);
++  };
+ }
+ 
+ @end
 diff --git a/node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.h b/node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.h
 index 02de122..c017398 100644
 --- a/node_modules/react-native/Libraries/LinkingIOS/RCTLinkingManager.h
