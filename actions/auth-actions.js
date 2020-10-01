@@ -11,7 +11,7 @@ import {
 import { stripPhone } from 'utils/formatPhone';
 import { getUserInfo } from './user-actions';
 
-const API_URL = 'https://api.bobame.app';
+const API_URL = __DEV__ ? 'https://api.bobame.app' : 'https://api.rectree.app';
 
 // Upon user registration, adds the user's info to the RecTree database.
 function addToDatabase(token, user) {

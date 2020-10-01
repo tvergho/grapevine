@@ -4,7 +4,7 @@
 import auth from '@react-native-firebase/auth';
 import { ActionTypes } from 'actions';
 
-const API_URL = 'https://api.bobame.app';
+const API_URL = __DEV__ ? 'https://api.bobame.app' : 'https://api.rectree.app';
 
 export async function addAccountToken({ public_token, last4, bankName }, callback, isSandbox) {
   const token = await auth().currentUser.getIdToken();

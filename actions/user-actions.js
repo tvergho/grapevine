@@ -3,7 +3,7 @@ import { ActionTypes, getError } from 'actions';
 import auth from '@react-native-firebase/auth';
 import getFileData from 'utils/getFileData';
 
-const API_URL = 'https://api.bobame.app';
+const API_URL = __DEV__ ? 'https://api.bobame.app' : 'https://api.rectree.app';
 const BUCKET_URL = 'https://bobame-photos.s3.us-east-2.amazonaws.com';
 
 // Updates a user's profile information.

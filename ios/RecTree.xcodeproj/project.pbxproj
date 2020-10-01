@@ -10,8 +10,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		520B42CA24D22D790081029C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 520B42C924D22D790081029C /* GoogleService-Info.plist */; };
+		520B42CA24D22D790081029C /* GoogleService-Info-Dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 520B42C924D22D790081029C /* GoogleService-Info-Dev.plist */; };
 		52185F0524FDF7AD00FE3E34 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52185F0324FDF7AD00FE3E34 /* LaunchScreen.xib */; };
+		52635C482522DD7F007D0302 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52635C472522DD7F007D0302 /* GoogleService-Info.plist */; };
 		52678E2524B2A4C900900474 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52678E2424B2A4C800900474 /* Expo.plist */; };
 		52DB4E0C24987DD0006623C9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB4E0B24987DD0006623C9 /* File.swift */; };
 		578BDB402632090F63C49BFD /* libPods-RecTree.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE84370DF24180587C8EED7C /* libPods-RecTree.a */; };
@@ -28,8 +29,9 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RecTree/main.m; sourceTree = "<group>"; };
 		29A66912992084E72D5D535B /* Pods-RecTree.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecTree.debug.xcconfig"; path = "Target Support Files/Pods-RecTree/Pods-RecTree.debug.xcconfig"; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		520B42C924D22D790081029C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		520B42C924D22D790081029C /* GoogleService-Info-Dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Dev.plist"; sourceTree = "<group>"; };
 		52185F0424FDF7AD00FE3E34 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = RecTree/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		52635C472522DD7F007D0302 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		52678E2424B2A4C800900474 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Expo.plist; path = RecTree/Supporting/Expo.plist; sourceTree = "<group>"; };
 		52DB4E0A24987DCF006623C9 /* RecRoom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RecRoom-Bridging-Header.h"; sourceTree = "<group>"; };
 		52DB4E0B24987DD0006623C9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -55,8 +57,9 @@
 		13B07FAE1A68108700A75B9A /* RecTree */ = {
 			isa = PBXGroup;
 			children = (
+				52635C472522DD7F007D0302 /* GoogleService-Info.plist */,
 				52185F0324FDF7AD00FE3E34 /* LaunchScreen.xib */,
-				520B42C924D22D790081029C /* GoogleService-Info.plist */,
+				520B42C924D22D790081029C /* GoogleService-Info-Dev.plist */,
 				52678E2424B2A4C800900474 /* Expo.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -189,8 +192,9 @@
 				52185F0524FDF7AD00FE3E34 /* LaunchScreen.xib in Resources */,
 				52678E2524B2A4C900900474 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				520B42CA24D22D790081029C /* GoogleService-Info.plist in Resources */,
+				520B42CA24D22D790081029C /* GoogleService-Info-Dev.plist in Resources */,
 				99EC63CFB4B549BBAF093D10 /* SplashScreen.storyboard in Resources */,
+				52635C482522DD7F007D0302 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

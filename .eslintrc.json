@@ -62,5 +62,8 @@
             ["utils", "./utils"]
           ]
         }
+      },
+      "globals": {
+        "__DEV__": true
       }
 }

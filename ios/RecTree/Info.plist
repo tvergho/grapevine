@@ -56,6 +56,14 @@
 				<string>com.googleusercontent.apps.723059767047-o6jpfnt98mqv8r6mvu8rhfq1j41d08fm</string>
 			</array>
 		</dict>
+    <dict>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>com.googleusercontent.apps.600931581580-1v0gh7841n3fhaq91los494jgft41i8s</string>
+      </array>
+    </dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -111,7 +119,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow Rec Room to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Allow Rec Room to access your device's accelerometer</string>
+	<string>Allow Rec Room to access your device&apos;s accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Give RecTree permission to save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>

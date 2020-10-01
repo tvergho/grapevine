@@ -61,7 +61,16 @@ static void InitializeFlipper(UIApplication *application) {
   InitializeFlipper(application);
 #endif
   if ([FIRApp defaultApp] == nil) {
-    [FIRApp configure];
+    #if DEBUG
+        NSString *firebaseConfig = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info-Dev" ofType:@"plist"];
+    #else
+        NSString *firebaseConfig = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
+    #endif
+
+    FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:firebaseConfig];
+    if (options != nil) {
+        [FIRApp configureWithOptions:options];
+    }
   }
   self.moduleRegistryAdapter = [[UMModuleRegistryAdapter alloc] initWithModuleRegistryProvider:[[UMModuleRegistryProvider alloc] init]];
   self.launchOptions = launchOptions;

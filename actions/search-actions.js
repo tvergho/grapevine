@@ -7,7 +7,7 @@ import auth from '@react-native-firebase/auth';
 import { AccessToken } from 'react-native-fbsdk';
 import { stripPhone } from 'utils/formatPhone';
 
-const API_URL = 'https://api.bobame.app';
+const API_URL = __DEV__ ? 'https://api.bobame.app' : 'https://api.rectree.app';
 
 export function setCanLoad(canLoad) {
   return { type: ActionTypes.CAN_LOAD_SEARCH, payload: canLoad };

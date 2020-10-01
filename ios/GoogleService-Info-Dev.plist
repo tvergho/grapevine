@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>600931581580-1v0gh7841n3fhaq91los494jgft41i8s.apps.googleusercontent.com</string>
+	<string>723059767047-o6jpfnt98mqv8r6mvu8rhfq1j41d08fm.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.600931581580-1v0gh7841n3fhaq91los494jgft41i8s</string>
+	<string>com.googleusercontent.apps.723059767047-o6jpfnt98mqv8r6mvu8rhfq1j41d08fm</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCZLnFnqOn8pX7W6Ktsy1rdQaYjznH4RI4</string>
+	<string>AIzaSyCh3PqDKPZWdg5INfinl7NQrzQbrKSmMK0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>600931581580</string>
+	<string>723059767047</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>app.rectree</string>
 	<key>PROJECT_ID</key>
-	<string>rectree-prod</string>
+	<string>bobame-fe94d</string>
 	<key>STORAGE_BUCKET</key>
-	<string>rectree-prod.appspot.com</string>
+	<string>bobame-fe94d.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:600931581580:ios:56dc2c973bec59e43745a9</string>
+	<string>1:723059767047:ios:655aea355a601e6fc177a2</string>
 	<key>DATABASE_URL</key>
-	<string>https://rectree-prod.firebaseio.com</string>
+	<string>https://bobame-fe94d.firebaseio.com</string>
 </dict>
 </plist>

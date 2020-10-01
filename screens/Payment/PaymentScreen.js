@@ -12,7 +12,7 @@ import PaymentLoading from './PaymentLoading';
 import Accounts from './Accounts';
 import HeaderLink from './HeaderLink';
 
-const IS_SANDBOX = false;
+const IS_SANDBOX = !!__DEV__;
 const MAX_SOURCES = 6;
 
 const PaymentScreen = (props) => {

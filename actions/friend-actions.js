@@ -2,7 +2,7 @@
 import { ActionTypes } from 'actions';
 import auth from '@react-native-firebase/auth';
 
-const API_URL = 'https://api.bobame.app';
+const API_URL = __DEV__ ? 'https://api.bobame.app' : 'https://api.rectree.app';
 
 export function getFriends() {
   return async (dispatch) => {

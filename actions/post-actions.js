@@ -4,7 +4,7 @@
 import { ActionTypes, getMyRecs } from 'actions';
 import auth from '@react-native-firebase/auth';
 
-const API_URL = 'https://api.bobame.app';
+const API_URL = __DEV__ ? 'https://api.bobame.app' : 'https://api.rectree.app';
 
 export function makeRec(business_id, business_name, message, callback) {
   return async (dispatch) => {
