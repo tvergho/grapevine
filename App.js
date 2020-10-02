@@ -6,6 +6,8 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import AppContainer from 'navigation/AppContainer';
 import { TouchableOpacity } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+import NotificationHandler from 'components/NotificationHandler';
 import reducers from './reducers';
 
 console.disableYellowBox = true;
@@ -18,10 +20,15 @@ const store = createStore(reducers, applyMiddleware(...middleware));
 
 TouchableOpacity.defaultProps = { ...(TouchableOpacity.defaultProps || {}), delayPressIn: 0 };
 
+messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+  console.log(remoteMessage);
+});
+
 const App = () => {
   return (
     <Provider store={store}>
       <AppContainer />
+      <NotificationHandler />
     </Provider>
   );
 };

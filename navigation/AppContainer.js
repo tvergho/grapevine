@@ -20,6 +20,7 @@ import {
 } from 'actions';
 import { Images } from 'res';
 import auth from '@react-native-firebase/auth';
+import { navigationRef } from 'utils/navigator';
 import MainApp from './MainApp';
 
 const Stack = createStackNavigator();
@@ -81,7 +82,7 @@ class AppContainer extends Component {
     return (
       this.props.appLoaded
         ? (
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
             <Stack.Navigator
               initialRouteName="SignUp"
             >

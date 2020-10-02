@@ -10,11 +10,11 @@ import { connect } from 'react-redux';
 import FriendRequestsCard from './FriendRequestsCard';
 
 const FriendsScreen = (props) => {
-  const { navigation } = props;
+  const { navigation, route } = props;
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    if (props?.friends?.friends && props.friends.friends.length === 0) {
+    if (route?.params?.reload || (props?.friends?.friends && props.friends.friends.length === 0)) {
       props.getFriendRequests();
       props.getFriends();
     }

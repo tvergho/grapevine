@@ -51,7 +51,6 @@ class HomeScreen extends Component {
     if (!Constants.isDevice) {
       this.props.businessLocationSearch(this.props.location.latitude, this.props.location.longitude);
     }
-
     this.setLocation(this.props.location);
     this.props.getRecs();
     this.props.fbFriendsSearch();

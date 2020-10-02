@@ -9,6 +9,7 @@ import {
   LoginManager, AccessToken, GraphRequest, GraphRequestManager,
 } from 'react-native-fbsdk';
 import { stripPhone } from 'utils/formatPhone';
+import messaging from '@react-native-firebase/messaging';
 import { getUserInfo } from './user-actions';
 
 const API_URL = __DEV__ ? 'https://api.bobame.app' : 'https://api.rectree.app';
@@ -290,7 +291,10 @@ export function setVerificationError(error) {
 }
 
 export function signOut() {
-  return (dispatch) => {
+  return async (dispatch) => {
+    const token = await auth().currentUser.getIdToken();
+    deleteFCMToken(token);
+
     dispatch({ type: ActionTypes.DEAUTH_USER });
     auth().signOut();
     LoginManager.logOut();
@@ -298,4 +302,42 @@ export function signOut() {
     dispatch({ type: ActionTypes.APP_LOADED });
     dispatch({ type: ActionTypes.CLEAR_ALL });
   };
+}
+
+export async function updateFCMToken(fcmToken) {
+  try {
+    const token = await auth().currentUser.getIdToken();
+
+    const options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: token },
+      body: JSON.stringify({
+        fcmToken,
+      }),
+    };
+
+    await fetch(`${API_URL}/users/notificationToken`, options)
+      .catch((error) => { console.log(error); });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function deleteFCMToken(token) {
+  try {
+    const fcmToken = await messaging().getToken();
+
+    const options = {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', Authorization: token },
+      body: JSON.stringify({
+        fcmToken,
+      }),
+    };
+
+    await fetch(`${API_URL}/users/notificationToken`, options)
+      .catch((error) => { console.log(error); });
+  } catch (e) {
+    console.log(e);
+  }
 }
